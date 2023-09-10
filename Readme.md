@@ -13,8 +13,8 @@ npx create-react-app frontend
 
 rfce
 
-
 cd frontend
+
 npm start
 
 ``````
