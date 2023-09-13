@@ -21,11 +21,15 @@ body {
 .container{
     position: relative;
     width:850px;
-    height:500px;
+    height:550px;
     background-color: #fff;
     box-shadow: 25px 30px 55px #5557;
     border-radius: 13px;
     overflow: hidden;
+    -webkit-border-radius: 13px;
+    -moz-border-radius: 13px;
+    -ms-border-radius: 13px;
+    -o-border-radius: 13px;
 }
 .form-container{
     position: absolute;
@@ -42,13 +46,14 @@ form{
     height:100%;
     display:flex;
     flex-direction: column;
+    justify-content: center;
     align-items: center;
-    padding:0px 50px;
+    padding:0px 20px;
 }
 h1{
     color:var(--grad-clr1);
-    margin-top: 30px;
-    padding-top:30px;
+    margin-top: 10px;
+    padding-top:10px;
 }
 
 span{
@@ -252,4 +257,12 @@ footer a {
     font-size: 18px;
     font-weight: bold;
     color: #003;
+}
+
+.infield .error{
+
+    color: rgba(255, 0, 0, 0.781);
+    font-size: 12px;
+    padding-left: 3px;
+    
 }

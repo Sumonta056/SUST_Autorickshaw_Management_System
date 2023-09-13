@@ -271,3 +271,11 @@ footer a {
     background-color: #a5b6ab;
     color: #003;
 }
+
+.infield .error{
+
+    color: rgba(255, 0, 0, 0.781);
+    font-size: 12px;
+    padding-left: 3px;
+    
+}

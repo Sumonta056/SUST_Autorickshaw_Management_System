@@ -1,18 +1,60 @@
-import React from "react";
-import styles from "../Registration/Registration.module.css"; // Import the CSS module
+import React, { useState } from "react";
+import styles from "../Registration/Registration.module.css";
+import RegistrationValidation from "./RegistrationValidation";
 
 function Registration() {
+  const [values, setValues] = useState({
+    name: "",
+    email: "",
+    password: "",
+    password_confirmation: "",
+  });
+
+  const [errors, setErrors] = useState({});
+
+  const handleInput = (event) => {
+    setValues((prev) => ({
+      ...prev,
+      [event.target.name]: [event.target.value],
+    }));
+  };
+
+  const handleSubmit = (event) => {
+    event.preventDefault();
+    setErrors(RegistrationValidation(values));
+  };
+
   return (
     <div>
       <div className={styles.container} id="container">
-        <div className={`${styles["form-container"]} ${styles["sign-up-container"]}`}>
-          <form>
+        <div
+          className={`${styles["form-container"]} ${styles["sign-up-container"]}`}
+        >
+          <form action="" onSubmit={handleSubmit}>
             <h1>নতুন একাউন্ট তৈরি করুন</h1>
             <div className={styles.infield}>
-              <input type="text" placeholder="নাম" id="name" name="name" />
+              <input
+                type="text"
+                placeholder="নাম"
+                id="name"
+                name="name"
+                onChange={handleInput}
+              />
+               {errors.name && (
+                <span className={styles.error}>{errors.name}</span>
+              )}
             </div>
             <div className={styles.infield}>
-              <input type="email" placeholder="ইমেইল" id="email" name="email" />
+              <input
+                type="email"
+                placeholder="ইমেইল"
+                id="email"
+                name="email"
+                onChange={handleInput}
+              />
+              {errors.email && (
+                <span className={styles.error}>{errors.email}</span>
+              )}
             </div>
             <div className={styles.infield}>
               <input
@@ -20,7 +62,11 @@ function Registration() {
                 placeholder="পাসওয়ার্ড"
                 id="password"
                 name="password"
+                onChange={handleInput}
               />
+              {errors.password && (
+                <span className={styles.error}>{errors.password}</span>
+              )}
             </div>
             <div className={styles.infield}>
               <input
@@ -28,14 +74,24 @@ function Registration() {
                 id="password_confirmation"
                 name="password_confirmation"
                 placeholder="পুনরায় পাসওয়ার্ড দিন"
+                onChange={handleInput}
               />
+              {errors.password_confirmation && (
+                <span className={styles.error}>
+                  {errors.password_confirmation}
+                </span>
+              )}
             </div>
-            <button className={styles.button}>রেজিস্ট্রেশন</button>
+            <button type="submit" className={styles.button}>
+              রেজিস্ট্রেশন
+            </button>
           </form>
         </div>
         <div className={`${styles["overlay-container"]}`} id="overlayCon">
           <div className={styles.overlay}>
-            <div className={`${styles["overlay-panel"]} ${styles["overlay-right"]}`}>
+            <div
+              className={`${styles["overlay-panel"]} ${styles["overlay-right"]}`}
+            >
               <div className={styles["background-image"]} />
               <h1>শাবিপ্রবি অটোরিকশা ম্যানেজমেন্ট সিস্টেম</h1>
             </div>
@@ -44,7 +100,7 @@ function Registration() {
       </div>
       <footer>
         <mark>
-          Learn more on
+          Learn more on{" "}
           <a href="https://github.com/Sumonta056/SUST-Autorickshaw-Management-System">
             Github
           </a>
