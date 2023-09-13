@@ -26,10 +26,7 @@ body {
     box-shadow: 25px 30px 55px #5557;
     border-radius: 13px;
     overflow: hidden;
-    -webkit-border-radius: 13px;
-    -moz-border-radius: 13px;
-    -ms-border-radius: 13px;
-    -o-border-radius: 13px;
+
 }
 .form-container{
     position: absolute;

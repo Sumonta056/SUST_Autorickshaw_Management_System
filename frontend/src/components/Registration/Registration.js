@@ -1,13 +1,16 @@
 import React, { useState } from "react";
 import styles from "../Registration/Registration.module.css";
 import RegistrationValidation from "./RegistrationValidation";
+import axios from "axios";
+import { useNavigate } from "react-router-dom";
 
 function Registration() {
+  const navigate = useNavigate();
+
   const [values, setValues] = useState({
     name: "",
     email: "",
     password: "",
-    password_confirmation: "",
   });
 
   const [errors, setErrors] = useState({});
@@ -22,8 +25,21 @@ function Registration() {
   const handleSubmit = (event) => {
     event.preventDefault();
     setErrors(RegistrationValidation(values));
+
+    // if (errors.name === "" && errors.email === "" && errors.password === "") {
+    //   axios.post("http://localhost:3001/signup", values).then((res) => {
+    //     navigate("/");
+    //   });
+    // }
+    
+    if (Object.keys(errors).length === 0) {
+      axios.post("http://localhost:3001/signup", values).then((res) => {
+        navigate("/");
+      });
+    }
   };
 
+ 
   return (
     <div>
       <div className={styles.container} id="container">
@@ -40,7 +56,7 @@ function Registration() {
                 name="name"
                 onChange={handleInput}
               />
-               {errors.name && (
+              {errors.name && (
                 <span className={styles.error}>{errors.name}</span>
               )}
             </div>
@@ -68,7 +84,7 @@ function Registration() {
                 <span className={styles.error}>{errors.password}</span>
               )}
             </div>
-            <div className={styles.infield}>
+            {/* <div className={styles.infield}>
               <input
                 type="password"
                 id="password_confirmation"
@@ -81,7 +97,7 @@ function Registration() {
                   {errors.password_confirmation}
                 </span>
               )}
-            </div>
+            </div> */}
             <button type="submit" className={styles.button}>
               রেজিস্ট্রেশন
             </button>

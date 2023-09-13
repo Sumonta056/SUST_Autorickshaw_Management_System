@@ -1,5 +1,4 @@
 function RegistrationValidation(values) {
-  alert("Eegistration Failed");
   let error = {};
   const email_pattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
   const password_pattern = /^(?=.*\d)(?=.*[a-z])(?=.*[A-Z])[0-9a-zA-Z]{8,}$/;
@@ -8,6 +7,14 @@ function RegistrationValidation(values) {
   // Contains at least one uppercase letter ([A-Z]).
   // Consists of alphanumeric characters (letters and digits) only ([0-9a-zA-Z]).
   // Has a minimum length of 8 characters ({8,}).
+
+  
+  if(values.name === ""){
+    error.name = "Name should not be empty";
+  }
+  else{
+    error.name = "";
+  }
 
   if (values.email === "") {
     error.email = "ইমেইল দিন !! ";
@@ -25,24 +32,22 @@ function RegistrationValidation(values) {
     error.password = "";
   }
 
-  if (values.password_confirmation === "") {
-    error.password_confirmation = "Password should not be empty";
-  } else if (!password_pattern.test(values.password_confirmation)) {
-    error.password_confirmation = "Password didnot match the criteria";
-  } else {
-    error.password_confirmation = "";
-  }
+  // if (values.password_confirmation === "") {
+  //   error.password_confirmation = "Password should not be empty";
+  // } else if (!password_pattern.test(values.password_confirmation)) {
+  //   error.password_confirmation = "Password didnot match the criteria";
+  // } else {
+  //   error.password_confirmation = "";
+  // }
 
 
-  if(values.password_confirmation !== values.password){
-    error.password_confirmation = "Password didnot match";
-  }
+  // if(values.password_confirmation !== values.password){
+  //   error.password_confirmation = "Password didnot match";
+  // }
 
   
-  if(values.name === ""){
-    error.name = "Name should not be empty";
-  }
 
+  console.log(error);
   return error;
 }
 
