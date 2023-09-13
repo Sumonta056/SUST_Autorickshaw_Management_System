@@ -17,4 +17,8 @@ cd frontend
 
 npm start
 
+cd frontend
+
+npm i bootstrap react-router-dom
+
 ``````
