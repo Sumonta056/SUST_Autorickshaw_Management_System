@@ -1,11 +1,14 @@
 import React, { useState } from "react";
 import styles from "../Login/Login.module.css";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import LoginValidation from "./LoginValidation";
+import axios from "axios";
 
 // Abc123445
 
 function Login() {
+  const navigate = useNavigate();
+
   // Collecting the login Values
   const [values, setValues] = useState({
     email: "",
@@ -27,6 +30,24 @@ function Login() {
   const handleSubmit = (event) => {
     event.preventDefault();
     setErrors(LoginValidation(values));
+
+    if (Object.keys(errors).length === 0) {
+      console.log(values);
+      axios
+        .post("http://localhost:3001/login", values)
+        .then((res) => {
+          if (res.data === "success") {
+            navigate("/home");
+            alert("Login Successful");
+          }
+          else{
+            alert("কোন তথ্য পাওয়া যায়নি");
+          }
+        })
+        .catch((error) => {
+          console.error("Error while logging in:", error);
+        });
+    }
   };
 
   return (
@@ -66,7 +87,10 @@ function Login() {
             <a href="#d" className={styles.forgot}>
               পাসওয়ার্ড ভুলে গিয়েছেন ?
             </a>
-            <button type="submit" className={`${styles.button} ${styles.login}`}>
+            <button
+              type="submit"
+              className={`${styles.button} ${styles.login}`}
+            >
               লগইন
             </button>
           </form>

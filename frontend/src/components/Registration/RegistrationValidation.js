@@ -8,11 +8,9 @@ function RegistrationValidation(values) {
   // Consists of alphanumeric characters (letters and digits) only ([0-9a-zA-Z]).
   // Has a minimum length of 8 characters ({8,}).
 
-  
-  if(values.name === ""){
+  if (values.name === "") {
     error.name = "Name should not be empty";
-  }
-  else{
+  } else {
     error.name = "";
   }
 
@@ -40,12 +38,9 @@ function RegistrationValidation(values) {
   //   error.password_confirmation = "";
   // }
 
-
   // if(values.password_confirmation !== values.password){
   //   error.password_confirmation = "Password didnot match";
   // }
-
-  
 
   console.log(error);
   return error;

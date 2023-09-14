@@ -35,6 +35,7 @@ function Registration() {
     if (Object.keys(errors).length === 0) {
       axios.post("http://localhost:3001/signup", values).then((res) => {
         navigate("/");
+        alert("Registration Successful");
       });
     }
   };
