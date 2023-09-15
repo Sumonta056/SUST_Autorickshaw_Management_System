@@ -13,7 +13,11 @@ function Registration() {
     password: "",
   });
 
-  const [errors, setErrors] = useState({});
+  const [errors, setErrors] = useState({
+    name: "",
+    email: "",
+    password: "",
+  });
 
   const handleInput = (event) => {
     setValues((prev) => ({
@@ -22,25 +26,43 @@ function Registration() {
     }));
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    setErrors(RegistrationValidation(values));
 
-    // if (errors.name === "" && errors.email === "" && errors.password === "") {
-    //   axios.post("http://localhost:3001/signup", values).then((res) => {
-    //     navigate("/");
-    //   });
-    // }
-    
-    if (Object.keys(errors).length === 0) {
-      axios.post("http://localhost:3001/signup", values).then((res) => {
-        navigate("/");
-        alert("Registration Successful");
-      });
+    // Wait until the errors are set
+    const validationErrors = RegistrationValidation(values);
+    setErrors(validationErrors);
+
+    console.log(validationErrors);
+
+    // Use async/await to ensure state is updated
+
+    if (
+      validationErrors.name === "" &&
+      validationErrors.email === "" &&
+      validationErrors.password === ""
+    ) {
+      try {
+        axios.post("http://localhost:3001/signup", values).then((res) => {
+          if (res.data === "success") {
+            navigate("/");
+            alert("আপনি সফলভাবে নিবন্ধন করেছেন");
+          } else if (res.data === "email") {
+            alert("আপনার ইমেইল টি ইতিমধ্যে ব্যবহার করা হয়েছে");
+            navigate("/signup");
+          } else {
+            alert("নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
+          }
+        });
+      } catch (error) {
+        console.error("Error while Registration in:", error);
+      }
+    } else {
+      // Display an error message to the user
+      alert("নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
     }
   };
 
- 
   return (
     <div>
       <div className={styles.container} id="container">

@@ -38,7 +38,7 @@ function Login() {
         .then((res) => {
           if (res.data === "success") {
             navigate("/home");
-            alert("Login Successful");
+            alert("আপনি সফলভাবে লগইন করেছেন");
           }
           else{
             alert("কোন তথ্য পাওয়া যায়নি");
