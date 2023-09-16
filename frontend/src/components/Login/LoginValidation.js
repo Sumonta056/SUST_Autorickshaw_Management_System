@@ -9,17 +9,17 @@ function LoginValidation(values) {
 // Has a minimum length of 8 characters ({8,}).
 
   if (values.email === "") {
-    error.email = "অনুগ্রহ করে আপনার ইমেইল দিন";
+    error.email = "ইমেইল দিন !! ";
   } else if (!email_pattern.test(values.email)) {
-    error.email = "ইমেইলটি একটি বৈধ ইমেইল নয়";
+    error.email = "Email is not a valid email";
   } else {
     error.email = "";
   }
 
   if (values.password === "") {
-    error.password = "অনুগ্রহ করে আপনার পাসওয়ার্ড দিন";
+    error.password = "Password should not be empty";
   } else if (!password_pattern.test(values.password)) {
-    error.password = "পাসওয়ার্ডে ১টি সংখ্যা, ১টি বড় হাতের লেটার, ১টি ছোট হাতের লেটার থাকতে হবে এবং সাইজ ৮ বা তার বেশি হতে হবে।";
+    error.password = "Password didnot match the criteria";
   } else {
     error.password = "";
   }

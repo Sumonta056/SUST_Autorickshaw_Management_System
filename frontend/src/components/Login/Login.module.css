@@ -21,7 +21,7 @@ body {
 .container{
     position: relative;
     width:850px;
-    height:60vh;
+    height:500px;
     background-color: #fff;
     box-shadow: 25px 30px 55px #5557;
     border-radius: 13px;
@@ -69,16 +69,7 @@ input{
      border: none;
      outline:none;
 }
-label{
-    position: absolute;
-    left:50%;
-    top:100%;
-    transform: translateX(-50%);
-    width:0%;
-    height:2px;
-    background: var(--linear-grad);
-    transition: 0.3s;
-}
+
 input:focus~label{
     width:100%;
 }

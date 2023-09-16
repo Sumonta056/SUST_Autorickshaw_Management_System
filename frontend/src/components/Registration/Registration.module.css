@@ -26,8 +26,19 @@ body {
     box-shadow: 25px 30px 55px #5557;
     border-radius: 13px;
     overflow: hidden;
+}
+
+.ownerContainer{
+    position: relative;
+    width:850px;
+    height:100vh;
+    background-color: #fff;
+    box-shadow: 25px 30px 55px #5557;
+    border-radius: 13px;
+    overflow: hidden;
 
 }
+
 .form-container{
     position: absolute;
     width:60%;
@@ -76,7 +87,7 @@ label{
     transform: translateX(-50%);
     width:0%;
     height:2px;
-    background: var(--linear-grad);
+    background: rgb(92, 138, 24);
     transition: 0.3s;
 }
 input:focus~label{
@@ -102,6 +113,17 @@ button{
     padding:12px 45px;
     letter-spacing: 1px;
     text-transform: uppercase;
+}
+.ownerButton{
+    border-radius:5px;
+    border:1px solid rgb(94, 146, 17);
+    background: rgb(94, 146, 17);
+    color:#fff;
+    font-size: 12px;
+    font-weight: bold;
+    padding:12px 45px;
+    letter-spacing: 1px;
+    width:100%;
 }
 .form-container button{
     margin-top: 17px;
@@ -156,6 +178,17 @@ button{
     height: 100%;
     background-image: url('../Login/login.jpg');
     filter: blur(2px);
+    background-size: cover;
+    z-index: -1;
+  }
+
+  .form-image {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../OwnerRegistration/OwnerRegistration.jpg');
     background-size: cover;
     z-index: -1;
   }
@@ -263,4 +296,11 @@ footer a {
     font-size: 12px;
     padding-left: 3px;
     
+}
+.ownerPrevReg{
+    margin-top: 12px;
+    font-size: 12px;
+}
+.ownerRegIgnore{
+    font-size: 12px;
 }
