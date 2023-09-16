@@ -49,16 +49,25 @@ function OwnerRegistration() {
       validationErrors.owner_name === "" &&
       validationErrors.owner_date_of_birth === "" &&
       validationErrors.owner_houseNo === "" &&
-      validationErrors.owner_postalCode === ""&&
+      validationErrors.owner_postalCode === "" &&
       validationErrors.owner_address === ""
     ) {
       try {
-        axios.post("http://localhost:3001/OwnerRegistration", formData).then((res) => {
-            navigate("/");
-            alert("আপনি সফলভাবে মালিক নিবন্ধন করেছেন");
-        });
+        axios
+          .post("http://localhost:3001/OwnerRegistration", formData)
+          .then((res) => {
+            if (res.data === "owner_registration_success") {
+              navigate("/home");
+              alert("আপনি সফলভাবে মালিক নিবন্ধন করেছেন");
+            } else if (res.data === "nid_exists") {
+              alert("আপনার ইমেইল টি ইতিমধ্যে ব্যবহার করা হয়েছে");
+              navigate("/OwnerRegistration");
+            } else {
+              alert("নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
+            }
+          });
       } catch (error) {
-          alert("মালিক নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
+        alert("মালিক নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
       }
     } else {
       // Display an error message to the user
@@ -110,7 +119,9 @@ function OwnerRegistration() {
               onChange={handleInputChange}
             />
             {errors.owner_date_of_birth && (
-              <span className={styles.ownerError}>{errors.owner_date_of_birth}</span>
+              <span className={styles.ownerError}>
+                {errors.owner_date_of_birth}
+              </span>
             )}
           </div>
           <div className={styles.ownerInfield}>
@@ -136,7 +147,9 @@ function OwnerRegistration() {
               onChange={handleInputChange}
             />
             {errors.owner_postalCode && (
-              <span className={styles.ownerError}>{errors.owner_postalCode}</span>
+              <span className={styles.ownerError}>
+                {errors.owner_postalCode}
+              </span>
             )}
           </div>
           <div className={styles.ownerInfield}>
