@@ -4,8 +4,6 @@ import { Link, useNavigate } from "react-router-dom";
 import LoginValidation from "./LoginValidation";
 import axios from "axios";
 
-// Abc123445
-
 function Login() {
   const navigate = useNavigate();
 
@@ -39,8 +37,7 @@ function Login() {
           if (res.data === "success") {
             navigate("/home");
             alert("আপনি সফলভাবে লগইন করেছেন");
-          }
-          else{
+          } else {
             alert("কোন তথ্য পাওয়া যায়নি");
           }
         })
