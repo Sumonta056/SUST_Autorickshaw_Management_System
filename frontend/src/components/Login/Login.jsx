@@ -35,7 +35,7 @@ function Login() {
         .post("http://localhost:3001/login", values)
         .then((res) => {
           if (res.data === "success") {
-            navigate("/home");
+            navigate("/");
             alert("আপনি সফলভাবে লগইন করেছেন");
           } else {
             alert("কোন তথ্য পাওয়া যায়নি");
@@ -48,7 +48,7 @@ function Login() {
   };
 
   return (
-    <div>
+    <div className={styles.loginScreen}>
       <div className={styles.container} id="container">
         <div
           className={`${styles["form-container"]} ${styles["sign-in-container"]}`}

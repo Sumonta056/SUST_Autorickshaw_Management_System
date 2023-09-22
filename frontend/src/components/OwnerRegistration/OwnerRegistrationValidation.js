@@ -19,7 +19,7 @@ function OwnerRegistrationValidation(formData) {
   }
 
   if (!isNaN(formData.owner_name)) {
-    errors.owner_name = "মালিকের নাম সংখ্যা হতে পারেন না";
+    errors.owner_name = "মালিকের নাম সঠিকভাবে প্রদান করুন";
   } else {
     errors.owner_name = "";
   }
@@ -37,7 +37,7 @@ function OwnerRegistrationValidation(formData) {
   }
 
   if (formData.owner_address.trim() === "") {
-    errors.owner_address = "বর্তমান ঠিকানা : জেলা দিন (অক্ষর)";
+    errors.owner_address = "আপনার জেলা বাছাই করুন";
   } else {
     errors.owner_address = "";
   }

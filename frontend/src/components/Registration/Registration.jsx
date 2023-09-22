@@ -45,7 +45,7 @@ function Registration() {
       try {
         axios.post("http://localhost:3001/signup", values).then((res) => {
           if (res.data === "success") {
-            navigate("/");
+            navigate("/login");
             alert("আপনি সফলভাবে নিবন্ধন করেছেন");
           } else if (res.data === "email") {
             alert("আপনার ইমেইল টি ইতিমধ্যে ব্যবহার করা হয়েছে");
@@ -64,7 +64,7 @@ function Registration() {
   };
 
   return (
-    <div>
+    <div className = {styles.RegistrationScreen}>
       <div className={styles.container} id="container">
         <div
           className={`${styles["form-container"]} ${styles["sign-up-container"]}`}

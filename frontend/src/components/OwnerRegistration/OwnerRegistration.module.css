@@ -1,3 +1,19 @@
+:root {
+    --linear-grad: linear-gradient(to right, #141E30, #243B55);
+    --grad-clr1: #141E30;
+    --grad-clr2: #243B55;
+}
+
+.RegistrationScreen {
+    height: 100vh;
+    background: #a5b6ab;
+    display: grid;
+    place-content: center;
+    font-family: 'Poppins', sans-serif;
+} 
+
+
+
 .ownerContainer {
     position: relative;
     width: 850px;
@@ -45,6 +61,7 @@ span {
     position: relative;
     margin: 8px 0px;
     width: 100%;
+    color: #888787;
 }
 
 input {
@@ -55,9 +72,27 @@ input {
     outline: none;
 }
 
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    color: #a5a3a3;
+}
+select {
+    width: 100%;
+    padding: 12px 8px;
+    background-color: #f3f3f3;
+    border: none;
+    outline: none;
+    color: #888787;
+}
+
+select:focus~label{
+    width: 100%;
+}
+
 input:focus~label {
     width: 100%;
 }
+
 
 a.forgot {
     padding-bottom: 3px;

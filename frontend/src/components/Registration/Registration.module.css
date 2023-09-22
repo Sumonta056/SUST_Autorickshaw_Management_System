@@ -11,13 +11,14 @@
     --grad-clr2: #243B55;
 }
 
-body {
+.RegistrationScreen {
     height: 100vh;
     background: #a5b6ab;
     display: grid;
     place-content: center;
     font-family: 'Poppins', sans-serif;
-}
+} 
+
 .container{
     position: relative;
     width:850px;
