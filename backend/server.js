@@ -25,7 +25,7 @@ app.post("/signup", (req, res) => {
 
     // If there is a user with the same email, return a message
     if (emailCheckData.length > 0) {
-      console.log ("Email already registered");
+      console.log("Email already registered");
       return res.json("email");
     }
 
@@ -42,7 +42,6 @@ app.post("/signup", (req, res) => {
     });
   });
 });
-
 
 app.post("/login", (req, res) => {
   const sql = "SELECT * FROM user WHERE `email` = ? AND `password` = ?";
@@ -81,7 +80,8 @@ app.post("/OwnerRegistration", (req, res) => {
     }
 
     // If the NID is not found in the owner table, proceed with owner registration
-    const ownerSql = "INSERT INTO owner (owner_nid, owner_name, owner_date_of_birth, owner_houseNo, owner_postalCode, owner_address) VALUES (?, ?, ?, ?, ?, ?)";
+    const ownerSql =
+      "INSERT INTO owner (owner_nid, owner_name, owner_date_of_birth, owner_houseNo, owner_postalCode, owner_address) VALUES (?, ?, ?, ?, ?, ?)";
     const ownerValues = [
       req.body.owner_nid,
       req.body.owner_name,
@@ -97,13 +97,21 @@ app.post("/OwnerRegistration", (req, res) => {
         console.error(ownerErr); // Log the error to the console
         return res.json(ownerErr); // Return an error response
       }
-    
+
       return res.json("owner_registration_success");
     });
-    
   });
 });
 
+app.get("/student", (req, res) => {
+  const sql = "SELECT * FROM serial";
+
+  db.query(sql, (err, data) => {
+    console.log(data);
+    if (err) return app.json("Error");
+    return res.json(data);
+  });
+});
 
 const PORT = 3001;
 
