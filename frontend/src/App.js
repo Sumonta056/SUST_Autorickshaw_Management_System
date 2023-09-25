@@ -5,9 +5,10 @@ import OwnerRegistration from "./components/OwnerRegistration/OwnerRegistration"
 import DriverRegistration from "./components/DriverRegistration/DriverRegistration";
 import AutorickshawRegistration from "./components/AutorickshawRegistration/AutorickshawRegistration";
 import Home from "./components/Home/Home";
-// import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Student from "./components/CRUD/practice";
 import Create from "./components/CRUD/CreateStudent";
+import Update from "./components/CRUD/UpdateStudent";
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -25,6 +26,7 @@ function App() {
 
         <Route path="/student" element={<Student />} />
         <Route path="/create" element={<Create />} />
+        <Route path="/student/update/:id" element={<Update />} />
 
       </Routes>
     </BrowserRouter>

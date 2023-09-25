@@ -195,6 +195,39 @@ app.post("/create", (req, res) => {
   });
 });
 
+
+app.put("/update/:id", (req, res) => {
+
+  const sql = "UPDATE serial SET `name` = ?, `email` = ? WHERE id = ?";
+  const values = [req.body.name, req.body.email];
+  const id = req.params.id;
+
+  db.query(sql, [...values, id], (err, data) => {
+    if (err) {
+      return res.json("failed");
+    }
+
+    return res.json(data);
+  });
+});
+
+
+
+app.delete("/student/:id", (req, res) => {
+
+  const sql = "DELETE from serial WHERE id = ?";
+  const id = req.params.id;
+
+  db.query(sql, [id], (err, data) => {
+    if (err) {
+      return res.json("failed");
+    }
+
+    return res.json(data);
+  });
+});
+
+
 const PORT = 3001;
 
 app.listen(PORT, () => {

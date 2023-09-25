@@ -1,6 +1,6 @@
-import React, { useEffect , useState} from "react";
+import React, { useEffect, useState } from "react";
 import axios from "axios";
-import {Link} from "react-router-dom"
+import { Link } from "react-router-dom";
 
 function Practice() {
   const [student, setStudent] = useState([]);
@@ -11,10 +11,21 @@ function Practice() {
       .catch((err) => console.log(err));
   }, []);
 
+  const handleDelete = async (id) => {
+    try {
+      await axios.delete("http://localhost:3001/student/" + id);
+      window.location.reload();
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
   return (
     <div className="d-flex vh-100 bg-primary justify-content-center align-content-center">
       <div className="w-50 bg-white rounded p-3">
-        <Link to ="/create" className="btn btn-success">Add</Link>
+        <Link to="/create" className="btn btn-success">
+          Add
+        </Link>
         <table className="table">
           <thead>
             <tr>
@@ -25,19 +36,24 @@ function Practice() {
             </tr>
           </thead>
           <tbody>
-            {
-              student.map((data , i) => (
-                <tr key={i}>
-                  <td>{data.id}</td>
-                  <td>{data.name}</td>
-                  <td>{data.email}</td>
-                  <td>
-                    <button className="btn btn-primary">Edit</button>
-                    <button className="btn btn-danger">Delete</button>
-                  </td>
-                </tr>
-              ))
-            }
+            {student.map((data, i) => (
+              <tr key={i}>
+                <td>{data.id}</td>
+                <td>{data.name}</td>
+                <td>{data.email}</td>
+                <td>
+                  <Link to={`update/${data.id}`} className="btn btn-primary">
+                    Edit
+                  </Link>
+                  <button
+                    className="btn btn-danger"
+                    onClick={(e) => handleDelete(data.id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
