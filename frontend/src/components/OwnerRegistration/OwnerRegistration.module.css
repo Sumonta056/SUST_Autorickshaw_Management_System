@@ -84,6 +84,9 @@ select {
     outline: none;
     color: #888787;
 }
+select:focus{
+    color: black;
+}
 
 select:focus~label{
     width: 100%;

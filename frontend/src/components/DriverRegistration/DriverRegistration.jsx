@@ -15,6 +15,7 @@ function DriverRegistration() {
     driver_houseNo: "",
     driver_postalCode: "",
     driver_address: "",
+    driver_license_no: "",
   });
 
   const [errors, setErrors] = useState({
@@ -24,6 +25,7 @@ function DriverRegistration() {
     driver_houseNo: "",
     driver_postalCode: "",
     driver_address: "",
+    driver_license_no: "",
   });
 
   const handleInputChange = (event) => {
@@ -44,36 +46,46 @@ function DriverRegistration() {
 
     // Use async/await to ensure state is updated
 
-    if (
-      validationErrors.driver_nid === "" &&
-      validationErrors.driver_name === "" &&
-      validationErrors.driver_date_of_birth === "" &&
-      validationErrors.driver_houseNo === "" &&
-      validationErrors.driver_postalCode === "" &&
-      validationErrors.driver_address === ""
-    ) {
-      try {
-        axios
-          .post("http://localhost:3001/DriverRegistration", formData)
-          .then((res) => {
-            if (res.data === "driver_registration_success") {
-              navigate("/");
-              alert("আপনি সফলভাবে ড্রাইভার নিবন্ধন করেছেন");
-            } else if (res.data === "nid_exists") {
-              alert("আপনার এনআইডি নাম্বারটি ইতিমধ্যে ব্যবহার করা হয়েছে");
-              navigate("/DriverRegistration");
-            } else {
-              alert("নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
-            }
-          });
-      } catch (error) {
-        alert("ড্রাইভার নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
-      }
-    } else {
-      // Display an error message to the user
+    // Check for specific error conditions
+  if (
+    validationErrors.driver_nid === "" &&
+    validationErrors.driver_name === "" &&
+    validationErrors.driver_date_of_birth === "" &&
+    validationErrors.driver_houseNo === "" &&
+    validationErrors.driver_postalCode === "" &&
+    validationErrors.driver_address === "" &&
+    validationErrors.driver_license_no === ""
+  ) {
+    try {
+      axios
+        .post("http://localhost:3001/DriverRegistration", formData)
+        .then((res) => {
+          if (res.data === "driver_registration_success") {
+            navigate("/");
+            alert("আপনি সফলভাবে ড্রাইভার নিবন্ধন করেছেন");
+          } else if (res.data === "nid_exists") {
+            alert("এই এনআইডি নাম্বারটি ইতিমধ্যে ব্যবহার করা হয়েছে");
+            navigate("/DriverRegistration");
+          } else if (res.data === "license_no_exists") {
+            alert("ড্রাইভিং লাইসেন্স নাম্বারটি ইতিমধ্যে ব্যবহার করা হয়েছে");
+            navigate("/DriverRegistration");
+          } else {
+            alert("নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
+          }
+        });
+    } catch (error) {
       alert("ড্রাইভার নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
     }
-  };
+  } else {
+    // Display an error message based on the first encountered error
+    const errorMessages = Object.values(validationErrors).filter((error) => error !== "");
+    if (errorMessages.length > 0) {
+      alert("ড্রাইভার নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
+    } else {
+      alert("ড্রাইভার নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
+    }
+  }
+};
 
   return (
     <div className={styles.RegistrationScreen}>

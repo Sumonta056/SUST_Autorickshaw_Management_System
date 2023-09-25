@@ -111,6 +111,8 @@ app.post("/DriverRegistration", (req, res) => {
   const nidToCheck = req.body.driver_nid;
   const licenseNoToCheck = req.body.driver_license_no;
 
+  console.log(licenseNoToCheck);
+
   // Check for existing NID in the driver table
   db.query(nidCheckSql, [nidToCheck], (nidCheckErr, nidCheckData) => {
     if (nidCheckErr) {

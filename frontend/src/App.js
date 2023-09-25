@@ -4,7 +4,7 @@ import Registration from "./components/Registration/Registration";
 import OwnerRegistration from "./components/OwnerRegistration/OwnerRegistration";
 import DriverRegistration from "./components/DriverRegistration/DriverRegistration";
 import Home from "./components/Home/Home";
-import "bootstrap/dist/css/bootstrap.min.css";
+// import "bootstrap/dist/css/bootstrap.min.css";
 import Student from "./components/CRUD/practice";
 import Create from "./components/CRUD/CreateStudent";
 
@@ -18,11 +18,12 @@ function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/signup" element={<Registration />} />
         <Route path="/OwnerRegistration" element={<OwnerRegistration />} />
+        <Route path="/DriverRegistration" element={<DriverRegistration />} />
+
 
         <Route path="/student" element={<Student />} />
         <Route path="/create" element={<Create />} />
 
-        <Route path="/DriverRegistration" element={<DriverRegistration />} />
       </Routes>
     </BrowserRouter>
   );

@@ -60,7 +60,7 @@ function OwnerRegistration() {
               navigate("/");
               alert("আপনি সফলভাবে মালিক নিবন্ধন করেছেন");
             } else if (res.data === "nid_exists") {
-              alert("আপনার ইমেইল টি ইতিমধ্যে ব্যবহার করা হয়েছে");
+              alert("আপনার এনআইডি নম্বরটি ইতিমধ্যে ব্যবহার করা হয়েছে");
               navigate("/OwnerRegistration");
             } else {
               alert("নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
@@ -158,86 +158,84 @@ function OwnerRegistration() {
               )}
             </div>
             <div className={styles.ownerInfield}>
-              <select
-                id="owner_address"
-                name="owner_address"
-                value={formData.owner_address}
-                onChange={handleInputChange}
-              >
-                <option value="">বর্তমান ঠিকানা : জেলা</option>
-                <option value="ঢাকা">ঢাকা (Dhaka)</option>
-                <option value="চট্টগ্রাম">চট্টগ্রাম (Chattogram)</option>
-                <option value="সিলেট">সিলেট (Sylhet)</option>
-                <option value="খুলনা">খুলনা (Khulna)</option>
-                <option value="রাজশাহী">রাজশাহী (Rajshahi)</option>
-                <option value="বরিশাল">বরিশাল (Barishal)</option>
-                <option value="ময়মনসিংহ">ময়মনসিংহ (Mymensingh)</option>
-                <option value="খাগড়াছড়ি">খাগড়াছড়ি (Khagrachari)</option>
-                <option value="কিশোরগঞ্জ">কিশোরগঞ্জ (Kishoreganj)</option>
-                <option value="ফরিদপুর">ফরিদপুর (Faridpur)</option>
-                <option value="পাবনা">পাবনা (Pabna)</option>
-                <option value="মাগুরা">মাগুরা (Magura)</option>
-                <option value="মুন্সিগঞ্জ">মুন্সিগঞ্জ (Munshiganj)</option>
-                <option value="মাদারীপুর">মাদারীপুর (Madaripur)</option>
-                <option value="পিরোজপুর">পিরোজপুর (Pirojpur)</option>
-                <option value="ঝালকাঠি">ঝালকাঠি (Jhalokathi)</option>
-                <option value="ভোলা">ভোলা (Bhola)</option>
-                <option value="পটুয়াখালী">পটুয়াখালী (Patuakhali)</option>
-                <option value="বরগুনা">বরগুনা (Barguna)</option>
-                <option value="শরিয়তপুর">শরিয়তপুর (Shariatpur)</option>
-                <option value="নরায়ণগঞ্জ">নরায়ণগঞ্জ (Narayanganj)</option>
-                <option value="নারাইল">নারাইল (Narail)</option>
-                <option value="ঝিনাইদহ">ঝিনাইদহ (Jhenaidah)</option>
-                <option value="চুয়াডঙ্গা">চুয়াডঙ্গা (Chuadanga)</option>
-                <option value="মেহেরপুর">মেহেরপুর (Meherpur)</option>
-                <option value="গোপালগঞ্জ">গোপালগঞ্জ (Gopalganj)</option>
-                <option value="রাজবাড়ী">রাজবাড়ী (Rajbari)</option>
-                <option value="শেরপুর">শেরপুর (Sherpur)</option>
-                <option value="কুষ্টিয়া">কুষ্টিয়া (Kushtia)</option>
-                <option value="মাগুরা">মাগুরা (Magura)</option>
-                <option value="টাঙ্গাইল">টাঙ্গাইল (Tangail)</option>
-                <option value="কুড়িগ্রাম">কুড়িগ্রাম (Kurigram)</option>
-                <option value="লালমনিরহাট">লালমনিরহাট (Lalmonirhat)</option>
-                <option value="গাইবান্ধা">গাইবান্ধা (Gaibandha)</option>
-                <option value="ঠাকুরগাঁও">ঠাকুরগাঁও (Thakurgaon)</option>
-                <option value="পঞ্চগড়">পঞ্চগড় (Panchagarh)</option>
-                <option value="দিনাজপুর">দিনাজপুর (Dinajpur)</option>
-                <option value="নীলফামারী">নীলফামারী (Nilphamari)</option>
-                <option value="পত্তন">পত্তন (Pattan)</option>
-                <option value="চাপাইনবাব্য">
-                  চাপাইনবাব্য (Chapainawabganj)
-                </option>
-                <option value="জয়পুরহাট">জয়পুরহাট (Joypurhat)</option>
-                <option value="নাটোর">নাটোর (Naogaon)</option>
-                <option value="বগুড়া">বগুড়া (Bogura)</option>
-                <option value="পাবনা">পাবনা (Pabna)</option>
-                <option value="সিরাজগঞ্জ">সিরাজগঞ্জ (Sirajganj)</option>
-                <option value="নওগাঁ">নওগাঁ (Nowabganj)</option>
-                <option value="ময়মনসিংহ">ময়মনসিংহ (Mymensingh)</option>
-                <option value="জামালপুর">জামালপুর (Jamalpur)</option>
-                <option value="নেত্রকোণা">নেত্রকোণা (Netrokona)</option>
-                <option value="শেরপুর">শেরপুর (Sherpur)</option>
-                <option value="সুনামগঞ্জ">সুনামগঞ্জ (Sunamganj)</option>
-                <option value="হবিগঞ্জ">হবিগঞ্জ (Habiganj)</option>
-                <option value="মৌলভীবাজার">মৌলভীবাজার (Moulvibazar)</option>
-                <option value="হবিগঞ্জ">হবিগঞ্জ (Habiganj)</option>
-                <option value="সিলেট">সিলেট (Sylhet)</option>
-                <option value="কুষ্টিয়া">কুষ্টিয়া (Kushtia)</option>
-                <option value="মেহেরপুর">মেহেরপুর (Meherpur)</option>
-                <option value="চুয়াডঙ্গা">চুয়াডঙ্গা (Chuadanga)</option>
-                <option value="খুলনা">খুলনা (Khulna)</option>
-                <option value="সাতক্ষীরা">সাতক্ষীরা (Satkhira)</option>
-                <option value="জেসোর">জেসোর (Jessore)</option>
-                <option value="নড়াইল">নড়াইল (Narail)</option>
-                <option value="বাগেরহাট">বাগেরহাট (Bagerhat)</option>
-                <option value="পটুয়াখালী">পটুয়াখালী (Patuakhali)</option>
-              </select>
-              {errors.owner_address && (
-                <span className={styles.ownerError}>
-                  {errors.owner_address}
-                </span>
-              )}
-            </div>
+  <select
+    id="owner_address"
+    name="owner_address"
+    value={formData.owner_address}
+    onChange={handleInputChange}
+  >
+    <option value="">বর্তমান ঠিকানা : জেলা</option>
+    <option value="Dhaka">Dhaka</option>
+    <option value="Chattogram">Chattogram</option>
+    <option value="Sylhet">Sylhet</option>
+    <option value="Khulna">Khulna</option>
+    <option value="Rajshahi">Rajshahi</option>
+    <option value="Barishal">Barishal</option>
+    <option value="Mymensingh">Mymensingh</option>
+    <option value="Khagrachari">Khagrachari</option>
+    <option value="Kishoreganj">Kishoreganj</option>
+    <option value="Faridpur">Faridpur</option>
+    <option value="Pabna">Pabna</option>
+    <option value="Magura">Magura</option>
+    <option value="Munshiganj">Munshiganj</option>
+    <option value="Madaripur">Madaripur</option>
+    <option value="Pirojpur">Pirojpur</option>
+    <option value="Jhalokathi">Jhalokathi</option>
+    <option value="Bhola">Bhola</option>
+    <option value="Patuakhali">Patuakhali</option>
+    <option value="Barguna">Barguna</option>
+    <option value="Shariatpur">Shariatpur</option>
+    <option value="Narayanganj">Narayanganj</option>
+    <option value="Narail">Narail</option>
+    <option value="Jhenaidah">Jhenaidah</option>
+    <option value="Chuadanga">Chuadanga</option>
+    <option value="Meherpur">Meherpur</option>
+    <option value="Gopalganj">Gopalganj</option>
+    <option value="Rajbari">Rajbari</option>
+    <option value="Sherpur">Sherpur</option>
+    <option value="Kushtia">Kushtia</option>
+    <option value="Tangail">Tangail</option>
+    <option value="Kurigram">Kurigram</option>
+    <option value="Lalmonirhat">Lalmonirhat</option>
+    <option value="Gaibandha">Gaibandha</option>
+    <option value="Thakurgaon">Thakurgaon</option>
+    <option value="Panchagarh">Panchagarh</option>
+    <option value="Dinajpur">Dinajpur</option>
+    <option value="Nilphamari">Nilphamari</option>
+    <option value="Pattan">Pattan</option>
+    <option value="Chapainawabganj">Chapainawabganj</option>
+    <option value="Joypurhat">Joypurhat</option>
+    <option value="Naogaon">Naogaon</option>
+    <option value="Bogura">Bogura</option>
+    <option value="Pabna">Pabna</option>
+    <option value="Sirajganj">Sirajganj</option>
+    <option value="Nowabganj">Nowabganj</option>
+    <option value="Mymensingh">Mymensingh</option>
+    <option value="Jamalpur">Jamalpur</option>
+    <option value="Netrokona">Netrokona</option>
+    <option value="Sherpur">Sherpur</option>
+    <option value="Sunamganj">Sunamganj</option>
+    <option value="Habiganj">Habiganj</option>
+    <option value="Moulvibazar">Moulvibazar</option>
+    <option value="Habiganj">Habiganj</option>
+    <option value="Sylhet">Sylhet</option>
+    <option value="Kushtia">Kushtia</option>
+    <option value="Meherpur">Meherpur</option>
+    <option value="Chuadanga">Chuadanga</option>
+    <option value="Khulna">Khulna</option>
+    <option value="Satkhira">Satkhira</option>
+    <option value="Jessore">Jessore</option>
+    <option value="Narail">Narail</option>
+    <option value="Bagerhat">Bagerhat</option>
+    <option value="Patuakhali">Patuakhali</option>
+  </select>
+  {errors.owner_address && (
+    <span className={styles.ownerError}>
+      {errors.owner_address}
+    </span>
+  )}
+</div>
+
 
             {/* Add more input fields here as needed */}
             <button type="submit" className={styles.ownerButton}>
