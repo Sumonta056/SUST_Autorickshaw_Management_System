@@ -49,7 +49,7 @@ function Home() {
             <Link to="/OwnerRegistration" className={styles["a"]}>
               Register as Owner
             </Link>
-            <Link to="/login" className={styles["a"]}>
+            <Link to="/AutorickshawRegistration" className={styles["a"]}>
               Auto-Rickshaw Registration
             </Link>
           </div>
