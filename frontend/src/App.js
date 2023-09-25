@@ -2,7 +2,9 @@ import React from "react";
 import Login from "./components/Login/Login";
 import Registration from "./components/Registration/Registration";
 import OwnerRegistration from "./components/OwnerRegistration/OwnerRegistration";
+import DriverRegistration from "./components/DriverRegistration/DriverRegistration";
 import Home from "./components/Home/Home";
+
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -12,9 +14,10 @@ function App() {
       <Routes>
         <Route path="/" element={<Home />} />
         <Route path="/login" element={<Login />} />
-
         <Route path="/signup" element={<Registration />} />
         <Route path="/OwnerRegistration" element={<OwnerRegistration />} />
+        <Route path="/DriverRegistration" element={<DriverRegistration />} />
+
       </Routes>
     </BrowserRouter>
   );

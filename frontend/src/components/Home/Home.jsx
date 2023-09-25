@@ -43,7 +43,7 @@ function Home() {
           </h2>
 
           <div className={styles["buttons-reg"]}>
-            <Link to="/driver" className={styles["a"]}>
+            <Link to="/DriverRegistration" className={styles["a"]}>
               Register as Driver
             </Link>
             <Link to="/OwnerRegistration" className={styles["a"]}>
