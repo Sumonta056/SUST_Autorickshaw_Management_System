@@ -104,8 +104,6 @@ app.post("/OwnerRegistration", (req, res) => {
   });
 });
 
-<<<<<<< Updated upstream
-=======
 // Create a new endpoint for driver registration
 app.post("/DriverRegistration", (req, res) => {
   // Check if the driver's NID and driver_license_no already exist in the driver table
@@ -164,8 +162,6 @@ app.post("/DriverRegistration", (req, res) => {
 });
 
 
-
->>>>>>> Stashed changes
 const PORT = 3001;
 
 app.listen(PORT, () => {

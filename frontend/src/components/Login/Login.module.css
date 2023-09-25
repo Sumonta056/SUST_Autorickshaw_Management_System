@@ -5,19 +5,14 @@
     box-sizing: border-box;
 }
 
-:root {
-    --linear-grad: linear-gradient(to right, #141E30, #243B55);
-    --grad-clr1: #141E30;
-    --grad-clr2: #243B55;
-}
 
-body {
+.loginScreen {
     height: 100vh;
     background: #a5b6ab;
     display: grid;
     place-content: center;
     font-family: 'Poppins', sans-serif;
-}
+} 
 .container{
     position: relative;
     width:850px;

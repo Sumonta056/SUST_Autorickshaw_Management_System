@@ -1,7 +1,23 @@
-.ownerContainer{
+:root {
+    --linear-grad: linear-gradient(to right, #141E30, #243B55);
+    --grad-clr1: #141E30;
+    --grad-clr2: #243B55;
+}
+
+.RegistrationScreen {
+    height: 100vh;
+    background: #a5b6ab;
+    display: grid;
+    place-content: center;
+    font-family: 'Poppins', sans-serif;
+} 
+
+
+
+.ownerContainer {
     position: relative;
-    width:850px;
-    height:100vh;
+    width: 850px;
+    height: 100vh;
     background-color: #fff;
     box-shadow: 25px 30px 55px #5557;
     border-radius: 13px;
@@ -9,104 +25,131 @@
 
 }
 
-.ownerFormContainer{
+.ownerFormContainer {
     position: absolute;
-    width:60%;
-    height:100%;
-    padding:0px 40px;
+    width: 56%;
+    height: 100%;
+    padding: 0px 40px;
     transition: all 0.6s ease-in-out;
 }
 
-.ownerSignInContainer{
+.ownerSignInContainer {
     z-index: 2;
 }
-form{
-    height:100%;
-    display:flex;
+
+form {
+    height: 100%;
+    display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding:0px 20px;
+    padding: 0px 20px;
 }
-h1{
-    color:var(--grad-clr1);
+
+h1 {
+    color: var(--grad-clr1);
     margin-top: 10px;
-    padding-top:10px;
+    padding-top: 10px;
     padding-bottom: 10px;
 }
 
-span{
+span {
     font-size: 12px;
 }
-.ownerInfield{
+
+.ownerInfield {
     position: relative;
     margin: 8px 0px;
     width: 100%;
+    color: #888787;
 }
-input{
-    width:100%;
-    padding:12px 8px;
+
+input {
+    width: 100%;
+    padding: 12px 8px;
     background-color: #f3f3f3;
-     border: none;
-     outline:none;
+    border: none;
+    outline: none;
 }
 
-input:focus~label{
-    width:100%;
+
+input[type="date"]::-webkit-calendar-picker-indicator {
+    color: #a5a3a3;
+}
+select {
+    width: 100%;
+    padding: 12px 8px;
+    background-color: #f3f3f3;
+    border: none;
+    outline: none;
+    color: #888787;
 }
 
-a.forgot{
+select:focus~label{
+    width: 100%;
+}
+
+input:focus~label {
+    width: 100%;
+}
+
+
+a.forgot {
     padding-bottom: 3px;
     border-bottom: 2px solid #eee;
 }
 
-.ownerButton{
-    border-radius:5px;
+.ownerButton {
+    border-radius: 5px;
     background: rgb(94, 146, 17);
-    color:#fff;
+    color: #fff;
     font-size: 12px;
     font-weight: bold;
-    padding:12px 45px;
+    padding: 12px 45px;
     letter-spacing: 1px;
-    width:100%;
+    width: 100%;
     text-align: center;
 }
-.ownerFormContainer .ownerButton{
+
+.ownerFormContainer .ownerButton {
     margin-top: 17px;
     transition: 80ms ease-in;
 }
-.ownerFormContainer .ownerButton:hover{
+
+.ownerFormContainer .ownerButton:hover {
     background: var(--grad-clr2);
-    color:white;
+    color: white;
     cursor: pointer;
 }
-.ownerOverlayContainer{
+
+.ownerOverlayContainer {
     position: relative;
-    top:0;
-    left:60%;
-    width:40%;
-    height:100%;
-    overflow: hidden ;
+    top: 0;
+    left: 60%;
+    width: 40%;
+    height: 100%;
+    overflow: hidden;
     transition: transform 0.6s ease-in-out;
     z-index: 9;
 }
-.ownerOverlayContainer h1{
+
+.ownerOverlayContainer h1 {
     font-size: 2rem;
     font-weight: 800;
 }
 
-.ownerOverlay{
+.ownerOverlay {
     position: relative;
     background: transparent;
-    color:#fff;
-    left:-150%;
-    height:100%;
-    width:250%;
+    color: #fff;
+    left: -150%;
+    height: 100%;
+    width: 250%;
     transition: transform 0.6s ease-in-out;
-    
+
 }
 
-  .ownerFormImage {
+.ownerFormImage {
     position: absolute;
     top: 0;
     left: 0;
@@ -115,9 +158,9 @@ a.forgot{
     background-image: url('../OwnerRegistration/OwnerRegistration.jpg');
     background-size: cover;
     z-index: -1;
-  }
+}
 
-.ownerOverlayPanel{
+.ownerOverlayPanel {
     position: absolute;
     display: flex;
     align-items: center;
@@ -126,16 +169,16 @@ a.forgot{
     padding: 0px 40px;
     text-align: center;
     height: 100%;
-    width:340px;
+    width: 340px;
     transition: 0.6s ease-in-out;
 }
 
-.ownerOverlayRight{
-    right:0;
+.ownerOverlayRight {
+    right: 0;
     transform: translateX(0%);
 }
 
-p{
+p {
     font-size: 14px;
     font-weight: 300;
     line-height: 20px;
@@ -143,20 +186,78 @@ p{
 }
 
 
-.ownerInfield .ownerError{
+.ownerInfield .ownerError {
 
     color: rgba(255, 0, 0, 0.781);
     font-size: 12px;
     padding-left: 3px;
-    
+
 }
-.ownerPrevReg{
+
+.ownerPrevReg {
     margin-top: 8px;
     font-size: 12px;
 }
-.ownerRegIgnore{
+
+.ownerRegIgnore {
     font-size: 12px;
 }
-.ownerRegIgnore:hover{
+
+.ownerRegIgnore:hover {
     text-decoration: underline;
+}
+
+
+@media (min-width: 1600px) {
+
+    .ownerContainer {
+
+        width: 900px;
+        height: 82vh;
+
+
+    }
+
+    .ownerOverlayPanel {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 0px 40px;
+        text-align: center;
+        height: 100%;
+        width: 480px;
+        transition: 0.6s ease-in-out;
+
+    }
+
+
+    .ownerOverlayContainer {
+        position: relative;
+        top: 0;
+        left: 55%;
+        width: 45%;
+        height: 100%;
+        overflow: hidden;
+        transition: transform 0.6s ease-in-out;
+        z-index: 9;
+    }
+
+    .ownerOverlayContainer h1 {
+        font-size: 2rem;
+        font-weight: 800;
+    }
+
+    .ownerOverlay {
+        position: relative;
+        background: transparent;
+        color: #fff;
+        left: -150%;
+        height: 100%;
+        width: 250%;
+        transition: transform 0.6s ease-in-out;
+
+    }
+
 }
