@@ -4,7 +4,7 @@ import Registration from "./components/Registration/Registration";
 import OwnerRegistration from "./components/OwnerRegistration/OwnerRegistration";
 import DriverRegistration from "./components/DriverRegistration/DriverRegistration";
 import Home from "./components/Home/Home";
-// import "bootstrap/dist/css/bootstrap.min.css";
+import "bootstrap/dist/css/bootstrap.min.css";
 import Student from "./components/CRUD/practice";
 import Create from "./components/CRUD/CreateStudent";
 
