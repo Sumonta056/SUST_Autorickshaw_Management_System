@@ -104,6 +104,68 @@ app.post("/OwnerRegistration", (req, res) => {
   });
 });
 
+<<<<<<< Updated upstream
+=======
+// Create a new endpoint for driver registration
+app.post("/DriverRegistration", (req, res) => {
+  // Check if the driver's NID and driver_license_no already exist in the driver table
+  const nidCheckSql = "SELECT * FROM driver WHERE driver_nid = ?";
+  const licenseNoCheckSql = "SELECT * FROM driver WHERE driver_license_no = ?";
+  const nidToCheck = req.body.driver_nid;
+  const licenseNoToCheck = req.body.driver_license_no;
+
+  // Check for existing NID in the driver table
+  db.query(nidCheckSql, [nidToCheck], (nidCheckErr, nidCheckData) => {
+    if (nidCheckErr) {
+      return res.json(nidCheckErr); // Return an error response if there's a database error
+    }
+
+    // If there is a driver with the same NID, return a message
+    if (nidCheckData.length > 0) {
+      console.log("Driver with the same NID already exists");
+      return res.json("nid_exists");
+    }
+
+    // Check for existing driver_license_no in the driver table
+    db.query(licenseNoCheckSql, [licenseNoToCheck], (licenseNoCheckErr, licenseNoCheckData) => {
+      if (licenseNoCheckErr) {
+        return res.json(licenseNoCheckErr); // Return an error response if there's a database error
+      }
+
+      // If there is a driver with the same driver_license_no, return a message
+      if (licenseNoCheckData.length > 0) {
+        console.log("Driver with the same driver_license_no already exists");
+        return res.json("license_no_exists");
+      }
+
+      // If the NID and driver_license_no are not found in the driver table, proceed with driver registration
+      const driverSql = "INSERT INTO driver (driver_nid, driver_license_no, driver_name, driver_date_of_birth, driver_houseNo, driver_postalCode, driver_address) VALUES (?, ?, ?, ?, ?, ?, ?)";
+      const driverValues = [
+        req.body.driver_nid,
+        req.body.driver_license_no,
+        req.body.driver_name,
+        req.body.driver_date_of_birth,
+        req.body.driver_houseNo,
+        req.body.driver_postalCode,
+        req.body.driver_address,
+      ];
+
+      // Insert driver data into the driver table
+      db.query(driverSql, driverValues, (driverErr, driverData) => {
+        if (driverErr) {
+          console.error(driverErr); // Log the error to the console
+          return res.json(driverErr); // Return an error response
+        }
+      
+        return res.json("driver_registration_success");
+      });
+    });
+  });
+});
+
+
+
+>>>>>>> Stashed changes
 const PORT = 3001;
 
 app.listen(PORT, () => {
