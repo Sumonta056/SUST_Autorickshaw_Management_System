@@ -1,55 +1,40 @@
-function driverRegistrationValidation(formData) {
+function AutorickshawRegistrationValidation(formData, serverErrors) {
+  const driver_nid_pattern = /^\d{10}$/; 
+const owner_nid_pattern = /^\d{10}$/; 
+
   let errors = {};
 
-  const nid_pattern = /^\d{10}$/; 
-  const license_pattern = /^\d{15}$/; 
-  const postal_code_pattern = /^\d{4}$/; 
-  const date_of_birth_pattern = /^\d{4}-\d{2}-\d{2}$/;
-
-
-  if (!formData.driver_nid.match(nid_pattern)) {
-    errors.driver_nid = "জাতীয় পরিচয়পত্র নম্বর সঠিক নয় (10-digit number)";
+  if (!formData.driver_nid.match(driver_nid_pattern)) {
+    errors.driver_nid = "ড্রাইভারের জাতীয় পরিচয়পত্র নম্বর সঠিক নয় (10-digit number)";
   } else {
     errors.driver_nid = "";
   }
-  
-  if (!formData.driver_license_no.match(license_pattern)) {
-    errors.driver_license_no = "ড্রাইভারের লাইসেন্স নম্বরটি সঠিক নয় (15-digit number)";
-  } else {
-    errors.driver_license_no = "";
+
+  if (formData.autorickshaw_number.trim() === "") {
+    errors.autorickshaw_number = "অটোরিকশা নাম্বার দিন";
+  }  else {
+    errors.autorickshaw_number = "";
   }
 
-  if (isNaN(formData.driver_postalCode) || !formData.driver_postalCode.match(postal_code_pattern)) {
-    errors.driver_postalCode = "বর্তমান ঠিকানা : পোস্টাল কোড দিন (4-digit number)";
+  if (formData.autorickshaw_company.trim() === "") {
+    errors.autorickshaw_company = "অটোরিকশা কোম্পানি দিন";
   } else {
-    errors.driver_postalCode = "";
+    errors.autorickshaw_company = "";
   }
 
-  if (!isNaN(formData.driver_name)) {
-    errors.driver_name = "ড্রাইভারের নাম সঠিকভাবে প্রদান করুন";
+  if (formData.autorickshaw_model.trim() === "") {
+    errors.autorickshaw_model = "অটোরিকশা মডেল দিন";
   } else {
-    errors.driver_name = "";
+    errors.autorickshaw_model = "";
   }
 
-  if (!formData.driver_date_of_birth.match(date_of_birth_pattern)) {
-    errors.driver_date_of_birth = "জন্ম তারিখ সঠিক নয় (YYYY-MM-DD)";
+  if (!formData.owner_nid.match(owner_nid_pattern)) {
+    errors.owner_nid = "মালিকের জাতীয় পরিচয়পত্র নম্বর সঠিক নয় (10-digit number)";
   } else {
-    errors.driver_date_of_birth = "";
-  }
-
-  if (formData.driver_houseNo.trim() === "") {
-    errors.driver_houseNo = "বর্তমান ঠিকানা : বাড়ি নং দিন";
-  } else {
-    errors.driver_houseNo = "";
-  }
-
-  if (formData.driver_address.trim() === "") {
-    errors.driver_address = "আপনার জেলা বাছাই করুন";
-  } else {
-    errors.driver_address = "";
+    errors.owner_nid = "";
   }
 
   return errors;
 }
 
-export default driverRegistrationValidation;
+export default AutorickshawRegistrationValidation;
