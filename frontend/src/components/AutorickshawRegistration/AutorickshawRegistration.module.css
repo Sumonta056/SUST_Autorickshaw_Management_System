@@ -218,7 +218,7 @@ p {
     .autorickshawContainer {
 
         width: 900px;
-        height: 93vh;
+        height: 80vh;
 
 
     }
@@ -232,7 +232,7 @@ p {
         padding: 0px 40px;
         text-align: center;
         height: 100%;
-        width: 480px;
+        width: 405px;
         transition: 0.6s ease-in-out;
 
     }

@@ -4,7 +4,6 @@ import AutorickshawRegistrationValidation from "./AutorickshawRegistrationValida
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 
-
 function AutorickshawRegistration() {
   console.log("Rendering autorickshawRegistration");
   const navigate = useNavigate();
@@ -50,48 +49,51 @@ function AutorickshawRegistration() {
       validationErrors.driver_nid === ""
     ) {
       try {
-        axios.post("http://localhost:3001/AutorickshawRegistration", formData)
+        axios
+          .post("http://localhost:3001/AutorickshawRegistration", formData)
           .then((res) => {
             console.log("Server response:", res.data);
             if (res.data === "autorickshaw_registration_success") {
               navigate("/");
               alert("আপনি সফলভাবে অটোরিকশা নিবন্ধন করেছেন");
             } else if (res.data === "owner_nid_not_found") {
-              alert("উক্ত মালিকের নাম নিবন্ধন করা হয় নি");
+              alert("উক্ত মালিকের নাম নিবন্ধন করা হয় নি-");
             } else if (res.data === "driver_nid_not_found") {
               alert("উক্ত ড্রাইভারের নাম নিবন্ধন করা হয় নি");
             } else if (res.data === "autorickshaw_number_exists") {
               alert("উক্ত অটোরিকশা পূর্বে নিবন্ধন করা হয়েছে");
             } else {
-              alert("অটোরিকশা নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
+              alert(
+                "অটোরিকশা নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন"
+              );
             }
           })
           .catch((error) => {
             console.error("Server error:", error);
-            alert("অটোরিকশা নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
+            if (error === "driver_nid_not_found") {
+              alert("উক্ত মালিকের নাম নিবন্ধন করা হয় নি-");
+            } else
+              alert(
+                "অটোরিকশা নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন"
+              );
           });
       } catch (error) {
         console.error("Error:", error);
+
         alert("অটোরিকশা নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
       }
-      
     } else {
       // Display an error message based on the first encountered error
       const errorMessages = Object.values(validationErrors).filter(
         (error) => error !== ""
       );
       if (errorMessages.length > 0) {
-        alert(
-          "অটোরিকশা নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন"
-        );
+        alert("অটোরিকশা নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
       } else {
-        alert(
-          "অটোরিকশা নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন"
-        );
+        alert("অটোরিকশা নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
       }
     }
   };
-  
 
   return (
     <div className={styles.RegistrationScreen}>
@@ -111,7 +113,9 @@ function AutorickshawRegistration() {
                 onChange={handleInputChange}
               />
               {errors.autorickshaw_number && (
-                <span className={styles.autorickshawError}>{errors.autorickshaw_number}</span>
+                <span className={styles.autorickshawError}>
+                  {errors.autorickshaw_number}
+                </span>
               )}
             </div>
             <div className={styles.autorickshawInfield}>
@@ -124,7 +128,9 @@ function AutorickshawRegistration() {
                 onChange={handleInputChange}
               />
               {errors.autorickshaw_company && (
-                <span className={styles.autorickshawError}>{errors.autorickshaw_company}</span>
+                <span className={styles.autorickshawError}>
+                  {errors.autorickshaw_company}
+                </span>
               )}
             </div>
             <div className={styles.autorickshawInfield}>
@@ -137,7 +143,9 @@ function AutorickshawRegistration() {
                 onChange={handleInputChange}
               />
               {errors.autorickshaw_model && (
-                <span className={styles.autorickshawError}>{errors.autorickshaw_model}</span>
+                <span className={styles.autorickshawError}>
+                  {errors.autorickshaw_model}
+                </span>
               )}
             </div>
             <div className={styles.autorickshawInfield}>
@@ -150,7 +158,9 @@ function AutorickshawRegistration() {
                 onChange={handleInputChange}
               />
               {errors.owner_nid && (
-                <span className={styles.autorickshawError}>{errors.owner_nid}</span>
+                <span className={styles.autorickshawError}>
+                  {errors.owner_nid}
+                </span>
               )}
             </div>
             <div className={styles.autorickshawInfield}>
@@ -163,7 +173,9 @@ function AutorickshawRegistration() {
                 onChange={handleInputChange}
               />
               {errors.driver_nid && (
-                <span className={styles.autorickshawError}>{errors.driver_nid}</span>
+                <span className={styles.autorickshawError}>
+                  {errors.driver_nid}
+                </span>
               )}
             </div>
 
@@ -178,7 +190,10 @@ function AutorickshawRegistration() {
             </span>
           </form>
         </div>
-        <div className={`${styles["autorickshawOverlayContainer"]}`} id="overlayCon">
+        <div
+          className={`${styles["autorickshawOverlayContainer"]}`}
+          id="overlayCon"
+        >
           <div className={styles.autorickshawOverlay}>
             <div
               className={`${styles["autorickshawOverlayPanel"]} ${styles["autorickshawOverlayRight"]}`}

@@ -205,7 +205,7 @@ app.post("/AutorickshawRegistration", async (req, res) => {
         // If the owner's NID is not found, return an error message
         if (ownerNidCheckData.length === 0) {
           console.log("Owner with the specified NID does not exist");
-          return res.status(400).json("owner_nid_not_found");
+          return res.json("owner_nid_not_found");
         }
 
         // Check if the driver's NID exists
@@ -221,7 +221,7 @@ app.post("/AutorickshawRegistration", async (req, res) => {
           // If the driver's NID is not found, return an error message
           if (driverNidCheckData.length === 0) {
             console.log("Driver with the specified NID does not exist");
-            return res.status(400).json("driver_nid_not_found");
+            return res.json("driver_nid_not_found");
           }
 
           // If all checks pass, proceed with autorickshaw registration
