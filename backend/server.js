@@ -113,7 +113,6 @@ app.post("/DriverRegistration", (req, res) => {
 
   console.log(licenseNoToCheck);
 
-  // Check for existing NID in the driver table
   db.query(nidCheckSql, [nidToCheck], (nidCheckErr, nidCheckData) => {
     if (nidCheckErr) {
       return res.json(nidCheckErr); // Return an error response if there's a database error
@@ -165,6 +164,95 @@ app.post("/DriverRegistration", (req, res) => {
     );
   });
 });
+
+// Autorickshaw registration route
+app.post("/AutorickshawRegistration", async (req, res) => {
+  const {
+    autorickshaw_number,
+    autorickshaw_company,
+    autorickshaw_model,
+    driver_nid,
+    owner_nid,
+  } = req.body;
+
+  try {
+    // Check if the autorickshaw number is unique
+    const autorickshawNumCheckSql = "SELECT * FROM autorickshaw WHERE autorickshaw_number = ?";
+    
+    // Check for existing autorickshaw number in the autorickshaw table
+    db.query(autorickshawNumCheckSql, [autorickshaw_number], (numCheckErr, numCheckData) => {
+      if (numCheckErr) {
+        console.error("Error checking autorickshaw number uniqueness:", numCheckErr);
+        return res.status(500).json("server_error");
+      }
+
+      // If an autorickshaw with the same number exists, return an error message
+      if (numCheckData.length > 0) {
+        console.log("Autorickshaw with the same number already exists");
+        return res.status(400).json("autorickshaw_number_exists");
+      }
+
+      // Check if the owner's NID exists in the owner table
+      const ownerNidCheckSql = "SELECT * FROM owner WHERE owner_nid = ?";
+
+      // Check for existing owner NID in the owner table
+      db.query(ownerNidCheckSql, [owner_nid], (ownerNidCheckErr, ownerNidCheckData) => {
+        if (ownerNidCheckErr) {
+          console.error("Error checking owner NID:", ownerNidCheckErr);
+          return res.status(500).json("server_error");
+        }
+
+        // If the owner's NID is not found, return an error message
+        if (ownerNidCheckData.length === 0) {
+          console.log("Owner with the specified NID does not exist");
+          return res.status(400).json("owner_nid_not_found");
+        }
+
+        // Check if the driver's NID exists
+        const driverNidCheckSql = "SELECT * FROM driver WHERE driver_nid = ?";
+
+        // Check for existing driver NID in the driver table
+        db.query(driverNidCheckSql, [driver_nid], (driverNidCheckErr, driverNidCheckData) => {
+          if (driverNidCheckErr) {
+            console.error("Error checking driver NID:", driverNidCheckErr);
+            return res.status(500).json("server_error");
+          }
+
+          // If the driver's NID is not found, return an error message
+          if (driverNidCheckData.length === 0) {
+            console.log("Driver with the specified NID does not exist");
+            return res.status(400).json("driver_nid_not_found");
+          }
+
+          // If all checks pass, proceed with autorickshaw registration
+          const autorickshawSql =
+            "INSERT INTO autorickshaw (autorickshaw_number, autorickshaw_company, autorickshaw_model, driver_nid, owner_nid) VALUES (?, ?, ?, ?, ?)";
+          const autorickshawValues = [
+            autorickshaw_number,
+            autorickshaw_company,
+            autorickshaw_model,
+            driver_nid,
+            owner_nid,
+          ];
+
+          // Insert autorickshaw data into the autorickshaw table
+          db.query(autorickshawSql, autorickshawValues, (autorickshawErr, autorickshawData) => {
+            if (autorickshawErr) {
+              console.error("Error registering autorickshaw:", autorickshawErr);
+              return res.status(500).json("server_error");
+            }
+
+            return res.status(200).json("autorickshaw_registration_success");
+          });
+        });
+      });
+    });
+  } catch (error) {
+    console.error("Autorickshaw registration failed:", error);
+    return res.status(500).json("server_error");
+  }
+});
+
 
 // Experimenti
 
