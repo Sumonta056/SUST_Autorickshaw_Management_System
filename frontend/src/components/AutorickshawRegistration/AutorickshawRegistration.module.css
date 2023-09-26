@@ -14,7 +14,7 @@
 
 
 
-.ownerContainer {
+.autorickshawContainer {
     position: relative;
     width: 850px;
     height: 100vh;
@@ -25,7 +25,7 @@
 
 }
 
-.ownerFormContainer {
+.autorickshawFormContainer {
     position: absolute;
     width: 56%;
     height: 100%;
@@ -33,7 +33,7 @@
     transition: all 0.6s ease-in-out;
 }
 
-.ownerSignInContainer {
+.autorickshawSignInContainer {
     z-index: 2;
 }
 
@@ -46,18 +46,19 @@ form {
     padding: 0px 20px;
 }
 
-h1 {
+.autorickshawFormContainer h1 {
     color: var(--grad-clr1);
     margin-top: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
+    font-size: 1.8rem;
 }
 
 span {
     font-size: 12px;
 }
 
-.ownerInfield {
+.autorickshawInfield {
     position: relative;
     margin: 8px 0px;
     width: 100%;
@@ -82,12 +83,11 @@ select {
     background-color: #f3f3f3;
     border: none;
     outline: none;
-    color: #888787;
+    color: grey;
 }
 select:focus{
     color: black;
 }
-
 select:focus~label{
     width: 100%;
     color: black;
@@ -95,6 +95,7 @@ select:focus~label{
 
 input:focus~label {
     width: 100%;
+    color: black;
 }
 
 
@@ -103,7 +104,7 @@ a.forgot {
     border-bottom: 2px solid #eee;
 }
 
-.ownerButton {
+.autorickshawButton {
     border-radius: 5px;
     background: rgb(94, 146, 17);
     color: #fff;
@@ -115,18 +116,18 @@ a.forgot {
     text-align: center;
 }
 
-.ownerFormContainer .ownerButton {
+.autorickshawFormContainer .autorickshawButton {
     margin-top: 17px;
     transition: 80ms ease-in;
 }
 
-.ownerFormContainer .ownerButton:hover {
+.autorickshawFormContainer .autorickshawButton:hover {
     background: var(--grad-clr2);
     color: white;
     cursor: pointer;
 }
 
-.ownerOverlayContainer {
+.autorickshawOverlayContainer {
     position: relative;
     top: 0;
     left: 60%;
@@ -137,12 +138,12 @@ a.forgot {
     z-index: 9;
 }
 
-.ownerOverlayContainer h1 {
+.autorickshawOverlayContainer h1 {
     font-size: 2rem;
     font-weight: 800;
 }
 
-.ownerOverlay {
+.autorickshawOverlay {
     position: relative;
     background: transparent;
     color: #fff;
@@ -153,18 +154,18 @@ a.forgot {
 
 }
 
-.ownerFormImage {
+.autorickshawFormImage {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('../OwnerRegistration/OwnerRegistration.jpg');
+    background-image: url('../AutorickshawRegistration/AutorickshawRegistration.jpg');
     background-size: cover;
     z-index: -1;
 }
 
-.ownerOverlayPanel {
+.autorickshawOverlayPanel {
     position: absolute;
     display: flex;
     align-items: center;
@@ -177,7 +178,7 @@ a.forgot {
     transition: 0.6s ease-in-out;
 }
 
-.ownerOverlayRight {
+.autorickshawOverlayRight {
     right: 0;
     transform: translateX(0%);
 }
@@ -190,7 +191,7 @@ p {
 }
 
 
-.ownerInfield .ownerError {
+.autorickshawInfield .autorickshawError {
 
     color: rgba(255, 0, 0, 0.781);
     font-size: 12px;
@@ -198,31 +199,31 @@ p {
 
 }
 
-.ownerPrevReg {
+.autorickshawPrevReg {
     margin-top: 8px;
     font-size: 12px;
 }
 
-.ownerRegIgnore {
+.autorickshawRegIgnore {
     font-size: 12px;
 }
 
-.ownerRegIgnore:hover {
+.autorickshawRegIgnore:hover {
     text-decoration: underline;
 }
 
 
 @media (min-width: 1600px) {
 
-    .ownerContainer {
+    .autorickshawContainer {
 
         width: 900px;
-        height: 82vh;
+        height: 93vh;
 
 
     }
 
-    .ownerOverlayPanel {
+    .autorickshawOverlayPanel {
         position: absolute;
         display: flex;
         align-items: center;
@@ -237,7 +238,7 @@ p {
     }
 
 
-    .ownerOverlayContainer {
+    .autorickshawOverlayContainer {
         position: relative;
         top: 0;
         left: 55%;
@@ -248,12 +249,12 @@ p {
         z-index: 9;
     }
 
-    .ownerOverlayContainer h1 {
+    .autorickshawOverlayContainer h1 {
         font-size: 2rem;
         font-weight: 800;
     }
 
-    .ownerOverlay {
+    .autorickshawOverlay {
         position: relative;
         background: transparent;
         color: #fff;
