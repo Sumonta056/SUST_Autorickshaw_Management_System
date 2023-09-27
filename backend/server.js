@@ -103,6 +103,48 @@ app.post("/OwnerRegistration", (req, res) => {
   });
 });
 
+// Create a new endpoint for manager registration
+app.post("/ManagerRegistration", (req, res) => {
+  // Check if the manager's NID already exists in the manager table
+  const nidCheckSql = "SELECT * FROM manager WHERE manager_nid = ?";
+  const nidToCheck = req.body.manager_nid;
+
+  // Check for existing NID in the manager table
+  db.query(nidCheckSql, [nidToCheck], (nidCheckErr, nidCheckData) => {
+    if (nidCheckErr) {
+      return res.json(nidCheckErr); // Return an error response if there's a database error
+    }
+
+    // If there is a manager with the same NID, return a message
+    if (nidCheckData.length > 0) {
+      console.log("Manager with the same NID already exists");
+      return res.json("nid_exists");
+    }
+
+    // If the NID is not found in the manager table, proceed with manager registration
+    const managerSql =
+      "INSERT INTO manager (manager_nid, manager_name, manager_date_of_birth, manager_houseNo, manager_postalCode, manager_address) VALUES (?, ?, ?, ?, ?, ?)";
+    const managerValues = [
+      req.body.manager_nid,
+      req.body.manager_name,
+      req.body.manager_date_of_birth,
+      req.body.manager_houseNo,
+      req.body.manager_postalCode,
+      req.body.manager_address,
+    ];
+
+    // Insert manager data into the manager table
+    db.query(managerSql, managerValues, (managerErr, managerData) => {
+      if (managerErr) {
+        console.error(managerErr); // Log the error to the console
+        return res.json(managerErr); // Return an error response
+      }
+
+      return res.json("manager_registration_success");
+    });
+  });
+});
+
 // Create a new endpoint for driver registration
 app.post("/DriverRegistration", (req, res) => {
   // Check if the driver's NID and driver_license_no already exist in the driver table
