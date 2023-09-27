@@ -57,11 +57,13 @@ function AutorickshawRegistration() {
               navigate("/");
               alert("আপনি সফলভাবে অটোরিকশা নিবন্ধন করেছেন");
             } else if (res.data === "owner_nid_not_found") {
-              alert("উক্ত মালিকের নাম নিবন্ধন করা হয় নি-");
+              alert("উক্ত মালিকের নাম নিবন্ধন করা হয় নি");
             } else if (res.data === "driver_nid_not_found") {
               alert("উক্ত ড্রাইভারের নাম নিবন্ধন করা হয় নি");
             } else if (res.data === "autorickshaw_number_exists") {
               alert("উক্ত অটোরিকশা পূর্বে নিবন্ধন করা হয়েছে");
+            } else if (res.data === "driver_nid_exists_in_autorickshaw") {
+              alert("একই ড্রাইভারের অধীনে একাধিক অটোরিকশা নিবন্ধন সম্ভব নয়");
             } else {
               alert(
                 "অটোরিকশা নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন"
@@ -71,7 +73,7 @@ function AutorickshawRegistration() {
           .catch((error) => {
             console.error("Server error:", error);
             if (error === "driver_nid_not_found") {
-              alert("উক্ত মালিকের নাম নিবন্ধন করা হয় নি-");
+              alert("উক্ত ড্রাইভারের নাম নিবন্ধন করা হয় নি");
             } else
               alert(
                 "অটোরিকশা নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন"
