@@ -3,6 +3,7 @@ import Login from "./components/Login/Login";
 import Registration from "./components/Registration/Registration";
 import OwnerRegistration from "./components/OwnerRegistration/OwnerRegistration";
 import DriverRegistration from "./components/DriverRegistration/DriverRegistration";
+import ManagerRegistration from "./components/ManagerRegistration/ManagerRegistration";
 import AutorickshawRegistration from "./components/AutorickshawRegistration/AutorickshawRegistration";
 import Home from "./components/Home/Home";
 //import "bootstrap/dist/css/bootstrap.min.css";
@@ -21,6 +22,7 @@ function App() {
         <Route path="/signup" element={<Registration />} />
         <Route path="/OwnerRegistration" element={<OwnerRegistration />} />
         <Route path="/DriverRegistration" element={<DriverRegistration />} />
+        <Route path="/ManagerRegistration" element={<ManagerRegistration />} />
         <Route path="/AutorickshawRegistration" element={<AutorickshawRegistration />} />
 
 
