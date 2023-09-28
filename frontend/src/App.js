@@ -11,6 +11,11 @@ import Student from "./components/CRUD/practice";
 import Create from "./components/CRUD/CreateStudent";
 import Update from "./components/CRUD/UpdateStudent";
 
+import Driver from "./Pages/Driver/index";
+import Dashboard from "./Pages/Dashbaord/index";
+
+
+
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {
@@ -29,6 +34,10 @@ function App() {
         <Route path="/student" element={<Student />} />
         <Route path="/create" element={<Create />} />
         <Route path="/student/update/:id" element={<Update />} />
+
+
+        <Route path="/dashboard" element={<Dashboard />}></Route>
+        <Route path="/driver" element={<Driver />}></Route>
 
       </Routes>
     </BrowserRouter>

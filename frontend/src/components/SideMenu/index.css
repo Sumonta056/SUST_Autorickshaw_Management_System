@@ -1,0 +1,53 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+* {
+    padding: 0px;
+    margin: 0px;
+    box-sizing: border-box;
+}
+
+
+.DriverMenu {
+    background-color: #c7c0c088;
+    padding: 16px;
+    width: 300px;
+    height: 100vh;
+}
+
+.DriverMenuItem {
+    display: flex;
+    align-items: center;
+    padding: 15px;
+    cursor: pointer;
+    margin-top: 5px;
+    margin-bottom: 10px;
+    margin-left: 2px;
+    margin-right: 2px;
+
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    -ms-border-radius: 10px;
+    -o-border-radius: 10px;
+    border-radius: 10px;
+
+}
+
+.DriverMenuItem .icon {
+
+    font-size: 20px;
+
+}
+
+
+.DriverMenuItem:hover {
+    background-color: #c2bfbf;
+    padding: 15px;
+}
+
+
+.CustomLabel {
+    margin-left: 8px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    font-size: 18px;
+
+}

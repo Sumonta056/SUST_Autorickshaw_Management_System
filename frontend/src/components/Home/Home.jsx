@@ -52,6 +52,12 @@ function Home() {
             <Link to="/AutorickshawRegistration" className={styles["a"]}>
               Auto-Rickshaw Registration
             </Link>
+            <Link to="/ManagerRegistration" className={styles["a"]}>
+              Manager Registration
+            </Link>
+            <Link to="/dashboard" className={styles["a"]}>
+              Dashboard
+            </Link>
           </div>
         </div>
       </header>

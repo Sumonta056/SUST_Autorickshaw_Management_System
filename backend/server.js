@@ -283,8 +283,6 @@ app.post("/AutorickshawRegistration", async (req, res) => {
                   return res.json("driver_nid_not_found");
                 }
 
-                
-
                 // If all checks pass, proceed with autorickshaw registration
                 const autorickshawSql =
                   "INSERT INTO autorickshaw (autorickshaw_number, autorickshaw_company, autorickshaw_model, driver_nid, owner_nid) VALUES (?, ?, ?, ?, ?)";
@@ -374,6 +372,19 @@ app.delete("/student/:id", (req, res) => {
     }
 
     return res.json(data);
+  });
+});
+
+// Getting Driver Database
+app.get("/api/drivers", async (req, res) => {
+  // Execute the query
+  db.query("SELECT * FROM driver", (queryErr, rows) => {
+    if (queryErr) {
+      console.error("Error fetching customer data: ", queryErr);
+      return res.json({ error: "Internal server error" });
+    }
+
+    res.json({ users: rows });
   });
 });
 

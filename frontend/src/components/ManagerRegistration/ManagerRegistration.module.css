@@ -217,7 +217,7 @@ p {
     .managerContainer {
 
         width: 900px;
-        height: 93vh;
+        height: 85vh;
 
 
     }
@@ -231,7 +231,7 @@ p {
         padding: 0px 40px;
         text-align: center;
         height: 100%;
-        width: 500px;
+        width: 410px;
         transition: 0.6s ease-in-out;
 
     }
