@@ -7,11 +7,12 @@ import ManagerRegistration from "./components/ManagerRegistration/ManagerRegistr
 import AutorickshawRegistration from "./components/AutorickshawRegistration/AutorickshawRegistration";
 import Home from "./components/Home/Home";
 //import "bootstrap/dist/css/bootstrap.min.css";
-import Student from "./components/CRUD/practice";
-import Create from "./components/CRUD/CreateStudent";
-import Update from "./components/CRUD/UpdateStudent";
+// import Student from "./components/CRUD/practice";
+// import Create from "./components/CRUD/CreateStudent";
+// import Update from "./components/CRUD/UpdateStudent";
 
 import Driver from "./Pages/Driver/index";
+import DriverUpdate from "./Pages/UpdateDriver/UpdateDriverInfo";
 import Dashboard from "./Pages/Dashbaord/index";
 
 
@@ -31,13 +32,15 @@ function App() {
         <Route path="/AutorickshawRegistration" element={<AutorickshawRegistration />} />
 
 
-        <Route path="/student" element={<Student />} />
+        {/* <Route path="/student" element={<Student />} />
         <Route path="/create" element={<Create />} />
-        <Route path="/student/update/:id" element={<Update />} />
+        <Route path="/student/update/:id" element={<Update />} /> */}
 
 
         <Route path="/dashboard" element={<Dashboard />}></Route>
         <Route path="/driver" element={<Driver />}></Route>
+        <Route path="/editDriver/:driver_nid" element={<DriverUpdate />} />
+
 
       </Routes>
     </BrowserRouter>

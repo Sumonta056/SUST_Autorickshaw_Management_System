@@ -92,7 +92,7 @@
 .ant-pagination .ant-pagination-jump-prev,
 .ant-pagination .ant-pagination-jump-next ::hover {
 
-  background-color: #d9d9d9;
+  background-color: #757474;
 }
 
 .ant-pagination .ant-pagination-item-active a {
@@ -123,3 +123,21 @@
   border-bottom: 1px solid #f0f0f0;
   transition: background 0.2s ease;
 }
+
+.driverButton{
+
+  width: 100%;
+  height: 100%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: row;
+  gap: 10px;
+ 
+}
+
+.driverButton .danger{
+  background-color: red;
+  color: #f8eded;
+}
+

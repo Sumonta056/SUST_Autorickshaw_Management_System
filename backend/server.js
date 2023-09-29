@@ -388,6 +388,95 @@ app.get("/api/drivers", async (req, res) => {
   });
 });
 
+// Route to fetch driver data by driver_nid
+app.get("/api/drivers/:driver_nid", (req, res) => {
+  const { driver_nid } = req.params;
+
+  const query = "SELECT * FROM driver WHERE driver_nid = ?";
+
+  db.query(query, [driver_nid], (err, result) => {
+    if (err) {
+      console.error("Error fetching driver data from MySQL:", err);
+      res.json({ error: "Internal Server Error" });
+    } else {
+      if (result.length === 0) {
+        res.json({ error: "Driver not found" });
+      } else {
+        const driverData = result[0]; // Assuming driver_nid is unique
+        res.json(driverData);
+      }
+    }
+  });
+});
+
+
+// Update driver information
+app.put("/updateDriver/:driver_nid", (req, res) => {
+  const driver_nid = req.params.driver_nid;
+  console.log("Received PUT request for driver with ID: " + driver_nid);
+  const {
+    driver_name,
+    driver_date_of_birth,
+    driver_houseNo,
+    driver_postalCode,
+    driver_address,
+    driver_license_no,
+  } = req.body;
+
+  const sql =
+    "UPDATE driver SET " +
+    "`driver_name` = ?, " +
+    "`driver_date_of_birth` = ?, " +
+    "`driver_houseNo` = ?, " +
+    "`driver_postalCode` = ?, " +
+    "`driver_address` = ?, " +
+    "`driver_license_no` = ? " +
+    "WHERE `driver_nid` = ?";
+
+  const values = [
+    driver_name,
+    driver_date_of_birth,
+    driver_houseNo,
+    driver_postalCode,
+    driver_address,
+    driver_license_no,
+    driver_nid,
+  ];
+
+  console.log(values);
+
+  db.query(sql, values, (err, data) => {
+    if (err) {
+      console.error("Error updating driver information: ", err);
+      return res.json({ error: "Failed to update driver information" });
+    }
+    return res.json("success");
+  });
+});
+
+
+app.delete("/delete/drivers/:driver_nid", (req, res) => {
+  const driverNID = req.params.driver_nid;
+
+  // Define the SQL query to delete the driver based on driver_nid
+  const sql = "DELETE FROM driver WHERE driver_nid = ?";
+
+  db.query(sql, [driverNID], (err, result) => {
+    if (err) {
+      console.error("Error deleting driver:", err);
+      return res.status(500).json({ error: "Failed to delete driver" });
+    }
+
+    // Check if any rows were affected by the delete operation
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: `Driver with NID ${driverNID} not found` });
+    }
+
+    // If successful, send a success response
+    return res.json({ message: `Driver with NID ${driverNID} deleted successfully` });
+  });
+});
+
 const PORT = 3001;
 
 app.listen(PORT, () => {
