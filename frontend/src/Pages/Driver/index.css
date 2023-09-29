@@ -141,3 +141,21 @@
   color: #f8eded;
 }
 
+
+
+.PageHeader{
+  font-size: 36px;
+    font-family: 'Times New Roman', Times, serif;
+    font-weight: 600;
+    letter-spacing: .01cm;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.PageHeader .icon {
+
+  font-size:40px;
+  font-weight: 600;
+  padding-right: 10px;
+
+}
