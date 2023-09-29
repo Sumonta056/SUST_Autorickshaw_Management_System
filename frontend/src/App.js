@@ -39,7 +39,7 @@ function App() {
 
         <Route path="/dashboard" element={<Dashboard />}></Route>
         <Route path="/driver" element={<Driver />}></Route>
-        <Route path="/editDriver/:driver_nid" element={<DriverUpdate />} />
+        <Route path="/editDriver/:id" element={<DriverUpdate />} />
 
 
       </Routes>

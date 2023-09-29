@@ -28,7 +28,7 @@ function Driver() {
   // Define a function to handle the "Edit" button click
   const handleEdit = (record) => {
     // Implement the edit functionality here
-    navigate(`/editDriver/${record.driver_nid}`);
+    navigate(`/editDriver/${record.id}`);
   };
 
   // Define a function to handle the "Delete" button click

@@ -9,7 +9,7 @@ import axios from "axios";
 function UpdateDriverInfo() {
   console.log("Rendering UpdateDriverInfo");
   const navigate = useNavigate();
-  const { driver_nid } = useParams();
+  const { id } = useParams();
 
   const [formData, setFormData] = useState({
     driver_nid: "",
@@ -61,16 +61,22 @@ function UpdateDriverInfo() {
     ) {
       try {
         console.log(formData);
-        console.log(driver_nid);
+        console.log(id);
         axios
-          .put(`http://localhost:3001/updateDriver/` + driver_nid, formData)
+          .put(`http://localhost:3001/updateDriver/` + id, formData)
           .then((res) => {
             console.log(res);
-            alert("আপনি সফলভাবে ড্রাইভারের তথ্য হালনাগাদ করেছেন")
-            navigate("/driver"); // Redirect to the driver list page after successful update
+            if (res.data === "success") {
+              alert("আপনি সফলভাবে ড্রাইভারের তথ্য হালনাগাদ করেছেন");
+              navigate("/driver");
+            }
+            // Redirect to the driver list page after successful update
+            else {
+              alert("হালনাগাদ ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
+            }
           })
           .catch((err) => {
-            console.error("হালনাগাদ ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
+            alert("হালনাগাদ ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
             // Handle errors, e.g., display an error message to the user
           });
       } catch (error) {
@@ -92,17 +98,14 @@ function UpdateDriverInfo() {
   useEffect(() => {
     // Fetch data from MySQL using driver_nid
     axios
-      .get(`http://localhost:3001/api/drivers/${driver_nid}`)
+      .get(`http://localhost:3001/api/drivers/${id}`)
       .then((response) => {
         setFormData(response.data);
       })
       .catch((error) => {
         console.error("Error fetching driver data: ", error);
       });
-  }, [driver_nid]);
-
-
-  
+  }, [id]);
 
   return (
     <div className={styles.RegistrationScreen}>

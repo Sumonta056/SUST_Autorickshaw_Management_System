@@ -389,12 +389,12 @@ app.get("/api/drivers", async (req, res) => {
 });
 
 // Route to fetch driver data by driver_nid
-app.get("/api/drivers/:driver_nid", (req, res) => {
-  const { driver_nid } = req.params;
+app.get("/api/drivers/:id", (req, res) => {
+  const { id } = req.params;
 
-  const query = "SELECT * FROM driver WHERE driver_nid = ?";
+  const query = "SELECT * FROM driver WHERE id = ?";
 
-  db.query(query, [driver_nid], (err, result) => {
+  db.query(query, [id], (err, result) => {
     if (err) {
       console.error("Error fetching driver data from MySQL:", err);
       res.json({ error: "Internal Server Error" });
@@ -409,13 +409,13 @@ app.get("/api/drivers/:driver_nid", (req, res) => {
   });
 });
 
-
 // Update driver information
-app.put("/updateDriver/:driver_nid", (req, res) => {
-  const driver_nid = req.params.driver_nid;
-  console.log("Received PUT request for driver with ID: " + driver_nid);
+app.put("/updateDriver/:id", (req, res) => {
+  const id = req.params.id;
+  console.log("Received PUT request for driver with ID: " + id);
   const {
     driver_name,
+    driver_nid,
     driver_date_of_birth,
     driver_houseNo,
     driver_postalCode,
@@ -430,8 +430,9 @@ app.put("/updateDriver/:driver_nid", (req, res) => {
     "`driver_houseNo` = ?, " +
     "`driver_postalCode` = ?, " +
     "`driver_address` = ?, " +
-    "`driver_license_no` = ? " +
-    "WHERE `driver_nid` = ?";
+    "`driver_license_no` = ?, " +
+    "`driver_nid` = ? " + // Add a + operator here
+    "WHERE `id` = ?";
 
   const values = [
     driver_name,
@@ -441,6 +442,7 @@ app.put("/updateDriver/:driver_nid", (req, res) => {
     driver_address,
     driver_license_no,
     driver_nid,
+    id,
   ];
 
   console.log(values);
@@ -448,12 +450,12 @@ app.put("/updateDriver/:driver_nid", (req, res) => {
   db.query(sql, values, (err, data) => {
     if (err) {
       console.error("Error updating driver information: ", err);
-      return res.json({ error: "Failed to update driver information" });
+      return res.json("failed");
     }
+    console.log("Driver information updated successfully");
     return res.json("success");
   });
 });
-
 
 app.delete("/delete/drivers/:driver_nid", (req, res) => {
   const driverNID = req.params.driver_nid;
@@ -469,11 +471,15 @@ app.delete("/delete/drivers/:driver_nid", (req, res) => {
 
     // Check if any rows were affected by the delete operation
     if (result.affectedRows === 0) {
-      return res.status(404).json({ error: `Driver with NID ${driverNID} not found` });
+      return res
+        .status(404)
+        .json({ error: `Driver with NID ${driverNID} not found` });
     }
 
     // If successful, send a success response
-    return res.json({ message: `Driver with NID ${driverNID} deleted successfully` });
+    return res.json({
+      message: `Driver with NID ${driverNID} deleted successfully`,
+    });
   });
 });
 
