@@ -30,7 +30,7 @@
     
     width: 100%;
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-    font-size: 18px;
+    font-size: 17px;
     color: #000000;
     display: flex;
     justify-content: flex-end;
@@ -41,6 +41,5 @@
 }
 
 .AppHeaderTitle2 {
-
-    margin: 10px;
+    padding: 10px;
 }

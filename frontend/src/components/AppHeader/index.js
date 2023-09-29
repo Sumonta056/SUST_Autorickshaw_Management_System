@@ -5,9 +5,9 @@ function AppHeader() {
   return (
     <div className="AppHeader">
       <div className="AppHeaderTitle">
-        <Image width={40} className="AppHeaderImg" src="./logo.png"></Image>
+        <Image width={35} className="AppHeaderImg" src="./logo.png"></Image>
         <div className="AppHeaderTitle2">
-          SUST Auto-Rickshaw Management System
+        শাবিপ্রবি অটোরিকশা ম্যানেজমেন্ট সিস্টেম
         </div>
       </div>
     </div>
