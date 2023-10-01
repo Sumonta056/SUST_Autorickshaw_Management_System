@@ -109,58 +109,61 @@ function UpdateDriverInfo() {
 
   return (
     <div className={styles.RegistrationScreen}>
-      <div className={styles.driverContainer} id="driverContainer">
+      <div className={styles.updateDriverContainer} id="driverContainer">
         <div
-          className={`${styles["driverFormContainer"]} ${styles["driverSignUpContainer"]}`}
+          className={`${styles["updateDriverFormContainer"]} ${styles["updateDriverSignUpContainer"]}`}
         >
           <form onSubmit={handleSubmit}>
-            <h1>ড্রাইভারের তথ্য হালনাগাদ ফর্ম</h1>
 
-            <div className={styles.driverInfield}>
+            <div className={styles.updateDriverInfield}>
+              <p className={styles.updateDriverParagraph}>ড্রাইভারের নাম</p>
               <input
                 type="text"
-                placeholder="ড্রাইভারের নাম"
+                
                 id="driver_name"
                 name="driver_name"
                 value={formData.driver_name}
                 onChange={handleInputChange}
               />
               {errors.driver_name && (
-                <span className={styles.driverError}>{errors.driver_name}</span>
+                <span className={styles.updateDriverError}>{errors.driver_name}</span>
               )}
             </div>
-            <div className={styles.driverInfield}>
+            <div className={styles.updateDriverInfield}>
+            <p className={styles.updateDriverParagraph}>জাতীয় পরিচয়পত্র নম্বর</p>
               <input
                 type="text"
-                placeholder="জাতীয় পরিচয়পত্র নম্বর"
+                
                 id="driver_nid"
                 name="driver_nid"
                 value={formData.driver_nid}
                 onChange={handleInputChange}
               />
               {errors.driver_nid && (
-                <span className={styles.driverError}>{errors.driver_nid}</span>
+                <span className={styles.updateDriverError}>{errors.driver_nid}</span>
               )}
             </div>
-            <div className={styles.driverInfield}>
+            <div className={styles.updateDriverInfield}>
+               <p className={styles.updateDriverParagraph}>ড্রাইভিং লাইসেন্স নম্বর</p>
               <input
                 type="text"
-                placeholder="ড্রাইভিং লাইসেন্স নম্বর"
+                
                 id="driver_license_no"
                 name="driver_license_no"
                 value={formData.driver_license_no}
                 onChange={handleInputChange}
               />
               {errors.driver_license_no && (
-                <span className={styles.driverError}>
+                <span className={styles.updateDriverError}>
                   {errors.driver_license_no}
                 </span>
               )}
             </div>
-            <div className={styles.driverInfield}>
+            <div className={styles.updateDriverInfield}>
+              <p className={styles.updateDriverParagraph}>জন্ম তারিখ (YYYY-MM-DD)</p>
               <input
                 type="text"
-                placeholder="জন্ম তারিখ (YYYY-MM-DD)"
+                
                 id="driver_date_of_birth"
                 name="driver_date_of_birth"
                 pattern="\d{4}-\d{2}-\d{2}"
@@ -170,42 +173,45 @@ function UpdateDriverInfo() {
                 onChange={handleInputChange}
               />
               {errors.driver_date_of_birth && (
-                <span className={styles.driverError}>
+                <span className={styles.updateDriverError}>
                   {errors.driver_date_of_birth}
                 </span>
               )}
             </div>
-            <div className={styles.driverInfield}>
+            <div className={styles.updateDriverInfield}>
+              <p className={styles.updateDriverParagraph}>বর্তমান ঠিকানা : বাড়ি নং</p>
               <input
                 type="text"
-                placeholder="বর্তমান ঠিকানা : বাড়ি নং"
+                
                 name="driver_houseNo"
                 id="driver_houseNo"
                 value={formData.driver_houseNo}
                 onChange={handleInputChange}
               />
               {errors.driver_houseNo && (
-                <span className={styles.driverError}>
+                <span className={styles.updateDriverError}>
                   {errors.driver_houseNo}
                 </span>
               )}
             </div>
-            <div className={styles.driverInfield}>
+            <div className={styles.updateDriverInfield}>
+              <p className={styles.updateDriverParagraph}>বর্তমান ঠিকানা : পোস্টাল কোড</p>
               <input
                 type="text"
-                placeholder="বর্তমান ঠিকানা : পোস্টাল কোড"
+                
                 id="driver_postalCode"
                 name="driver_postalCode"
                 value={formData.driver_postalCode}
                 onChange={handleInputChange}
               />
               {errors.driver_postalCode && (
-                <span className={styles.driverError}>
+                <span className={styles.updateDriverError}>
                   {errors.driver_postalCode}
                 </span>
               )}
             </div>
-            <div className={styles.driverInfield}>
+            <div className={styles.updateDriverInfield}>
+              <p className={styles.updateDriverParagraph}>বর্তমান ঠিকানা : জেলা</p>
               <select
                 id="driver_address"
                 name="driver_address"
@@ -278,29 +284,24 @@ function UpdateDriverInfo() {
                 <option value="Patuakhali">Patuakhali</option>
               </select>
               {errors.driver_address && (
-                <span className={styles.driverError}>
+                <span className={styles.updateDriverError}>
                   {errors.driver_address}
                 </span>
               )}
             </div>
 
-            <button type="submit" className={styles.driverButton}>
-              নিবন্ধন
+            <button type="submit" className={styles.updateDriverButton}>
+             হালনাগাদ করুন 
             </button>
-            <span className={styles.driverPrevReg}>
-              পূর্বে রেজিস্ট্রেশন করেছেন?{" "}
-              <a href="#d" className={styles.driverRegIgnore}>
-                এড়িয়ে যান
-              </a>
-            </span>
+            
           </form>
         </div>
-        <div className={`${styles["driverOverlayContainer"]}`} id="overlayCon">
-          <div className={styles.driverOverlay}>
+        <div className={`${styles["updateDriverOverlayContainer"]}`} id="overlayCon">
+          <div className={styles.updateDriverOverlay}>
             <div
-              className={`${styles["driverOverlayPanel"]} ${styles["driverOverlayRight"]}`}
-            >
-              <div className={styles["driverFormImage"]} />
+              className={`${styles["updateDriverOverlayPanel"]} ${styles["updateDriverOverlayRight"]}`}
+            ><h1>ড্রাইভারের তথ্য হালনাগাদ ফর্ম</h1>
+              <div className={styles["updateDriverFormImage"]} />
             </div>
           </div>
         </div>

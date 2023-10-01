@@ -13,63 +13,66 @@
 } 
 
 
-
-.driverContainer {
+.updateDriverContainer {
     position: relative;
     width: 850px;
-    height: 100vh;
+    height: 95vh;
     background-color: #fff;
     box-shadow: 25px 30px 55px #5557;
     border-radius: 13px;
     overflow: hidden;
-
 }
 
-.driverFormContainer {
+.updateDriverFormContainer {
     position: absolute;
     width: 56%;
-    height: 100%;
-    padding: 0px 40px;
+    height: 150%;
+    padding: 0px 35px;
     transition: all 0.6s ease-in-out;
+    overflow-y: auto;
 }
 
-.driverSignInContainer {
+.updateDriverSignInContainer {
     z-index: 2;
 }
 
 form {
-    height: 100%;
+    height: 66%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 0px 20px;
+    padding: 0px 18px;
+    
 }
 
 h1 {
-    color: var(--grad-clr1);
+    color: white;
     margin-top: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 2rem;
 }
 
 span {
-    font-size: 12px;
+    font-size: 8px;
 }
 
-.driverInfield {
+.updateDriverInfield {
     position: relative;
-    margin: 8px 0px;
+    margin: 6px 0px;
     width: 100%;
     color: #888787;
 }
 
 input {
     width: 100%;
-    padding: 12px 8px;
+    padding: 8px 6px;
     background-color: #f3f3f3;
-    border: none;
+    border-bottom: 1px solid #a5a3a3;
     outline: none;
+    font-size: 12px;
+    padding-bottom: 5px;
 }
 
 
@@ -78,11 +81,13 @@ input[type="date"]::-webkit-calendar-picker-indicator {
 }
 select {
     width: 100%;
-    padding: 12px 8px;
+    padding: 10px 6px;
+    padding-bottom: 5px;
     background-color: #f3f3f3;
-    border: none;
+    border-bottom: 1px solid #a5a3a3;
     outline: none;
     color: grey;
+    font-size: 12px;
 }
 select:focus{
     color: black;
@@ -103,30 +108,30 @@ a.forgot {
     border-bottom: 2px solid #eee;
 }
 
-.driverButton {
+.updateDriverButton {
     border-radius: 5px;
     background: rgb(94, 146, 17);
     color: #fff;
     font-size: 12px;
     font-weight: bold;
-    padding: 12px 45px;
+    padding: 12px 4px;
     letter-spacing: 1px;
     width: 100%;
     text-align: center;
 }
 
-.driverFormContainer .driverButton {
+.updateDriverFormContainer .updateDriverButton {
     margin-top: 17px;
     transition: 80ms ease-in;
 }
 
-.driverFormContainer .driverButton:hover {
+.updateDriverFormContainer .updateDriverButton:hover {
     background: var(--grad-clr2);
     color: white;
     cursor: pointer;
 }
 
-.driverOverlayContainer {
+.updateDriverOverlayContainer {
     position: relative;
     top: 0;
     left: 60%;
@@ -137,12 +142,12 @@ a.forgot {
     z-index: 9;
 }
 
-.driverOverlayContainer h1 {
+.updateDriverOverlayContainer h1 {
     font-size: 2rem;
     font-weight: 800;
 }
 
-.driverOverlay {
+.updateDriverOverlay {
     position: relative;
     background: transparent;
     color: #fff;
@@ -152,19 +157,26 @@ a.forgot {
     transition: transform 0.6s ease-in-out;
 
 }
-
-.driverFormImage {
+.updateDriverParagraph{
+    font-size: 10px;
+    margin-bottom: -2px;
+    margin-top: 2px;
+}
+.updateDriverFormImage {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     height: 100%;
-    background-image: url('../UpdateDriver/DriverRegistration.jpg');
+    background-image: url('../UpdateDriver/UpdateDriverRegistration.jpg');
     background-size: cover;
     z-index: -1;
+    filter: blur(2px); 
+    -webkit-filter: blur(2px);
+    
 }
 
-.driverOverlayPanel {
+.updateDriverOverlayPanel {
     position: absolute;
     display: flex;
     align-items: center;
@@ -177,44 +189,27 @@ a.forgot {
     transition: 0.6s ease-in-out;
 }
 
-.driverOverlayRight {
+.updateDriverOverlayRight {
     right: 0;
     transform: translateX(0%);
 }
 
-p {
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 20px;
-    letter-spacing: 0.5px;
-}
 
 
-.driverInfield .driverError {
+.updateDriverInfield .updateDriverError {
 
     color: rgba(255, 0, 0, 0.781);
-    font-size: 12px;
+    font-size: 10px;
     padding-left: 3px;
 
 }
 
-.driverPrevReg {
-    margin-top: 8px;
-    font-size: 12px;
-}
 
-.driverRegIgnore {
-    font-size: 12px;
-}
-
-.driverRegIgnore:hover {
-    text-decoration: underline;
-}
 
 
 @media (min-width: 1600px) {
 
-    .driverContainer {
+    .updateDriverContainer {
 
         width: 900px;
         height: 93vh;
@@ -222,7 +217,7 @@ p {
 
     }
 
-    .driverOverlayPanel {
+    .updateDriverOverlayPanel {
         position: absolute;
         display: flex;
         align-items: center;
@@ -237,7 +232,7 @@ p {
     }
 
 
-    .driverOverlayContainer {
+    .updateDriverOverlayContainer {
         position: relative;
         top: 0;
         left: 55%;
@@ -248,12 +243,13 @@ p {
         z-index: 9;
     }
 
-    .driverOverlayContainer h1 {
+    .updateDriverOverlayContainer h1 {
         font-size: 2rem;
         font-weight: 800;
+        color: white;
     }
 
-    .driverOverlay {
+    .updateDriverOverlay {
         position: relative;
         background: transparent;
         color: #fff;
