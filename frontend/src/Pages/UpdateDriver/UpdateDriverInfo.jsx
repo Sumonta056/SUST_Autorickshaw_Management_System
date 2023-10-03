@@ -119,7 +119,6 @@ function UpdateDriverInfo() {
               <p className={styles.updateDriverParagraph}>ড্রাইভারের নাম</p>
               <input
                 type="text"
-                
                 id="driver_name"
                 name="driver_name"
                 value={formData.driver_name}
@@ -133,7 +132,6 @@ function UpdateDriverInfo() {
             <p className={styles.updateDriverParagraph}>জাতীয় পরিচয়পত্র নম্বর</p>
               <input
                 type="text"
-                
                 id="driver_nid"
                 name="driver_nid"
                 value={formData.driver_nid}

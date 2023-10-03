@@ -5,9 +5,7 @@ import SideMenu from "../../components/SideMenu";
 import "./index.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import {
-  UserOutlined  
-} from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 
 function Driver() {
   const [loading, setLoading] = useState(false);
@@ -61,12 +59,12 @@ function Driver() {
 
   const columns = [
     {
-      title: "জাতীয় পরিচয়পত্র নম্বর",
-      dataIndex: "driver_nid",
-    },
-    {
       title: "ড্রাইভারের নাম",
       dataIndex: "driver_name",
+    },
+    {
+      title: "জাতীয় পরিচয়পত্র নম্বর",
+      dataIndex: "driver_nid",
     },
     {
       title: "ড্রাইভিং লাইসেন্স নম্বর",
@@ -92,8 +90,8 @@ function Driver() {
       title: "কার্যক্রম",
       render: (text, record) => (
         <div className="driverButton">
-          <Button type="primary"  onClick={() => handleEdit(record)}>
-          <span>আপডেট</span>
+          <Button type="primary" onClick={() => handleEdit(record)}>
+            <span>আপডেট</span>
           </Button>
           <Button type="primary" danger onClick={() => handleDelete(record)}>
             <span>মুছুন</span>
@@ -109,7 +107,11 @@ function Driver() {
       <div className="SideMenuAndPageContent">
         <SideMenu></SideMenu>
         <div className="PageContent">
-          <h1 className="PageHeader"> <UserOutlined className="icon" />ড্রাইভারের তালিকা</h1>
+          <h1 className="PageHeader">
+            {" "}
+            <UserOutlined className="icon" />
+            ড্রাইভারের তালিকা
+          </h1>
           <Table
             className="TableDriver"
             loading={loading}
