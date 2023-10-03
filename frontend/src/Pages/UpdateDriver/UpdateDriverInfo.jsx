@@ -300,7 +300,7 @@ function UpdateDriverInfo() {
           <div className={styles.updateDriverOverlay}>
             <div
               className={`${styles["updateDriverOverlayPanel"]} ${styles["updateDriverOverlayRight"]}`}
-            ><h1>ড্রাইভারের তথ্য হালনাগাদ ফর্ম</h1>
+            >
               <div className={styles["updateDriverFormImage"]} />
             </div>
           </div>

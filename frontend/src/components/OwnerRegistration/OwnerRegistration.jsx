@@ -83,19 +83,7 @@ function OwnerRegistration() {
         >
           <form className={styles.ownerForm} onSubmit={handleSubmit}>
             <h1 className={styles.ownerHead}>মালিক নিবন্ধন ফর্ম</h1>
-            <div className={styles.ownerInfield}>
-              <input className={styles.ownerInput}
-                type="text"
-                placeholder="জাতীয় পরিচয়পত্র নম্বর"
-                id="owner_nid"
-                name="owner_nid"
-                value={formData.owner_nid}
-                onChange={handleInputChange}
-              />
-              {errors.owner_nid && (
-                <span className={styles.ownerError}>{errors.owner_nid}</span>
-              )}
-            </div>
+           
             <div className={styles.ownerInfield}>
               <input className={styles.ownerInput}
                 type="text"
@@ -107,6 +95,19 @@ function OwnerRegistration() {
               />
               {errors.owner_name && (
                 <span className={styles.ownerError}>{errors.owner_name}</span>
+              )}
+            </div>
+            <div className={styles.ownerInfield}>
+              <input className={styles.ownerInput}
+                type="text"
+                placeholder="জাতীয় পরিচয়পত্র নম্বর"
+                id="owner_nid"
+                name="owner_nid"
+                value={formData.owner_nid}
+                onChange={handleInputChange}
+              />
+              {errors.owner_nid && (
+                <span className={styles.ownerError}>{errors.owner_nid}</span>
               )}
             </div>
             <div className={styles.ownerInfield}>
