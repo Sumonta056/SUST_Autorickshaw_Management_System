@@ -1,0 +1,263 @@
+:root {
+    --linear-grad: linear-gradient(to right, #141E30, #243B55);
+    --grad-clr1: #141E30;
+    --grad-clr2: #243B55;
+}
+
+.RegistrationScreen {
+    height: 100vh;
+    background: #a5b6ab;
+    display: grid;
+    place-content: center;
+    font-family: 'Poppins', sans-serif;
+} 
+
+
+.updateOwnerContainer {
+    position: relative;
+    width: 850px;
+    height: 95vh;
+    background-color: #fff;
+    box-shadow: 25px 30px 55px #5557;
+    border-radius: 13px;
+    overflow: hidden;
+}
+
+.updateOwnerFormContainer {
+    position: absolute;
+    width: 56%;
+    height: 150%;
+    padding: 0px 35px;
+    transition: all 0.6s ease-in-out;
+    overflow-y: auto;
+}
+
+.updateOwnerSignInContainer {
+    z-index: 2;
+}
+
+.updateOwnerForm {
+    height: 66%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 18px;
+    
+}
+
+.updateOwnerContainer h1 {
+    color: white;
+    margin-top: 10px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 2rem;
+}
+
+.updateOwnerError {
+    font-size: 8px;
+}
+
+.updateOwnerInfield {
+    position: relative;
+    margin: 6px 0px;
+    width: 100%;
+    color: #888787;
+}
+
+.updateOwnerInput {
+    width: 100%;
+    padding: 8px 6px;
+    background-color: #f3f3f3;
+    border-bottom: 1px solid #a5a3a3;
+    outline: none;
+    font-size: 12px;
+    padding-bottom: 5px;
+}
+
+
+.updateOwnerInput[type="date"]::-webkit-calendar-picker-indicator {
+    color: #a5a3a3;
+}
+.updateOwnerSelect {
+    width: 100%;
+    padding: 10px 6px;
+    padding-bottom: 5px;
+    background-color: #f3f3f3;
+    border-bottom: 1px solid #a5a3a3;
+    outline: none;
+    color: grey;
+    font-size: 12px;
+}
+.updateOwnerSelect:focus{
+    color: black;
+}
+.updateOwnerSelect:focus~label{
+    width: 100%;
+    color: black;
+}
+
+.updateOwnerInput:focus~label {
+    width: 100%;
+    color: black;
+}
+
+
+a.forgot {
+    padding-bottom: 3px;
+    border-bottom: 2px solid #eee;
+}
+
+.updateOwnerButton {
+    border-radius: 5px;
+    background: rgb(94, 146, 17);
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px 4px;
+    letter-spacing: 1px;
+    width: 100%;
+    text-align: center;
+}
+
+.updateOwnerFormContainer .updateOwnerButton {
+    margin-top: 17px;
+    transition: 80ms ease-in;
+}
+
+.updateOwnerFormContainer .updateOwnerButton:hover {
+    background: var(--grad-clr2);
+    color: white;
+    cursor: pointer;
+}
+
+.updateOwnerOverlayContainer {
+    position: relative;
+    top: 0;
+    left: 60%;
+    width: 40%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform 0.6s ease-in-out;
+    z-index: 9;
+}
+
+.updateOwnerOverlayContainer h1 {
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.updateOwnerOverlay {
+    position: relative;
+    background: transparent;
+    color: #fff;
+    left: -150%;
+    height: 100%;
+    width: 250%;
+    transition: transform 0.6s ease-in-out;
+
+}
+.updateOwnerParagraph{
+    font-size: 10px;
+    margin-bottom: -2px;
+    margin-top: 2px;
+}
+.updateOwnerFormImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('../UpdateOwner/UpdateOwnerRegistration.jpg');
+    background-size: cover;
+    z-index: -1;
+    filter: blur(2px); 
+    -webkit-filter: blur(2px);
+    
+}
+
+.updateOwnerOverlayPanel {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0px 40px;
+    text-align: center;
+    height: 100%;
+    width: 340px;
+    transition: 0.6s ease-in-out;
+}
+
+.updateOwnerOverlayRight {
+    right: 0;
+    transform: translateX(0%);
+}
+
+
+
+.updateOwnerInfield .updateOwnerError {
+
+    color: rgba(255, 0, 0, 0.781);
+    font-size: 10px;
+    padding-left: 3px;
+
+}
+
+
+
+
+@media (min-width: 1600px) {
+
+    .updateOwnerContainer {
+
+        width: 900px;
+        height: 93vh;
+
+
+    }
+
+    .updateOwnerOverlayPanel {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 0px 40px;
+        text-align: center;
+        height: 100%;
+        width: 500px;
+        transition: 0.6s ease-in-out;
+
+    }
+
+
+    .updateOwnerOverlayContainer {
+        position: relative;
+        top: 0;
+        left: 55%;
+        width: 45%;
+        height: 100%;
+        overflow: hidden;
+        transition: transform 0.6s ease-in-out;
+        z-index: 9;
+    }
+
+    .updateOwnerOverlayContainer h1 {
+        font-size: 2rem;
+        font-weight: 800;
+        color: white;
+    }
+
+    .updateOwnerOverlay {
+        position: relative;
+        background: transparent;
+        color: #fff;
+        left: -150%;
+        height: 100%;
+        width: 250%;
+        transition: transform 0.6s ease-in-out;
+
+    }
+
+}

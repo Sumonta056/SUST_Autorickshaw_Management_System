@@ -409,6 +409,39 @@ app.get("/api/drivers/:id", (req, res) => {
   });
 });
 
+// Getting Owner Database
+app.get("/api/owners", async (req, res) => {
+  // Execute the query
+  db.query("SELECT * FROM owner", (queryErr, rows) => {
+    if (queryErr) {
+      console.error("Error fetching owner data: ", queryErr);
+      return res.json({ error: "Internal server error" });
+    }
+
+    res.json({ users: rows });
+  });
+});
+
+// Route to fetch owner data by owner_nid
+app.get("/api/owners/:id", (req, res) => {
+  const { id } = req.params;
+
+  const query = "SELECT * FROM owner WHERE id = ?";
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error("Error fetching owner data from MySQL:", err);
+      res.json({ error: "Internal Server Error" });
+    } else {
+      if (result.length === 0) {
+        res.json({ error: "Owner not found" });
+      } else {
+        const ownerData = result[0]; // Assuming owner_nid is unique
+        res.json(ownerData);
+      }
+    }
+  });
+});
 // Update driver information
 app.put("/updateDriver/:id", (req, res) => {
   const id = req.params.id;
@@ -457,6 +490,8 @@ app.put("/updateDriver/:id", (req, res) => {
   });
 });
 
+
+
 app.delete("/delete/drivers/:driver_nid", (req, res) => {
   const driverNID = req.params.driver_nid;
 
@@ -482,6 +517,77 @@ app.delete("/delete/drivers/:driver_nid", (req, res) => {
     });
   });
 });
+
+// Update owner information
+app.put("/updateOwner/:id", (req, res) => {
+  const id = req.params.id;
+  console.log("Received PUT request for owner with ID: " + id);
+  const {
+    owner_name,
+    owner_nid,
+    owner_date_of_birth,
+    owner_houseNo,
+    owner_postalCode,
+    owner_address,
+  } = req.body;
+
+  const sql =
+    "UPDATE owner SET " +
+    "`owner_name` = ?, " +
+    "`owner_date_of_birth` = ?, " +
+    "`owner_houseNo` = ?, " +
+    "`owner_postalCode` = ?, " +
+    "`owner_address` = ?, " +
+    "`owner_nid` = ? " + // Add a + operator here
+    "WHERE `id` = ?";
+
+  const values = [
+    owner_name,
+    owner_date_of_birth,
+    owner_houseNo,
+    owner_postalCode,
+    owner_address,
+    owner_nid,
+    id,
+  ];
+
+  console.log(values);
+
+  db.query(sql, values, (err, data) => {
+    if (err) {
+      console.error("Error updating owner information: ", err);
+      return res.json("failed");
+    }
+    console.log("Owner information updated successfully");
+    return res.json("success");
+  });
+});
+app.delete("/delete/owners/:owner_nid", (req, res) => {
+  const ownerNID = req.params.owner_nid;
+
+  // Define the SQL query to delete the owner based on owner_nid
+  const sql = "DELETE FROM owner WHERE owner_nid = ?";
+
+  db.query(sql, [ownerNID], (err, result) => {
+    if (err) {
+      console.error("Error deleting owner:", err);
+      return res.status(500).json({ error: "Failed to delete owner" });
+    }
+
+    // Check if any rows were affected by the delete operation
+    if (result.affectedRows === 0) {
+      return res
+        .status(404)
+        .json({ error: `Owner with NID ${ownerNID} not found` });
+    }
+
+    // If successful, send a success response
+    return res.json({
+      message: `Owner with NID ${ownerNID} deleted successfully`,
+    });
+  });
+});
+
 
 const PORT = 3001;
 

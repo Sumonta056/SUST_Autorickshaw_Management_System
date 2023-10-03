@@ -81,10 +81,10 @@ function OwnerRegistration() {
         <div
           className={`${styles["ownerFormContainer"]} ${styles["ownerSignUpContainer"]}`}
         >
-          <form onSubmit={handleSubmit}>
-            <h1>মালিক নিবন্ধন ফর্ম</h1>
+          <form className={styles.ownerForm} onSubmit={handleSubmit}>
+            <h1 className={styles.ownerHead}>মালিক নিবন্ধন ফর্ম</h1>
             <div className={styles.ownerInfield}>
-              <input
+              <input className={styles.ownerInput}
                 type="text"
                 placeholder="জাতীয় পরিচয়পত্র নম্বর"
                 id="owner_nid"
@@ -97,7 +97,7 @@ function OwnerRegistration() {
               )}
             </div>
             <div className={styles.ownerInfield}>
-              <input
+              <input className={styles.ownerInput}
                 type="text"
                 placeholder="মালিকের নাম"
                 id="owner_name"
@@ -110,7 +110,7 @@ function OwnerRegistration() {
               )}
             </div>
             <div className={styles.ownerInfield}>
-              <input
+              <input className={styles.ownerInput}
                 type="text"
                 placeholder="জন্ম তারিখ (YYYY-MM-DD)"
                 id="owner_date_of_birth"
@@ -128,7 +128,7 @@ function OwnerRegistration() {
               )}
             </div>
             <div className={styles.ownerInfield}>
-              <input
+              <input className={styles.ownerInput}
                 type="text"
                 placeholder="বর্তমান ঠিকানা : বাড়ি নং"
                 name="owner_houseNo"
@@ -143,7 +143,7 @@ function OwnerRegistration() {
               )}
             </div>
             <div className={styles.ownerInfield}>
-              <input
+              <input className={styles.ownerInput}
                 type="text"
                 placeholder="বর্তমান ঠিকানা : পোস্টাল কোড"
                 id="owner_postalCode"
@@ -158,7 +158,7 @@ function OwnerRegistration() {
               )}
             </div>
             <div className={styles.ownerInfield}>
-  <select
+  <select className={styles.ownerSelect}
     id="owner_address"
     name="owner_address"
     value={formData.owner_address}

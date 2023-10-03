@@ -14,6 +14,8 @@ import Home from "./components/Home/Home";
 import Driver from "./Pages/Driver/index";
 import DriverUpdate from "./Pages/UpdateDriver/UpdateDriverInfo";
 import Dashboard from "./Pages/Dashbaord/index";
+import Owner from "./Pages/Owner/index";
+import OwnerUpdate from "./Pages/UpdateOwner/UpdateOwnerInfo";
 
 
 
@@ -40,6 +42,8 @@ function App() {
         <Route path="/dashboard" element={<Dashboard />}></Route>
         <Route path="/driver" element={<Driver />}></Route>
         <Route path="/editDriver/:id" element={<DriverUpdate />} />
+        <Route path="/owner" element={<Owner />}></Route>
+        <Route path="/editOwner/:id" element={<OwnerUpdate />} />
 
 
       </Routes>
