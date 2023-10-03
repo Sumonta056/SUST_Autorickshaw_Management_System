@@ -58,7 +58,7 @@ function DriverMenu() {
         className={`OwnerMenuItem ${
           selectedKey === "/owner" ? "OwnerMenuItemSelected" : ""
         }`}
-        onClick={() => navigate("/owner")}
+        onClick={() => navigate("/dashboard")}
       >
         <CarOutlined className="icon" />{" "}
         <span className="CustomLabel">অটোরিকশার তালিকা</span>
@@ -80,7 +80,7 @@ function DriverMenu() {
         className={`DriverMenuItem ${
           selectedKey === "/inventory" ? "DriverMenuItemSelected" : ""
         }`}
-        onClick={() => navigate("/dashboard")}
+        onClick={() => navigate("/owner")}
       >
         <UserOutlined className="icon" />{" "}
         <span className="CustomLabel">মালিকের তালিকা</span>
@@ -89,7 +89,7 @@ function DriverMenu() {
         className={`OwnerMenuItem ${
           selectedKey === "/orders" ? "OwnerMenuItemSelected" : ""
         }`}
-        onClick={() => navigate("/owner")}
+        onClick={() => navigate("/dashboard")}
       >
         <CarOutlined className="icon" />{" "}
         <span className="CustomLabel">অটোরিকশার তালিকা</span>

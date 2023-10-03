@@ -92,8 +92,8 @@ function Driver() {
       title: "কার্যক্রম",
       render: (text, record) => (
         <div className="driverButton">
-          <Button type="primary" onClick={() => handleEdit(record)}>
-          আপডেট
+          <Button type="primary"  onClick={() => handleEdit(record)}>
+          <span>আপডেট</span>
           </Button>
           <Button type="primary" danger onClick={() => handleDelete(record)}>
             <span>মুছুন</span>

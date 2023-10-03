@@ -54,7 +54,7 @@ function UpdateOwnerInfo() {
       validationErrors.owner_date_of_birth === "" &&
       validationErrors.owner_houseNo === "" &&
       validationErrors.owner_postalCode === "" &&
-      validationErrors.owner_address === "" 
+      validationErrors.owner_address === ""
     ) {
       try {
         console.log(formData);
@@ -111,40 +111,45 @@ function UpdateOwnerInfo() {
           className={`${styles["updateOwnerFormContainer"]} ${styles["updateOwnerSignUpContainer"]}`}
         >
           <form className={styles.updateOwnerForm} onSubmit={handleSubmit}>
-
+            <h1>মালিকের তথ্য হালনাগাদ ফর্ম</h1>
             <div className={styles.updateOwnerInfield}>
               <p className={styles.updateOwnerParagraph}>মালিকের নাম</p>
-              <input 
+              <input
                 type="text"
-                
                 id="owner_name"
                 name="owner_name"
                 value={formData.owner_name}
                 onChange={handleInputChange}
               />
               {errors.owner_name && (
-                <span className={styles.updateOwnerError}>{errors.owner_name}</span>
+                <span className={styles.updateOwnerError}>
+                  {errors.owner_name}
+                </span>
               )}
             </div>
             <div className={styles.updateOwnerInfield}>
-            <p className={styles.updateOwnerParagraph}>জাতীয় পরিচয়পত্র নম্বর</p>
-              <input 
+              <p className={styles.updateOwnerParagraph}>
+                জাতীয় পরিচয়পত্র নম্বর
+              </p>
+              <input
                 type="text"
-                
                 id="owner_nid"
                 name="owner_nid"
                 value={formData.owner_nid}
                 onChange={handleInputChange}
               />
               {errors.owner_nid && (
-                <span className={styles.updateOwnerError}>{errors.owner_nid}</span>
+                <span className={styles.updateOwnerError}>
+                  {errors.owner_nid}
+                </span>
               )}
             </div>
             <div className={styles.updateOwnerInfield}>
-              <p className={styles.updateOwnerParagraph}>জন্ম তারিখ (YYYY-MM-DD)</p>
-              <input 
+              <p className={styles.updateOwnerParagraph}>
+                জন্ম তারিখ (YYYY-MM-DD)
+              </p>
+              <input
                 type="text"
-                
                 id="owner_date_of_birth"
                 name="owner_date_of_birth"
                 pattern="\d{4}-\d{2}-\d{2}"
@@ -160,10 +165,11 @@ function UpdateOwnerInfo() {
               )}
             </div>
             <div className={styles.updateOwnerInfield}>
-              <p className={styles.updateOwnerParagraph}>বর্তমান ঠিকানা : বাড়ি নং</p>
-              <input 
+              <p className={styles.updateOwnerParagraph}>
+                বর্তমান ঠিকানা : বাড়ি নং
+              </p>
+              <input
                 type="text"
-                
                 name="owner_houseNo"
                 id="owner_houseNo"
                 value={formData.owner_houseNo}
@@ -176,13 +182,14 @@ function UpdateOwnerInfo() {
               )}
             </div>
             <div className={styles.updateOwnerInfield}>
-              <p className={styles.updateOwnerParagraph}>বর্তমান ঠিকানা : পোস্টাল কোড</p>
-              <input 
+              <p className={styles.updateOwnerParagraph}>
+                বর্তমান ঠিকানা : পোস্টাল কোড
+              </p>
+              <input
                 type="text"
-                
                 id="owner_postalCode"
                 name="owner_postalCode"
-                value={formData.owner_postalCode} 
+                value={formData.owner_postalCode}
                 onChange={handleInputChange}
               />
               {errors.owner_postalCode && (
@@ -192,8 +199,11 @@ function UpdateOwnerInfo() {
               )}
             </div>
             <div className={styles.updateOwnerInfield}>
-              <p className={styles.updateOwnerParagraph}>বর্তমান ঠিকানা : জেলা</p>
-              <select className={styles.updateOwnerSelect}
+              <p className={styles.updateOwnerParagraph}>
+                বর্তমান ঠিকানা : জেলা
+              </p>
+              <select
+                className={styles.updateOwnerSelect}
                 id="owner_address"
                 name="owner_address"
                 value={formData.owner_address}
@@ -272,16 +282,18 @@ function UpdateOwnerInfo() {
             </div>
 
             <button type="submit" className={styles.updateOwnerButton}>
-             হালনাগাদ করুন 
+              হালনাগাদ করুন
             </button>
-            
           </form>
         </div>
-        <div className={`${styles["updateOwnerOverlayContainer"]}`} id="overlayCon">
+        <div
+          className={`${styles["updateOwnerOverlayContainer"]}`}
+          id="overlayCon"
+        >
           <div className={styles.updateOwnerOverlay}>
             <div
               className={`${styles["updateOwnerOverlayPanel"]} ${styles["updateOwnerOverlayRight"]}`}
-            ><h1>মালিকের তথ্য হালনাগাদ ফর্ম</h1>
+            >
               <div className={styles["updateOwnerFormImage"]} />
             </div>
           </div>

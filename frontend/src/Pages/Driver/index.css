@@ -124,7 +124,7 @@
   transition: background 0.2s ease;
 }
 
-.driverButton{
+.driverButton {
 
   width: 100%;
   height: 100%;
@@ -133,29 +133,39 @@
   align-items: center;
   flex-direction: row;
   gap: 10px;
- 
+
+
 }
 
-.driverButton .danger{
+.driverButton button span {
+
+  font-size: 14px;
+
+
+}
+
+
+
+.driverButton .danger {
   background-color: red;
   color: #f8eded;
 }
 
 
 
-.PageHeader{
+.PageHeader {
   font-size: 36px;
-    font-family: 'Times New Roman', Times, serif;
-    font-weight: 600;
-    letter-spacing: .01cm;
-    margin-top: 20px;
-    margin-bottom: 20px;
-    color: black;
+  font-family: 'Times New Roman', Times, serif;
+  font-weight: 600;
+  letter-spacing: .01cm;
+  margin-top: 20px;
+  margin-bottom: 20px;
+  color: black;
 }
 
 .PageHeader .icon {
 
-  font-size:40px;
+  font-size: 40px;
   font-weight: 600;
   padding-right: 10px;
 

@@ -436,7 +436,10 @@ app.get("/api/owners/:id", (req, res) => {
       if (result.length === 0) {
         res.json({ error: "Owner not found" });
       } else {
-        const ownerData = result[0]; // Assuming owner_nid is unique
+        const ownerData = result[0];
+
+        console.log(ownerData);
+         // Assuming owner_nid is unique
         res.json(ownerData);
       }
     }
