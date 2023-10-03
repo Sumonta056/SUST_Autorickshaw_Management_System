@@ -46,19 +46,19 @@ function DriverMenu() {
         অনুমোদনপ্রাপ্ত 
       </div>
       <div
-        className={`DriverMenuItem ${
-          selectedKey === "/inventory" ? "DriverMenuItemSelected" : ""
+        className={`OwnerMenuItem ${
+          selectedKey === "/owner" ? "OwnerMenuItemSelected" : ""
         }`}
-        onClick={() => navigate("/dashboard")}
+        onClick={() => navigate("/owner")}
       >
-        <UserOutlined className="icon" />{" "}
+        <UsergroupAddOutlined className="icon" />{" "}
         <span className="CustomLabel">মালিকের তালিকা</span>
       </div>
       <div
-        className={`DriverMenuItem ${
-          selectedKey === "/orders" ? "DriverMenuItemSelected" : ""
+        className={`OwnerMenuItem ${
+          selectedKey === "/owner" ? "OwnerMenuItemSelected" : ""
         }`}
-        onClick={() => navigate("/dashboard")}
+        onClick={() => navigate("/owner")}
       >
         <CarOutlined className="icon" />{" "}
         <span className="CustomLabel">অটোরিকশার তালিকা</span>
@@ -86,10 +86,10 @@ function DriverMenu() {
         <span className="CustomLabel">মালিকের তালিকা</span>
       </div>
       <div
-        className={`DriverMenuItem ${
-          selectedKey === "/orders" ? "DriverMenuItemSelected" : ""
+        className={`OwnerMenuItem ${
+          selectedKey === "/orders" ? "OwnerMenuItemSelected" : ""
         }`}
-        onClick={() => navigate("/dashboard")}
+        onClick={() => navigate("/owner")}
       >
         <CarOutlined className="icon" />{" "}
         <span className="CustomLabel">অটোরিকশার তালিকা</span>

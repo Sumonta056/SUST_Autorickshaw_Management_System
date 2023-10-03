@@ -103,10 +103,10 @@ function AutorickshawRegistration() {
         <div
           className={`${styles["autorickshawFormContainer"]} ${styles["autorickshawSignUpContainer"]}`}
         >
-          <form onSubmit={handleSubmit}>
-            <h1>অটোরিকশা নিবন্ধন ফর্ম</h1>
+          <form className={styles.autorickshawForm} onSubmit={handleSubmit}>
+            <h1 className={styles.autorickshawHead}>অটোরিকশা নিবন্ধন ফর্ম</h1>
             <div className={styles.autorickshawInfield}>
-              <input
+              <input className={styles.autorickshawInput}
                 type="text"
                 placeholder="অটোরিকশা নাম্বার"
                 id="autorickshaw_number"
@@ -121,7 +121,7 @@ function AutorickshawRegistration() {
               )}
             </div>
             <div className={styles.autorickshawInfield}>
-              <input
+              <input className={styles.autorickshawInput}
                 type="text"
                 placeholder="অটোরিকশা কোম্পানি"
                 id="autorickshaw_company"
@@ -136,7 +136,7 @@ function AutorickshawRegistration() {
               )}
             </div>
             <div className={styles.autorickshawInfield}>
-              <input
+              <input className={styles.autorickshawInput}
                 type="text"
                 placeholder="অটোরিকশা মডেল"
                 id="autorickshaw_model"
@@ -151,7 +151,7 @@ function AutorickshawRegistration() {
               )}
             </div>
             <div className={styles.autorickshawInfield}>
-              <input
+              <input className={styles.autorickshawInput}
                 type="text"
                 placeholder="মালিকের জাতীয় পরিচয়পত্র নম্বর"
                 id="owner_nid"
@@ -166,7 +166,7 @@ function AutorickshawRegistration() {
               )}
             </div>
             <div className={styles.autorickshawInfield}>
-              <input
+              <input className={styles.autorickshawInput}
                 type="text"
                 placeholder="ড্রাইভারের জাতীয় পরিচয়পত্র নম্বর"
                 id="driver_nid"

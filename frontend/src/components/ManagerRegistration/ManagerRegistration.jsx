@@ -87,11 +87,11 @@ function ManagerRegistration() {
         <div
           className={`${styles["managerFormContainer"]} ${styles["managerSignUpContainer"]}`}
         >
-          <form onSubmit={handleSubmit}>
-            <h1>ম্যানেজার নিবন্ধন ফর্ম</h1>
+          <form className={styles.managerForm} onSubmit={handleSubmit}>
+            <h1 className={styles.managerHead}>ম্যানেজার নিবন্ধন ফর্ম</h1>
             
             <div className={styles.managerInfield}>
-              <input
+              <input className={styles.managerInput} 
                 type="text"
                 placeholder="ম্যানেজারের নাম"
                 id="manager_name"
@@ -104,7 +104,7 @@ function ManagerRegistration() {
               )}
             </div>
             <div className={styles.managerInfield}>
-              <input
+              <input className={styles.managerInput} 
                 type="text"
                 placeholder="জাতীয় পরিচয়পত্র নম্বর"
                 id="manager_nid"
@@ -118,7 +118,7 @@ function ManagerRegistration() {
             </div>
            
             <div className={styles.managerInfield}>
-              <input
+              <input className={styles.managerInput} 
                 type="text"
                 placeholder="জন্ম তারিখ (YYYY-MM-DD)"
                 id="manager_date_of_birth"
@@ -136,7 +136,7 @@ function ManagerRegistration() {
               )}
             </div>
             <div className={styles.managerInfield}>
-              <input
+              <input className={styles.managerInput} 
                 type="text"
                 placeholder="বর্তমান ঠিকানা : বাড়ি নং"
                 name="manager_houseNo"
@@ -151,7 +151,7 @@ function ManagerRegistration() {
               )}
             </div>
             <div className={styles.managerInfield}>
-              <input
+              <input className={styles.managerInput} 
                 type="text"
                 placeholder="বর্তমান ঠিকানা : পোস্টাল কোড"
                 id="manager_postalCode"
@@ -166,7 +166,7 @@ function ManagerRegistration() {
               )}
             </div>
             <div className={styles.managerInfield}>
-  <select
+  <select className={styles.managerSelect} 
     id="manager_address"
     name="manager_address"
     value={formData.manager_address}

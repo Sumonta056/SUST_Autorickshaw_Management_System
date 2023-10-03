@@ -93,11 +93,11 @@ function DriverRegistration() {
         <div
           className={`${styles["driverFormContainer"]} ${styles["driverSignUpContainer"]}`}
         >
-          <form onSubmit={handleSubmit}>
-            <h1>ড্রাইভার নিবন্ধন ফর্ম</h1>
+          <form className={styles.driverForm} onSubmit={handleSubmit}>
+            <h1 className={styles.driverHead}>ড্রাইভার নিবন্ধন ফর্ম</h1>
             
             <div className={styles.driverInfield}>
-              <input
+              <input className={styles.driverInput}
                 type="text"
                 placeholder="ড্রাইভারের নাম"
                 id="driver_name"
@@ -110,7 +110,7 @@ function DriverRegistration() {
               )}
             </div>
             <div className={styles.driverInfield}>
-              <input
+              <input className={styles.driverInput}
                 type="text"
                 placeholder="জাতীয় পরিচয়পত্র নম্বর"
                 id="driver_nid"
@@ -123,7 +123,7 @@ function DriverRegistration() {
               )}
             </div>
             <div className={styles.driverInfield}>
-              <input
+              <input className={styles.driverInput}
                 type="text"
                 placeholder="ড্রাইভিং লাইসেন্স নম্বর"
                 id="driver_license_no"
@@ -136,7 +136,7 @@ function DriverRegistration() {
               )}
             </div>
             <div className={styles.driverInfield}>
-              <input
+              <input className={styles.driverInput}
                 type="text"
                 placeholder="জন্ম তারিখ (YYYY-MM-DD)"
                 id="driver_date_of_birth"
@@ -154,7 +154,7 @@ function DriverRegistration() {
               )}
             </div>
             <div className={styles.driverInfield}>
-              <input
+              <input className={styles.driverInput}
                 type="text"
                 placeholder="বর্তমান ঠিকানা : বাড়ি নং"
                 name="driver_houseNo"
@@ -169,7 +169,7 @@ function DriverRegistration() {
               )}
             </div>
             <div className={styles.driverInfield}>
-              <input
+              <input className={styles.driverInput}
                 type="text"
                 placeholder="বর্তমান ঠিকানা : পোস্টাল কোড"
                 id="driver_postalCode"
@@ -184,7 +184,7 @@ function DriverRegistration() {
               )}
             </div>
             <div className={styles.driverInfield}>
-  <select
+  <select className={styles.driverSelect}
     id="driver_address"
     name="driver_address"
     value={formData.driver_address}

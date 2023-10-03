@@ -37,7 +37,7 @@
     z-index: 2;
 }
 
-form {
+.managerForm{
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -46,14 +46,14 @@ form {
     padding: 0px 20px;
 }
 
-h1 {
+.managerHead {
     color: var(--grad-clr1);
     margin-top: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
 }
 
-span {
+.managerError {
     font-size: 12px;
 }
 
@@ -64,7 +64,7 @@ span {
     color: #888787;
 }
 
-input {
+.managerInput {
     width: 100%;
     padding: 12px 8px;
     background-color: #f3f3f3;
@@ -73,10 +73,10 @@ input {
 }
 
 
-input[type="date"]::-webkit-calendar-picker-indicator {
+.managerInput[type="date"]::-webkit-calendar-picker-indicator {
     color: #a5a3a3;
 }
-select {
+.managerSelect {
     width: 100%;
     padding: 12px 8px;
     background-color: #f3f3f3;
@@ -84,15 +84,15 @@ select {
     outline: none;
     color: grey;
 }
-select:focus{
+.managerSelect:focus{
     color: black;
 }
-select:focus~label{
+.managerSelect:focus~label{
     width: 100%;
     color: black;
 }
 
-input:focus~label {
+.managerSelect:focus~label {
     width: 100%;
     color: black;
 }
