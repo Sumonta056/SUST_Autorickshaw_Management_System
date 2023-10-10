@@ -104,7 +104,6 @@ app.post("/OwnerRegistration", (req, res) => {
   });
 });
 
-// Create a new endpoint for manager registration
 app.post("/ManagerRegistration", (req, res) => {
   // Check if the manager's NID already exists in the manager table
   const nidCheckSql = "SELECT * FROM manager WHERE manager_nid = ?";
@@ -124,10 +123,11 @@ app.post("/ManagerRegistration", (req, res) => {
 
     // If the NID is not found in the manager table, proceed with manager registration
     const managerSql =
-      "INSERT INTO manager (manager_nid, manager_name, manager_date_of_birth, manager_houseNo, manager_postalCode, manager_address) VALUES (?, ?, ?, ?, ?, ?)";
+      "INSERT INTO manager (manager_nid, manager_firstName, manager_lastName, manager_date_of_birth, manager_houseNo, manager_postalCode, manager_address) VALUES (?, ?, ?, ?, ?, ?, ?)";
     const managerValues = [
       req.body.manager_nid,
-      req.body.manager_name,
+      req.body.manager_firstName,
+      req.body.manager_lastName,
       req.body.manager_date_of_birth,
       req.body.manager_houseNo,
       req.body.manager_postalCode,
