@@ -83,7 +83,7 @@ function OwnerRegistration() {
   <div className={styles.ownerContainer}>
     <div className={styles.ownerFormContainer} id="ownerFormContainer">
     <form className={styles.ownerForm} onSubmit={handleSubmit}>
-            <h1>মালিকের নিবন্ধন ফর্ম</h1>
+            <h1 className={styles.ownerHead}>মালিকের নিবন্ধন ফর্ম</h1>
             <div className={styles.ownerInfield}>
               <p className={styles.ownerParagraph}>মালিকের নাম : প্রথম অংশ</p>
               <input

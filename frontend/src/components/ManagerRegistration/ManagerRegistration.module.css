@@ -49,8 +49,9 @@
 .managerHead {
     color: var(--grad-clr1);
     margin-top: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding-top: 8px;
+    padding-bottom: 8px;
+    font-size: 25px;
 }
 
 .managerError {
@@ -141,7 +142,12 @@ a.forgot {
     font-size: 2rem;
     font-weight: 800;
 }
-
+.managerParagraph {
+    font-size: 10px;
+    margin-bottom: -2px;
+    margin-top: 2px;
+    
+}
 .managerOverlay {
     position: relative;
     background: transparent;
