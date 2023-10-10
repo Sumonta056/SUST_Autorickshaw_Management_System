@@ -4,8 +4,13 @@ function ownerRegistrationValidation(formData) {
   const nid_pattern = /^\d{10}$/; 
   const postal_code_pattern = /^\d{4}$/; 
   const date_of_birth_pattern = /^\d{4}-\d{2}-\d{2}$/;
+  const house_no_pattern = /^[1-9]\d{0,2}$/; 
 
-
+  if (!formData.owner_houseNo.match(house_no_pattern)) {
+    errors.owner_houseNo = "বর্তমান ঠিকানা : বাড়ি নং সঠিক নয়";
+  } else {
+    errors.owner_houseNo = "";
+  }
   if (!formData.owner_nid.match(nid_pattern)) {
     errors.owner_nid = "জাতীয় পরিচয়পত্র নম্বর সঠিক নয় (10-digit number)";
   } else {

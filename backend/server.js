@@ -81,10 +81,11 @@ app.post("/OwnerRegistration", (req, res) => {
 
     // If the NID is not found in the owner table, proceed with owner registration
     const ownerSql =
-      "INSERT INTO owner (owner_nid, owner_name, owner_date_of_birth, owner_houseNo, owner_postalCode, owner_address) VALUES (?, ?, ?, ?, ?, ?)";
+      "INSERT INTO owner (owner_nid, owner_firstName,owner_lastName, owner_date_of_birth, owner_houseNo, owner_postalCode, owner_address) VALUES (?, ?, ?, ?, ?, ?, ?)";
     const ownerValues = [
       req.body.owner_nid,
-      req.body.owner_name,
+      req.body.owner_firstName,
+      req.body.owner_lastName,
       req.body.owner_date_of_birth,
       req.body.owner_houseNo,
       req.body.owner_postalCode,
@@ -526,7 +527,8 @@ app.put("/updateOwner/:id", (req, res) => {
   const id = req.params.id;
   console.log("Received PUT request for owner with ID: " + id);
   const {
-    owner_name,
+    owner_firstName,
+    owner_lastName,
     owner_nid,
     owner_date_of_birth,
     owner_houseNo,
@@ -536,16 +538,18 @@ app.put("/updateOwner/:id", (req, res) => {
 
   const sql =
     "UPDATE owner SET " +
-    "`owner_name` = ?, " +
+    "`owner_firstName` = ?, " +
+    "`owner_lastName` = ?, " +
     "`owner_date_of_birth` = ?, " +
     "`owner_houseNo` = ?, " +
     "`owner_postalCode` = ?, " +
     "`owner_address` = ?, " +
-    "`owner_nid` = ? " + // Add a + operator here
+    "`owner_nid` = ? " + 
     "WHERE `id` = ?";
 
   const values = [
-    owner_name,
+    owner_firstName,
+    owner_lastName,
     owner_date_of_birth,
     owner_houseNo,
     owner_postalCode,
@@ -590,6 +594,7 @@ app.delete("/delete/owners/:owner_nid", (req, res) => {
     });
   });
 });
+
 
 
 const PORT = 3001;
