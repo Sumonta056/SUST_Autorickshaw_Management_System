@@ -13,7 +13,8 @@ function UpdateOwnerInfo() {
 
   const [formData, setFormData] = useState({
     owner_nid: "",
-    owner_name: "",
+    owner_firstName: "",
+    owner_lastName: "",
     owner_date_of_birth: "",
     owner_houseNo: "",
     owner_postalCode: "",
@@ -22,7 +23,8 @@ function UpdateOwnerInfo() {
 
   const [errors, setErrors] = useState({
     owner_nid: "",
-    owner_name: "",
+    owner_firstName: "",
+    owner_lastName: "",
     owner_date_of_birth: "",
     owner_houseNo: "",
     owner_postalCode: "",
@@ -50,7 +52,8 @@ function UpdateOwnerInfo() {
     // Check for specific error conditions
     if (
       validationErrors.owner_nid === "" &&
-      validationErrors.owner_name === "" &&
+      validationErrors.owner_firstName === "" &&
+      validationErrors.owner_lastName === "" &&
       validationErrors.owner_date_of_birth === "" &&
       validationErrors.owner_houseNo === "" &&
       validationErrors.owner_postalCode === "" &&
@@ -112,18 +115,33 @@ function UpdateOwnerInfo() {
         >
           <form className={styles.updateOwnerForm} onSubmit={handleSubmit}>
             <h1>মালিকের তথ্য হালনাগাদ ফর্ম</h1>
-            <div className={styles.updateOwnerInfield}>
-              <p className={styles.updateOwnerParagraph}>মালিকের নাম</p>
+            <div className={styles.ownerInfield}>
+              <p className={styles.ownerParagraph}>মালিকের নাম : প্রথম অংশ</p>
               <input
                 type="text"
-                id="owner_name"
-                name="owner_name"
-                value={formData.owner_name}
+                id="owner_firstName"
+                name="owner_firstName"
+                value={formData.owner_firstName}
                 onChange={handleInputChange}
               />
-              {errors.owner_name && (
-                <span className={styles.updateOwnerError}>
-                  {errors.owner_name}
+              {errors.owner_firstName && (
+                <span className={styles.ownerError}>
+                  {errors.owner_firstName}
+                </span>
+              )}
+            </div>
+            <div className={styles.ownerInfield}>
+              <p className={styles.ownerParagraph}>মালিকের নাম : শেষ অংশ</p>
+              <input
+                type="text"
+                id="owner_lastName"
+                name="owner_lastName"
+                value={formData.owner_lastName}
+                onChange={handleInputChange}
+              />
+              {errors.owner_lastName && (
+                <span className={styles.ownerError}>
+                  {errors.owner_lastName}
                 </span>
               )}
             </div>
