@@ -79,14 +79,6 @@ function Driver() {
       dataIndex: "driver_date_of_birth",
     },
     {
-      title: "বর্তমান ঠিকানা",
-      dataIndex: "driver_houseNo",
-    },
-    {
-      title: "পোস্টাল কোড",
-      dataIndex: "driver_postalCode",
-    },
-    {
       title: "জেলা",
       dataIndex: "driver_address",
     },
@@ -95,7 +87,7 @@ function Driver() {
       render: (text, record) => (
         <div className="driverButton">
           <Button type="primary" onClick={() => handleEdit(record)}>
-            <span>আপডেট</span>
+            <span>আরও দেখুন</span>
           </Button>
           <Button type="primary" danger onClick={() => handleDelete(record)}>
             <span>মুছুন</span>

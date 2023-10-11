@@ -603,6 +603,46 @@ app.delete("/delete/owners/:owner_nid", (req, res) => {
   });
 });
 
+
+
+// Getting Owner Database
+app.get("/api/autorickshaws", async (req, res) => {
+  // Execute the query
+  db.query("SELECT * FROM autorickshaw", (queryErr, rows) => {
+    if (queryErr) {
+      console.error("Error fetching autorickshaw data: ", queryErr);
+      return res.json({ error: "Internal server error" });
+    }
+
+    res.json({ users: rows });
+  });
+});
+
+// Route to fetch owner data by owner_nid
+app.get("/api/autorickshaw/:id", (req, res) => {
+  const { id } = req.params;
+
+  const query = "SELECT * FROM autorickshaw WHERE id = ?";
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error("Error fetching owner data from MySQL:", err);
+      res.json({ error: "Internal Server Error" });
+    } else {
+      if (result.length === 0) {
+        res.json({ error: "Autorickshaw not found" });
+      } else {
+        const Autorickshaw = result[0];
+
+        console.log(Autorickshaw);
+        // Assuming owner_nid is unique
+        res.json(Autorickshaw);
+      }
+    }
+  });
+});
+
+
 const PORT = 3001;
 
 app.listen(PORT, () => {

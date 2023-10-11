@@ -80,14 +80,6 @@ function Owner() {
       render: (date) => moment(date).format("YYYY-MM-DD"), 
     },
     {
-      title: "বর্তমান ঠিকানা",
-      dataIndex: "owner_houseNo",
-    },
-    {
-      title: "পোস্টাল কোড",
-      dataIndex: "owner_postalCode",
-    },
-    {
       title: "জেলা",
       dataIndex: "owner_address",
     },
@@ -96,7 +88,7 @@ function Owner() {
       render: (text, record) => (
         <div className="ownerButton">
           <Button type="primary" onClick={() => handleEdit(record)}>
-          আপডেট
+           আরও দেখুন
           </Button>
           <Button type="primary" danger onClick={() => handleDelete(record)}>
             <span>মুছুন</span>

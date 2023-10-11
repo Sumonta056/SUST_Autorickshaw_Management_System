@@ -59,7 +59,7 @@ function DriverMenu() {
         className={`OwnerMenuItem ${
           selectedKey === "/owner" ? "OwnerMenuItemSelected" : ""
         }`}
-        onClick={() => navigate("/dashboard")}
+        onClick={() => navigate("/autorickshaw")}
       >
         <CarOutlined className="icon" />{" "}
         <span className="CustomLabel">অটোরিকশার তালিকা</span>

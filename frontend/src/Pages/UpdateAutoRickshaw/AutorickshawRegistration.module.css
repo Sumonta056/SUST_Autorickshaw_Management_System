@@ -1,0 +1,303 @@
+:root {
+    --linear-grad: linear-gradient(to right, #141E30, #243B55);
+    --grad-clr1: #141E30;
+    --grad-clr2: #243B55;
+}
+
+.RegistrationScreen {
+    height: 100vh;
+    background: #a5b6ab;
+    display: grid;
+    place-content: center;
+    font-family: 'Poppins', sans-serif;
+}
+
+
+
+.autorickshawContainer {
+    position: relative;
+    width: 850px;
+    height: 100vh;
+    background-color: #fff;
+    box-shadow: 25px 30px 55px #5557;
+    border-radius: 13px;
+    overflow: hidden;
+
+}
+
+.autorickshawFormContainer {
+    margin-top: 20px;
+    position: absolute;
+    width: 56%;
+    overflow: auto;
+    /* Add this to enable scrolling */
+    max-height: 78vh;
+    padding: 0px 40px;
+    transition: all 0.6s ease-in-out;
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    scroll-snap-align: start;
+
+    /* Hide the default scrollbar */
+    /* Set scrollbar width and color (thumb and track) */
+
+    /* Styles for Webkit (Chrome, Edge, Safari) */
+    &::-webkit-scrollbar {
+        width: 2px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--grad-clr2);
+        border-radius: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: var(--grad-clr2);
+        /* Change color on hover */
+    }
+
+    &::-webkit-scrollbar-track {
+        background: var(--grad-clr1);
+    }
+}
+
+.autorickshawSignInContainer {
+    z-index: 2;
+}
+
+.autorickshawForm {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 0px 20px;
+}
+
+.autorickshawHead {
+    color: var(--grad-clr1);
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    font-size: 1.9rem;
+}
+
+.autorickshawError {
+    font-size: 12px;
+}
+
+.autorickshawInfield {
+    position: relative;
+    margin: 8px 0px;
+    width: 100%;
+    color: #888787;
+}
+
+.autorickshawInfield input {
+    border: none;
+    color: #535252;
+}
+
+
+.autorickshawInput {
+    width: 100%;
+    padding: 12px 8px;
+    background-color: #f3f3f3;
+    border: none;
+    outline: none;
+}
+
+
+.autorickshawInput[type="date"]::-webkit-calendar-picker-indicator {
+    color: #a5a3a3;
+}
+
+.autorickshawSelect {
+    width: 100%;
+    padding: 12px 8px;
+    background-color: #f3f3f3;
+    border: none;
+    outline: none;
+    color: grey;
+}
+
+.autorickshawSelect:focus {
+    color: black;
+}
+
+.autorickshawSelect:focus~label {
+    width: 100%;
+    color: black;
+}
+
+.autorickshawSelect:focus~label {
+    width: 100%;
+    color: black;
+}
+
+
+a.forgot {
+    padding-bottom: 3px;
+    border-bottom: 2px solid #eee;
+}
+
+.autorickshawButton {
+    border-radius: 5px;
+    background: rgb(94, 146, 17);
+    color: #fff;
+    font-size: 12px;
+    font-weight: bold;
+    padding: 12px 45px;
+    letter-spacing: 1px;
+    width: 100%;
+    text-align: center;
+}
+
+.autorickshawFormContainer .autorickshawButton {
+    margin-top: 17px;
+    transition: 80ms ease-in;
+}
+
+.autorickshawFormContainer .autorickshawButton:hover {
+    background: var(--grad-clr2);
+    color: white;
+    cursor: pointer;
+}
+
+.autorickshawOverlayContainer {
+    position: relative;
+    top: 0;
+    left: 60%;
+    width: 40%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform 0.6s ease-in-out;
+    z-index: 9;
+}
+
+.autorickshawOverlayContainer h1 {
+    font-size: 2rem;
+    font-weight: 800;
+}
+
+.autorickshawOverlay {
+    position: relative;
+    background: transparent;
+    color: #fff;
+    left: -150%;
+    height: 100%;
+    width: 250%;
+    transition: transform 0.6s ease-in-out;
+
+}
+
+.autorickshawFormImage {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-image: url('./AutorickshawRegistration.jpg');
+    background-size: cover;
+    z-index: -1;
+}
+
+.autorickshawOverlayPanel {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0px 40px;
+    text-align: center;
+    height: 100%;
+    width: 340px;
+    transition: 0.6s ease-in-out;
+}
+
+.autorickshawOverlayRight {
+    right: 0;
+    transform: translateX(0%);
+}
+
+.autorickshawParagraph {
+    font-size: 12px;
+    margin-bottom: 1px;
+    margin-top: 2px;
+}
+
+.autorickshawInfield .autorickshawError {
+
+    color: rgba(255, 0, 0, 0.781);
+    font-size: 12px;
+    padding-left: 3px;
+
+}
+
+.autorickshawPrevReg {
+    margin-top: 8px;
+    font-size: 12px;
+}
+
+.autorickshawRegIgnore {
+    font-size: 12px;
+}
+
+.autorickshawRegIgnore:hover {
+    text-decoration: underline;
+}
+
+
+@media (min-width: 1400px) {
+
+    .autorickshawContainer {
+
+        width: 900px;
+        height: 84vh;
+
+
+    }
+
+    .autorickshawOverlayPanel {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 0px 40px;
+        text-align: center;
+        height: 100%;
+        width: 410px;
+        transition: 0.6s ease-in-out;
+
+    }
+
+
+    .autorickshawOverlayContainer {
+        position: relative;
+        top: 0;
+        left: 55%;
+        width: 45%;
+        height: 100%;
+        overflow: hidden;
+        transition: transform 0.6s ease-in-out;
+        z-index: 9;
+    }
+
+    .autorickshawOverlayContainer h1 {
+        font-size: 2rem;
+        font-weight: 800;
+    }
+
+    .autorickshawOverlay {
+        position: relative;
+        background: transparent;
+        color: #fff;
+        left: -150%;
+        height: 100%;
+        width: 250%;
+        transition: transform 0.6s ease-in-out;
+
+    }
+
+}

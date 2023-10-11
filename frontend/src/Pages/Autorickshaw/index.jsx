@@ -5,9 +5,7 @@ import SideMenu from "../../components/SideMenu";
 import "./index.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import {
-  UserOutlined  
-} from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 
 function Owner() {
   const [loading, setLoading] = useState(false);
@@ -31,7 +29,7 @@ function Owner() {
   // Define a function to handle the "Edit" button click
   const handleEdit = (record) => {
     // Implement the edit functionality here
-    navigate(`/editOwner/${record.id}`);
+    navigate(`/editAutorickshaw/${record.id}`);
   };
 
   // Define a function to handle the "Delete" button click
@@ -50,12 +48,17 @@ function Owner() {
         // You may want to update the data source after deletion to reflect the changes
         // Here, you can filter out the deleted autorickshaw from the dataSource state
         setDataSource((prevDataSource) =>
-          prevDataSource.filter((item) => item.autorickshaw_nid !== autorickshawNID)
+          prevDataSource.filter(
+            (item) => item.autorickshaw_nid !== autorickshawNID
+          )
         );
       })
       .catch((error) => {
         // Handle any errors that occur during deletion (e.g., show an error message)
-        console.error(`Error deleting autorickshaw with NID ${autorickshawNID}: `, error);
+        console.error(
+          `Error deleting autorickshaw with NID ${autorickshawNID}: `,
+          error
+        );
       });
   };
 
@@ -65,13 +68,8 @@ function Owner() {
       dataIndex: "autorickshaw_number",
     },
     {
-      title: "অটোরিকশা কোম্পানি",
-      dataIndex: "autorickshaw_company",
-    },
-    
-    {
-      title: "অটোরিকশা মডেল",
-      dataIndex: "autorickshaw_model",
+      title: "গাড়ির নিবন্ধন নাম্বার",
+      dataIndex: "vehicle_registration_number",
     },
     {
       title: "মালিকের জাতীয় পরিচয়পত্র নম্বর",
@@ -81,13 +79,13 @@ function Owner() {
       title: "ড্রাইভারের জাতীয় পরিচয়পত্র নম্বর",
       dataIndex: "driver_nid",
     },
-   
+
     {
       title: "কার্যক্রম",
       render: (text, record) => (
         <div className="autorickshawButton">
           <Button type="primary" onClick={() => handleEdit(record)}>
-          আপডেট
+          আরও দেখুন
           </Button>
           <Button type="primary" danger onClick={() => handleDelete(record)}>
             <span>মুছুন</span>
@@ -103,7 +101,11 @@ function Owner() {
       <div className="SideMenuAndPageContent">
         <SideMenu></SideMenu>
         <div className="PageContent">
-          <h1 className="PageHeader"> <UserOutlined className="icon" />অটোরিকশার তালিকা</h1>
+          <h1 className="PageHeader">
+            {" "}
+            <UserOutlined className="icon" />
+            অটোরিকশার তালিকা
+          </h1>
           <Table
             className="TableOwner"
             loading={loading}

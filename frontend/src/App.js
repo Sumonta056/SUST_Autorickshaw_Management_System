@@ -16,8 +16,8 @@ import DriverUpdate from "./Pages/UpdateDriver/UpdateDriverInfo";
 import Dashboard from "./Pages/Dashbaord/index";
 import Owner from "./Pages/Owner/index";
 import OwnerUpdate from "./Pages/UpdateOwner/UpdateOwnerInfo";
-
-
+import Autorickshaw from "./Pages/Autorickshaw/index"
+import AutorickshawUpdate from "./Pages/UpdateAutoRickshaw/AutorickshawRegistration"
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
@@ -44,6 +44,8 @@ function App() {
         <Route path="/editDriver/:id" element={<DriverUpdate />} />
         <Route path="/owner" element={<Owner />}></Route>
         <Route path="/editOwner/:id" element={<OwnerUpdate />} />
+        <Route path="/autorickshaw" element={<Autorickshaw />}></Route>
+        <Route path="/editAutorickshaw/:id" element={<AutorickshawUpdate />} />
 
 
       </Routes>
