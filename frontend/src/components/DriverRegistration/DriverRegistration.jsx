@@ -10,7 +10,8 @@ function DriverRegistration() {
 
   const [formData, setFormData] = useState({
     driver_nid: "",
-    driver_name: "",
+    driver_firstName: "",
+    driver_lastName: "",
     driver_date_of_birth: "",
     driver_houseNo: "",
     driver_postalCode: "",
@@ -20,7 +21,8 @@ function DriverRegistration() {
 
   const [errors, setErrors] = useState({
     driver_nid: "",
-    driver_name: "",
+    driver_firstName: "",
+    driver_lastName: "",
     driver_date_of_birth: "",
     driver_houseNo: "",
     driver_postalCode: "",
@@ -49,7 +51,8 @@ function DriverRegistration() {
     // Check for specific error conditions
   if (
     validationErrors.driver_nid === "" &&
-    validationErrors.driver_name === "" &&
+    validationErrors.driver_firstName === "" &&
+    validationErrors.driver_lastName === "" &&
     validationErrors.driver_date_of_birth === "" &&
     validationErrors.driver_houseNo === "" &&
     validationErrors.driver_postalCode === "" &&
@@ -97,22 +100,38 @@ function DriverRegistration() {
             <h1 className={styles.driverHead}>ড্রাইভার নিবন্ধন ফর্ম</h1>
             
             <div className={styles.driverInfield}>
+              <p className={styles.driverParagraph}>ড্রাইভারের নাম : প্রথম অংশ</p>
               <input className={styles.driverInput}
                 type="text"
-                placeholder="ড্রাইভারের নাম"
-                id="driver_name"
-                name="driver_name"
-                value={formData.driver_name}
+      
+                id="driver_firstName"
+                name="driver_firstName"
+                value={formData.driver_firstName}
                 onChange={handleInputChange}
               />
               {errors.driver_name && (
-                <span className={styles.driverError}>{errors.driver_name}</span>
+                <span className={styles.driverError}>{errors.driver_firstName}</span>
               )}
             </div>
             <div className={styles.driverInfield}>
+            <p className={styles.driverParagraph}>ড্রাইভারের নাম : শেষ অংশ</p>
               <input className={styles.driverInput}
                 type="text"
-                placeholder="জাতীয় পরিচয়পত্র নম্বর"
+             
+                id="driver_lastName"
+                name="driver_lastName"
+                value={formData.driver_lastName}
+                onChange={handleInputChange}
+              />
+              {errors.driver_name && (
+                <span className={styles.driverError}>{errors.driver_lastName}</span>
+              )}
+            </div>
+            <div className={styles.driverInfield}>
+            <p className={styles.driverParagraph}>জাতীয় পরিচয়পত্র নম্বর</p>
+              <input className={styles.driverInput}
+                type="text"
+
                 id="driver_nid"
                 name="driver_nid"
                 value={formData.driver_nid}
@@ -123,9 +142,10 @@ function DriverRegistration() {
               )}
             </div>
             <div className={styles.driverInfield}>
+            <p className={styles.driverParagraph}>ড্রাইভিং লাইসেন্স নম্বর</p>
               <input className={styles.driverInput}
                 type="text"
-                placeholder="ড্রাইভিং লাইসেন্স নম্বর"
+             
                 id="driver_license_no"
                 name="driver_license_no"
                 value={formData.driver_license_no}
@@ -136,9 +156,10 @@ function DriverRegistration() {
               )}
             </div>
             <div className={styles.driverInfield}>
+            <p className={styles.driverParagraph}>জন্ম তারিখ (YYYY-MM-DD)</p>
               <input className={styles.driverInput}
                 type="text"
-                placeholder="জন্ম তারিখ (YYYY-MM-DD)"
+
                 id="driver_date_of_birth"
                 name="driver_date_of_birth"
                 pattern="\d{4}-\d{2}-\d{2}"
@@ -154,9 +175,10 @@ function DriverRegistration() {
               )}
             </div>
             <div className={styles.driverInfield}>
+            <p className={styles.driverParagraph}>বর্তমান ঠিকানা : বাড়ি নং</p>
               <input className={styles.driverInput}
                 type="text"
-                placeholder="বর্তমান ঠিকানা : বাড়ি নং"
+             
                 name="driver_houseNo"
                 id="driver_houseNo"
                 value={formData.driver_houseNo}
@@ -169,9 +191,10 @@ function DriverRegistration() {
               )}
             </div>
             <div className={styles.driverInfield}>
+            <p className={styles.driverParagraph}>বর্তমান ঠিকানা : পোস্টাল কোড</p>
               <input className={styles.driverInput}
                 type="text"
-                placeholder="বর্তমান ঠিকানা : পোস্টাল কোড"
+         
                 id="driver_postalCode"
                 name="driver_postalCode"
                 value={formData.driver_postalCode}
@@ -184,6 +207,7 @@ function DriverRegistration() {
               )}
             </div>
             <div className={styles.driverInfield}>
+            <p className={styles.driverParagraph}>বর্তমান ঠিকানা : জেলা</p>
   <select className={styles.driverSelect}
     id="driver_address"
     name="driver_address"
@@ -266,12 +290,7 @@ function DriverRegistration() {
             <button type="submit" className={styles.driverButton}>
               নিবন্ধন
             </button>
-            <span className={styles.driverPrevReg}>
-              পূর্বে রেজিস্ট্রেশন করেছেন?{" "}
-              <a href="#d" className={styles.driverRegIgnore}>
-                এড়িয়ে যান
-              </a>
-            </span>
+            
           </form>
         </div>
         <div className={`${styles["driverOverlayContainer"]}`} id="overlayCon">
