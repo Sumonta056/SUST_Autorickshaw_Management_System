@@ -214,7 +214,7 @@ function DriverRegistration() {
     value={formData.driver_address}
     onChange={handleInputChange}
   >
-    <option value=""> জেলা</option>
+    <option value="">আপনার জেলা বাছাই করুন</option>
     <option value="Dhaka">Dhaka</option>
     <option value="Chattogram">Chattogram</option>
     <option value="Sylhet">Sylhet</option>

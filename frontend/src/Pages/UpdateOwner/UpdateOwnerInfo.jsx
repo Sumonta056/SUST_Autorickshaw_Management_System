@@ -19,6 +19,8 @@ function UpdateOwnerInfo() {
     owner_houseNo: "",
     owner_postalCode: "",
     owner_address: "",
+    owner_tradeLicenseNo:"",
+    owner_insuranceNo:"",
   });
 
   const [errors, setErrors] = useState({
@@ -29,6 +31,8 @@ function UpdateOwnerInfo() {
     owner_houseNo: "",
     owner_postalCode: "",
     owner_address: "",
+    owner_tradeLicenseNo:"",
+    owner_insuranceNo:"",
   });
 
   const handleInputChange = (event) => {
@@ -57,6 +61,8 @@ function UpdateOwnerInfo() {
       validationErrors.owner_date_of_birth === "" &&
       validationErrors.owner_houseNo === "" &&
       validationErrors.owner_postalCode === "" &&
+      validationErrors.owner_tradeLicenseNo === "" &&
+      validationErrors.owner_insuranceNo === "" &&
       validationErrors.owner_address === ""
     ) {
       try {
@@ -227,7 +233,7 @@ function UpdateOwnerInfo() {
                 value={formData.owner_address}
                 onChange={handleInputChange}
               >
-                <option value="">জেলা</option>
+                <option value="">আপনার জেলা বাছাই করুন</option>
                 <option value="Dhaka">Dhaka</option>
                 <option value="Chattogram">Chattogram</option>
                 <option value="Sylhet">Sylhet</option>
@@ -298,6 +304,42 @@ function UpdateOwnerInfo() {
                 </span>
               )}
             </div>
+            <div className={styles.ownerInfield}>
+  <p className={styles.ownerParagraph}>
+    ট্রেড লাইসেন্স নং  
+  </p>
+  <input
+    type="text"
+    id="owner_tradeLicenseNo"
+    name="owner_tradeLicenseNo"
+    value={formData.owner_tradeLicenseNo}
+    onChange={handleInputChange}
+  />
+  {errors.owner_tradeLicenseNo && (
+    <span className={styles.ownerError}>
+      {errors.owner_tradeLicenseNo}
+    </span>
+  )}
+</div>
+
+<div className={styles.ownerInfield}>
+  <p className={styles.ownerParagraph}>
+    ইনস্যুরেন্স নং 
+  </p>
+  <input
+    type="text"
+    id="owner_insuranceNo"
+    name="owner_insuranceNo"
+    value={formData.owner_insuranceNo}
+    onChange={handleInputChange}
+  />
+  {errors.owner_insuranceNo && (
+    <span className={styles.ownerError}>
+      {errors.owner_insuranceNo}
+    </span>
+  )}
+</div>
+
 
             <button type="submit" className={styles.updateOwnerButton}>
               হালনাগাদ করুন
