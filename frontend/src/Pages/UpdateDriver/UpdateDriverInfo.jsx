@@ -13,7 +13,8 @@ function UpdateDriverInfo() {
 
   const [formData, setFormData] = useState({
     driver_nid: "",
-    driver_name: "",
+    driver_firstName: "",
+    driver_lastName: "",
     driver_date_of_birth: "",
     driver_houseNo: "",
     driver_postalCode: "",
@@ -23,7 +24,8 @@ function UpdateDriverInfo() {
 
   const [errors, setErrors] = useState({
     driver_nid: "",
-    driver_name: "",
+    driver_firstName: "",
+    driver_lastName: "",
     driver_date_of_birth: "",
     driver_houseNo: "",
     driver_postalCode: "",
@@ -52,7 +54,8 @@ function UpdateDriverInfo() {
     // Check for specific error conditions
     if (
       validationErrors.driver_nid === "" &&
-      validationErrors.driver_name === "" &&
+      validationErrors.driver_firstName === "" &&
+    validationErrors.driver_lastName === "" &&
       validationErrors.driver_date_of_birth === "" &&
       validationErrors.driver_houseNo === "" &&
       validationErrors.driver_postalCode === "" &&
@@ -115,17 +118,32 @@ function UpdateDriverInfo() {
         >
           <form onSubmit={handleSubmit}>
           <h1>ড্রাইভারের তথ্য হালনাগাদ ফর্ম</h1>
-            <div className={styles.updateDriverInfield}>
-              <p className={styles.updateDriverParagraph}>ড্রাইভারের নাম</p>
-              <input
+          <div className={styles.driverInfield}>
+              <p className={styles.driverParagraph}>ড্রাইভারের নাম : প্রথম অংশ</p>
+              <input className={styles.driverInput}
                 type="text"
-                id="driver_name"
-                name="driver_name"
-                value={formData.driver_name}
+      
+                id="driver_firstName"
+                name="driver_firstName"
+                value={formData.driver_firstName}
                 onChange={handleInputChange}
               />
               {errors.driver_name && (
-                <span className={styles.updateDriverError}>{errors.driver_name}</span>
+                <span className={styles.driverError}>{errors.driver_firstName}</span>
+              )}
+            </div>
+            <div className={styles.driverInfield}>
+            <p className={styles.driverParagraph}>ড্রাইভারের নাম : শেষ অংশ</p>
+              <input className={styles.driverInput}
+                type="text"
+             
+                id="driver_lastName"
+                name="driver_lastName"
+                value={formData.driver_lastName}
+                onChange={handleInputChange}
+              />
+              {errors.driver_name && (
+                <span className={styles.driverError}>{errors.driver_lastName}</span>
               )}
             </div>
             <div className={styles.updateDriverInfield}>
