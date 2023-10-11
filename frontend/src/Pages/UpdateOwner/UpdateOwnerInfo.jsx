@@ -182,7 +182,7 @@ function UpdateOwnerInfo() {
                 onChange={handleInputChange}
               />
               {errors.owner_tradeLicenseNo && (
-                <span className={styles.ownerError}>
+                <span className={styles.updateOwnerError}>
                   {errors.owner_tradeLicenseNo}
                 </span>
               )}
@@ -198,7 +198,7 @@ function UpdateOwnerInfo() {
                 onChange={handleInputChange}
               />
               {errors.owner_insuranceNo && (
-                <span className={styles.ownerError}>
+                <span className={styles.updateOwnerError}>
                   {errors.owner_insuranceNo}
                 </span>
               )}
