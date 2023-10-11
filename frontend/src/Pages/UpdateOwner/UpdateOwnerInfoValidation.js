@@ -3,14 +3,27 @@ function OwnerRegistrationValidation(formData) {
 
   const nid_pattern = /^\d{10}$/;
   const postal_code_pattern = /^\d{4}$/;
+  const trade_license_pattern = /^\d{18}$/;
+  const insurance_pattern = /^\d{20}$/;
   const date_of_birth_pattern = /^\d{4}-\d{2}-\d{2}$/;
   const house_no_pattern = /\b[a-zA-Z]{4,}\s[a-zA-Z]{1,2}[-/]\d{1,3}\b/;
   
   if (!formData.owner_houseNo.match(house_no_pattern)) {
-    errors.owner_houseNo = "বর্তমান ঠিকানা : বাড়ি নং সঠিক নয়.";
+    errors.owner_houseNo = "বর্তমান ঠিকানা সঠিক নয়.";
   } else {
     errors.owner_houseNo = "";
   }
+  if (!formData.owner_tradeLicenseNo.match(trade_license_pattern)) {
+    errors.owner_tradeLicenseNo = "ট্রেড লাইসেন্স নং সঠিক নয়.";
+  } else {
+    errors.owner_tradeLicenseNo = "";
+  }
+  if (!formData.owner_insuranceNo.match(insurance_pattern)) {
+    errors.owner_insuranceNo = "ইনস্যুরেন্স নং সঠিক নয়.";
+  } else {
+    errors.owner_insuranceNo = "";
+  }
+
   if (!formData.owner_nid.match(nid_pattern)) {
     errors.owner_nid = "জাতীয় পরিচয়পত্র নম্বর সঠিক নয় (10-digit number).";
   } else {
@@ -53,7 +66,6 @@ function OwnerRegistrationValidation(formData) {
       errors.owner_date_of_birth = "";
     }
   }
-
 
   if (formData.owner_address.trim() === "") {
     errors.owner_address = "আপনার জেলা বাছাই করুন.";
