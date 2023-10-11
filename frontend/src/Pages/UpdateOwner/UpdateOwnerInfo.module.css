@@ -260,18 +260,13 @@ a.forgot {
         transition: transform 0.6s ease-in-out;
 
     }
-
-   
-
-    .updateOwnerParagraph {
-        font-size: 15px;
-        margin-bottom: -2px;
-        margin-top: 2px;
-
-        padding-bottom: 12px;
-        padding-top: 5px;
-    }
-
+    
+.updateOwnerHead {
+    color: var(--grad-clr1);
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
     .updateOwnerInfield Input{
         font-size: 14px;
         padding-bottom: 10px;
