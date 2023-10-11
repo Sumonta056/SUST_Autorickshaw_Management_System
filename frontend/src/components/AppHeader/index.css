@@ -45,5 +45,13 @@
 }
 
 .AppHeaderTitle2 span {
-    color: rgb(226, 108, 12);
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    color: rgb(226, 12, 12);
+    font-size: 17px;
+    font-weight: 500;
+}
+
+.AppHeaderTitle2 .icon {
+padding-left: 25px;
+  font-size: 20px;
 }

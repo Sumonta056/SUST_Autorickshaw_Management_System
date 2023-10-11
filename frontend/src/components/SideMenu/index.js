@@ -8,7 +8,8 @@ import {
   CaretRightOutlined,
   SettingOutlined,
   EditOutlined,
-  EyeOutlined
+  EyeOutlined,
+  UserSwitchOutlined
 
 } from "@ant-design/icons";
 import "./index.css"; // Import your custom CSS here
@@ -72,6 +73,15 @@ function DriverMenu() {
         <UsergroupAddOutlined className="icon" />{" "}
         <span className="CustomLabel">ড্রাইভারের তালিকা</span>
       </div>
+      <div
+        className={`DriverMenuItem ${
+          selectedKey === "/driver" ? "DriverMenuItemSelected" : ""
+        }`}
+        onClick={() => navigate("/driver")}
+      >
+        <UserSwitchOutlined className="icon" />{" "}
+        <span className="CustomLabel">ম্যানেজার তালিকা</span>
+      </div>
       <div className="unauthorized">
         <CaretRightOutlined className="icons" />
         অননুমোদিত
@@ -102,6 +112,15 @@ function DriverMenu() {
       >
         <UsergroupAddOutlined className="icon" />{" "}
         <span className="CustomLabel">ড্রাইভারের তালিকা</span>
+      </div>
+      <div
+        className={`DriverMenuItem ${
+          selectedKey === "/driver" ? "DriverMenuItemSelected" : ""
+        }`}
+        onClick={() => navigate("/driver")}
+      >
+        <UserSwitchOutlined className="icon" />{" "}
+        <span className="CustomLabel">ম্যানেজার তালিকা</span>
       </div>
       <div className="unauthorized">
         <CaretRightOutlined className="icons" />
