@@ -56,6 +56,7 @@ function ManagerRegistration() {
       validationErrors.manager_address === ""
     ) {
       try {
+        console.log(formData.manager_houseNo);
         axios
           .post("http://localhost:3001/ManagerRegistration", formData)
           .then((res) => {

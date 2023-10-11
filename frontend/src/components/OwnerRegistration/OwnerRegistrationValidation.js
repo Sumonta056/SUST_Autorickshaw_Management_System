@@ -6,10 +6,10 @@ function OwnerRegistrationValidation(formData) {
   const trade_license_pattern = /^\d{18}$/;
   const insurance_pattern = /^\d{20}$/;
   const date_of_birth_pattern = /^\d{4}-\d{2}-\d{2}$/;
-  const house_no_pattern = /\b[a-zA-Z]{4,}\s[a-zA-Z]{1,2}[-/]\d{1,3}\b/;
+  const house_no_pattern = /[a-zA-Z0-9\s-]{5,}/;
   
   if (!formData.owner_houseNo.match(house_no_pattern)) {
-    errors.owner_houseNo = "বর্তমান ঠিকানা সঠিক নয়.";
+    errors.owner_houseNo = "বর্তমান ঠিকানা সঠিক নয় (বাড়ির নাম, ব্লক নং এবং বাড়ি নং দিন)";
   } else {
     errors.owner_houseNo = "";
   }

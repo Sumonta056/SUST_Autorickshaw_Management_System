@@ -40,10 +40,12 @@ function Manager() {
     // Implement the delete functionality here
     const managerNID = record.manager_nid;
 
+    console.log("i am here");
     // Assuming you are using Axios for API requests, send a DELETE request to the backend
     axios
       .delete(`http://localhost:3001/delete/managers/${managerNID}`)
       .then((response) => {
+        console.log("i am here");
         // Handle successful deletion (e.g., show a success message, update the data source, etc.)
         console.log(`Manager with NID ${managerNID} deleted successfully.`);
 
@@ -84,10 +86,6 @@ function Manager() {
       dataIndex: "manager_houseNo",
     },
     {
-      title: "পোস্টাল কোড",
-      dataIndex: "manager_postalCode",
-    },
-    {
       title: "জেলা",
       dataIndex: "manager_address",
     },
@@ -96,7 +94,7 @@ function Manager() {
       render: (text, record) => (
         <div className="managerButton">
           <Button type="primary" onClick={() => handleEdit(record)}>
-          আপডেট
+          আরও দেখুন
           </Button>
           <Button type="primary" danger onClick={() => handleDelete(record)}>
             <span>মুছুন</span>

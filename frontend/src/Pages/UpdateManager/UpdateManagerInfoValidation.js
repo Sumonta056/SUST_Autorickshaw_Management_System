@@ -5,10 +5,10 @@ function ManagerRegistrationValidation(formData) {
   const postal_code_pattern = /^\d{4}$/;
   const date_of_birth_pattern = /^\d{4}-\d{2}-\d{2}$/;
   const license_pattern = /^\d{15}$/; 
-  const house_no_pattern = /\b[a-zA-Z]{4,}\s[a-zA-Z]{1,2}[-/]\d{1,3}\b/;
+  const house_no_pattern = /[a-zA-Z0-9\s-]{5,}/;
 
   if (!formData.manager_houseNo.match(house_no_pattern)) {
-    errors.manager_houseNo = "বর্তমান ঠিকানা : বাড়ি নং সঠিক নয়.";
+    errors.manager_houseNo = "বর্তমান ঠিকানা সঠিক নয় (বাড়ির নাম, ব্লক নং এবং বাড়ি নং দিন)";
   } else {
     errors.manager_houseNo = "";
   }

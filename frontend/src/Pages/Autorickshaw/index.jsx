@@ -35,11 +35,11 @@ function Owner() {
   // Define a function to handle the "Delete" button click
   const handleDelete = (record) => {
     // Implement the delete functionality here
-    const autorickshawNID = record.autorickshaw_nid;
+    const autorickshawNID = record.id;
 
     // Assuming you are using Axios for API requests, send a DELETE request to the backend
     axios
-      .delete(`http://localhost:3001/delete/autorickshaws/${autorickshawNID}`)
+      .delete(`http://localhost:3001/delete/autorickshaw/${autorickshawNID}`)
       .then((response) => {
         // Handle successful deletion (e.g., show a success message, update the data source, etc.)
         console.log(`Owner with NID ${autorickshawNID} deleted successfully.`);

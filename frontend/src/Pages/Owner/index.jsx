@@ -73,6 +73,10 @@ function Owner() {
       title: "জাতীয় পরিচয়পত্র নম্বর",
       dataIndex: "owner_nid",
     },
+    {
+      title: "ট্রেড লাইসেন্স নং",
+      dataIndex: "owner_tradeLicenseNo",
+    },
     
     {
       title: "জন্ম তারিখ",

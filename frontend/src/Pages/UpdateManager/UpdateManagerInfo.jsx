@@ -171,23 +171,6 @@ function UpdateManagerInfo() {
             </div>
             <div className={styles.updateManagerInfield}>
               <p className={styles.updateManagerParagraph}>
-                ড্রাইভিং লাইসেন্স নম্বর
-              </p>
-              <input
-                type="text"
-                id="manager_license_no"
-                name="manager_license_no"
-                value={formData.manager_license_no}
-                onChange={handleInputChange}
-              />
-              {errors.manager_license_no && (
-                <span className={styles.updateManagerError}>
-                  {errors.manager_license_no}
-                </span>
-              )}
-            </div>
-            <div className={styles.updateManagerInfield}>
-              <p className={styles.updateManagerParagraph}>
                 জন্ম তারিখ (YYYY-MM-DD)
               </p>
               <input

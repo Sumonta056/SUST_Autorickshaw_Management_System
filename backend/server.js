@@ -187,7 +187,8 @@ app.post("/ManagerRegistration", (req, res) => {
         console.error(managerErr); // Log the error to the console
         return res.json(managerErr); // Return an error response
       }
-
+      
+      console.log(managerValues);
       return res.json("manager_registration_success");
     });
   });
@@ -607,6 +608,58 @@ app.delete("/delete/drivers/:driver_nid", (req, res) => {
     // If successful, send a success response
     return res.json({
       message: `Driver with NID ${driverNID} deleted successfully`,
+    });
+  });
+});
+
+
+// Add a new route for deleting an autorickshaw by ID
+app.delete("/delete/autorickshaw/:id", (req, res) => {
+  const autorickshawId = req.params.id;
+
+  // Define the SQL query to delete the autorickshaw based on ID
+  const sql = "DELETE FROM autorickshaw WHERE id = ?";
+
+  db.query(sql, [autorickshawId], (err, result) => {
+    if (err) {
+      console.error("Error deleting autorickshaw:", err);
+      return res.status(500).json({ error: "Failed to delete autorickshaw" });
+    }
+
+    // Check if any rows were affected by the delete operation
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: `Autorickshaw with ID ${autorickshawId} not found` });
+    }
+
+    // If successful, send a success response
+    return res.json({
+      message: `Autorickshaw with ID ${autorickshawId} deleted successfully`,
+    });
+  });
+});
+
+
+// Add a new route for deleting a manager by managerNID
+app.delete("/delete/managers/:managerNID", (req, res) => {
+  const managerNID = req.params.managerNID;
+
+  // Define the SQL query to delete the manager based on managerNID
+  const sql = "DELETE FROM manager WHERE manager_nid = ?";
+
+  db.query(sql, [managerNID], (err, result) => {
+    if (err) {
+      console.error("Error deleting manager:", err);
+      return res.status(500).json({ error: "Failed to delete manager" });
+    }
+
+    // Check if any rows were affected by the delete operation
+    if (result.affectedRows === 0) {
+      return res.status(404).json({ error: `Manager with NID ${managerNID} not found` });
+    }
+
+    // If successful, send a success response
+    return res.json({
+      message: `Manager with NID ${managerNID} deleted successfully`,
     });
   });
 });
