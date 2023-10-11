@@ -458,7 +458,8 @@ app.put("/updateDriver/:id", (req, res) => {
   const id = req.params.id;
   console.log("Received PUT request for driver with ID: " + id);
   const {
-    driver_name,
+    driver_firstName,
+    driver_lastName,
     driver_nid,
     driver_date_of_birth,
     driver_houseNo,
@@ -469,7 +470,8 @@ app.put("/updateDriver/:id", (req, res) => {
 
   const sql =
     "UPDATE driver SET " +
-    "`driver_name` = ?, " +
+    "`driver_firstName` = ?, " +
+    "`driver_lastName` = ?, " +
     "`driver_date_of_birth` = ?, " +
     "`driver_houseNo` = ?, " +
     "`driver_postalCode` = ?, " +
@@ -479,7 +481,8 @@ app.put("/updateDriver/:id", (req, res) => {
     "WHERE `id` = ?";
 
   const values = [
-    driver_name,
+    driver_firstName,
+    driver_lastName,
     driver_date_of_birth,
     driver_houseNo,
     driver_postalCode,
