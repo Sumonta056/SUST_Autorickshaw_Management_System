@@ -12,7 +12,12 @@
     font-family: 'Poppins', sans-serif;
 }
 
-
+.updateDriverHead {
+    color: var(--grad-clr1);
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
 .updateDriverContainer {
     position: relative;
     width: 850px;
@@ -262,15 +267,6 @@ a.forgot {
 
     }
 
-
-    .updateDriverParagraph {
-        font-size: 15px;
-        margin-bottom: -2px;
-        margin-top: 2px;
-
-        padding-bottom: 12px;
-        padding-top: 5px;
-    }
 
     .updateDriverInfield Input {
         font-size: 14px;
