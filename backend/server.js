@@ -79,64 +79,77 @@ app.post("/OwnerRegistration", (req, res) => {
     }
 
     // Check if the trade license number already exists in the owner table
-    const tradeLicenseCheckSql = "SELECT * FROM owner WHERE owner_tradeLicenseNo = ?";
+    const tradeLicenseCheckSql =
+      "SELECT * FROM owner WHERE owner_tradeLicenseNo = ?";
     const tradeLicenseToCheck = req.body.owner_tradeLicenseNo;
 
-    db.query(tradeLicenseCheckSql, [tradeLicenseToCheck], (tradeLicenseCheckErr, tradeLicenseCheckData) => {
-      if (tradeLicenseCheckErr) {
-        return res.json(tradeLicenseCheckErr); // Return an error response if there's a database error
-      }
-
-      // If there is an owner with the same trade license number, return a message
-      if (tradeLicenseCheckData.length > 0) {
-        console.log("Owner with the same trade license number already exists");
-        return res.json("trade_license_exists");
-      }
-
-      // Check if the insurance number already exists in the owner table
-      const insuranceCheckSql = "SELECT * FROM owner WHERE owner_insuranceNo = ?";
-      const insuranceToCheck = req.body.owner_insuranceNo;
-
-      db.query(insuranceCheckSql, [insuranceToCheck], (insuranceCheckErr, insuranceCheckData) => {
-        if (insuranceCheckErr) {
-          return res.json(insuranceCheckErr); // Return an error response if there's a database error
+    db.query(
+      tradeLicenseCheckSql,
+      [tradeLicenseToCheck],
+      (tradeLicenseCheckErr, tradeLicenseCheckData) => {
+        if (tradeLicenseCheckErr) {
+          return res.json(tradeLicenseCheckErr); // Return an error response if there's a database error
         }
 
-        // If there is an owner with the same insurance number, return a message
-        if (insuranceCheckData.length > 0) {
-          console.log("Owner with the same insurance number already exists");
-          return res.json("insurance_exists");
+        // If there is an owner with the same trade license number, return a message
+        if (tradeLicenseCheckData.length > 0) {
+          console.log(
+            "Owner with the same trade license number already exists"
+          );
+          return res.json("trade_license_exists");
         }
 
-        // If the NID, trade license, and insurance numbers are all unique, proceed with owner registration
-        const ownerSql =
-          "INSERT INTO owner (owner_nid, owner_firstName, owner_lastName, owner_date_of_birth, owner_houseNo, owner_postalCode, owner_address, owner_tradeLicenseNo, owner_insuranceNo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
-        const ownerValues = [
-          req.body.owner_nid,
-          req.body.owner_firstName,
-          req.body.owner_lastName,
-          req.body.owner_date_of_birth,
-          req.body.owner_houseNo,
-          req.body.owner_postalCode,
-          req.body.owner_address,
-          req.body.owner_tradeLicenseNo,
-          req.body.owner_insuranceNo,
-        ];
+        // Check if the insurance number already exists in the owner table
+        const insuranceCheckSql =
+          "SELECT * FROM owner WHERE owner_insuranceNo = ?";
+        const insuranceToCheck = req.body.owner_insuranceNo;
 
-        // Insert owner data into the owner table
-        db.query(ownerSql, ownerValues, (ownerErr, ownerData) => {
-          if (ownerErr) {
-            console.error(ownerErr); // Log the error to the console
-            return res.json(ownerErr); // Return an error response
+        db.query(
+          insuranceCheckSql,
+          [insuranceToCheck],
+          (insuranceCheckErr, insuranceCheckData) => {
+            if (insuranceCheckErr) {
+              return res.json(insuranceCheckErr); // Return an error response if there's a database error
+            }
+
+            // If there is an owner with the same insurance number, return a message
+            if (insuranceCheckData.length > 0) {
+              console.log(
+                "Owner with the same insurance number already exists"
+              );
+              return res.json("insurance_exists");
+            }
+
+            // If the NID, trade license, and insurance numbers are all unique, proceed with owner registration
+            const ownerSql =
+              "INSERT INTO owner (owner_nid, owner_firstName, owner_lastName, owner_date_of_birth, owner_houseNo, owner_postalCode, owner_address, owner_tradeLicenseNo, owner_insuranceNo) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
+            const ownerValues = [
+              req.body.owner_nid,
+              req.body.owner_firstName,
+              req.body.owner_lastName,
+              req.body.owner_date_of_birth,
+              req.body.owner_houseNo,
+              req.body.owner_postalCode,
+              req.body.owner_address,
+              req.body.owner_tradeLicenseNo,
+              req.body.owner_insuranceNo,
+            ];
+
+            // Insert owner data into the owner table
+            db.query(ownerSql, ownerValues, (ownerErr, ownerData) => {
+              if (ownerErr) {
+                console.error(ownerErr); // Log the error to the console
+                return res.json(ownerErr); // Return an error response
+              }
+
+              return res.json("owner_registration_success");
+            });
           }
-
-          return res.json("owner_registration_success");
-        });
-      });
-    });
+        );
+      }
+    );
   });
 });
-
 
 app.post("/ManagerRegistration", (req, res) => {
   // Check if the manager's NID already exists in the manager table
@@ -576,7 +589,7 @@ app.put("/updateOwner/:id", (req, res) => {
     owner_postalCode,
     owner_address,
     owner_tradeLicenseNo,
-    owner_insuranceNo
+    owner_insuranceNo,
   } = req.body;
 
   // If both trade license and insurance numbers are unique, proceed with the update
@@ -644,8 +657,6 @@ app.delete("/delete/owners/:owner_nid", (req, res) => {
   });
 });
 
-
-
 // Getting Owner Database
 app.get("/api/autorickshaws", async (req, res) => {
   // Execute the query
@@ -683,6 +694,58 @@ app.get("/api/autorickshaw/:id", (req, res) => {
   });
 });
 
+app.put("/updateAutorickshaw/:id", (req, res) => {
+  const id = req.params.id;
+  console.log("Received PUT request for autorickshaw with ID: " + id);
+
+  const {
+    autorickshaw_number,
+    autorickshaw_company,
+    vehicle_registration_number,
+    chassis_number,
+    engine_number,
+    autorickshaw_model,
+    driver_nid,
+    owner_nid,
+  } = req.body;
+
+  // If both autorickshaw number and driver NID are unique, proceed with the update
+  const sql =
+    "UPDATE autorickshaw SET " +
+    "`autorickshaw_number` = ?, " +
+    "`autorickshaw_company` = ?, " +
+    "`vehicle_registration_number` = ?, " +
+    "`chassis_number` = ?, " +
+    "`engine_number` = ?, " +
+    "`autorickshaw_model` = ?, " +
+    "`driver_nid` = ?, " +
+    "`owner_nid` = ? " +
+    "WHERE `id` = ?";
+
+  const values = [
+    autorickshaw_number,
+    autorickshaw_company,
+    vehicle_registration_number,
+    chassis_number,
+    engine_number,
+    autorickshaw_model,
+    driver_nid,
+    owner_nid,
+    id,
+  ];
+
+  console.log(values);
+
+  db.query(sql, values, (err, data) => {
+    if (err) {
+      console.error("Error updating autorickshaw information: ", err);
+      return res.json("failed");
+    }
+
+    console.log("Autorickshaw information updated successfully");
+    return res.json("success");
+  });
+});
 
 const PORT = 3001;
 

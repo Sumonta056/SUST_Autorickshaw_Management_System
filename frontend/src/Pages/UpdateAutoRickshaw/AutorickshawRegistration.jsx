@@ -60,40 +60,26 @@ function AutorickshawRegistration() {
       validationErrors.driver_nid === ""
     ) {
       try {
+        console.log("herhr");
         axios
-          .post("http://localhost:3001/AutorickshawRegistration", formData)
+          .put(`http://localhost:3001/updateAutorickshaw/` + id, formData)
           .then((res) => {
-            console.log("Server response:", res.data);
-            if (res.data === "autorickshaw_registration_success") {
-              navigate("/");
-              alert("আপনি সফলভাবে অটোরিকশা নিবন্ধন করেছেন");
-            } else if (res.data === "owner_nid_not_found") {
-              alert("উক্ত মালিকের নাম নিবন্ধন করা হয় নি");
-            } else if (res.data === "driver_nid_not_found") {
-              alert("উক্ত ড্রাইভারের নাম নিবন্ধন করা হয় নি");
-            } else if (res.data === "autorickshaw_number_exists") {
-              alert("উক্ত অটোরিকশা পূর্বে নিবন্ধন করা হয়েছে");
-            } else if (res.data === "driver_nid_exists_in_autorickshaw") {
-              alert("একই ড্রাইভারের অধীনে একাধিক অটোরিকশা নিবন্ধন সম্ভব নয়");
-            } else {
-              alert(
-                "অটোরিকশা নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন"
-              );
+            console.log(res);
+            if (res.data === "success") {
+              alert("আপনি সফলভাবে অটোরিকশার তথ্য হালনাগাদ করেছেন");
+              navigate("/autorickshaw");
+            }
+            // Redirect to the owner list page after successful update
+            else {
+              alert("হালনাগাদ ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
             }
           })
-          .catch((error) => {
-            console.error("Server error:", error);
-            if (error === "driver_nid_not_found") {
-              alert("উক্ত ড্রাইভারের নাম নিবন্ধন করা হয় নি");
-            } else
-              alert(
-                "অটোরিকশা নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন"
-              );
+          .catch((err) => {
+            alert("হালনাগাদ ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
+            // Handle errors, e.g., display an error message to the user
           });
       } catch (error) {
-        console.error("Error:", error);
-
-        alert("অটোরিকশা নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
+        alert("হালনাগাদ ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
       }
     } else {
       // Display an error message based on the first encountered error
@@ -101,13 +87,12 @@ function AutorickshawRegistration() {
         (error) => error !== ""
       );
       if (errorMessages.length > 0) {
-        alert("অটোরিকশা নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
+        alert("হালনাগাদ ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
       } else {
-        alert("অটোরিকশা নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
+        alert("হালনাগাদ ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
       }
     }
   };
-
 
   useEffect(() => {
     // Fetch data from MySQL using driver_nid

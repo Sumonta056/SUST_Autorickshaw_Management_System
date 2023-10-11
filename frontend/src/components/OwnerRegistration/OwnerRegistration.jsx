@@ -16,8 +16,8 @@ function OwnerRegistration() {
     owner_houseNo: "",
     owner_postalCode: "",
     owner_address: "",
-    owner_tradeLicenseNo:"",
-    owner_insuranceNo:"",
+    owner_tradeLicenseNo: "",
+    owner_insuranceNo: "",
   });
 
   const [errors, setErrors] = useState({
@@ -28,8 +28,8 @@ function OwnerRegistration() {
     owner_houseNo: "",
     owner_postalCode: "",
     owner_address: "",
-    owner_tradeLicenseNo:"",
-    owner_insuranceNo:"",
+    owner_tradeLicenseNo: "",
+    owner_insuranceNo: "",
   });
 
   const handleInputChange = (event) => {
@@ -71,12 +71,10 @@ function OwnerRegistration() {
             } else if (res.data === "nid_exists") {
               alert("উক্ত এনআইডি নম্বরটি ইতিমধ্যে ব্যবহার করা হয়েছে");
               navigate("/OwnerRegistration");
-            }
-            else if (res.data === "insurance_exists") {
+            } else if (res.data === "insurance_exists") {
               alert("উক্ত ইনস্যুরেন্স নম্বরটি ইতিমধ্যে ব্যবহার করা হয়েছে");
               navigate("/OwnerRegistration");
-            }
-            else if (res.data === "trade_license_exists") {
+            } else if (res.data === "trade_license_exists") {
               alert("আপনার ট্রেড লাইসেন্স নম্বরটি ইতিমধ্যে ব্যবহার করা হয়েছে");
               navigate("/OwnerRegistration");
             } else {
@@ -94,9 +92,9 @@ function OwnerRegistration() {
 
   return (
     <div className={styles.RegistrationScreen}>
-  <div className={styles.ownerContainer}>
-    <div className={styles.ownerFormContainer} id="ownerFormContainer">
-    <form className={styles.ownerForm} onSubmit={handleSubmit}>
+      <div className={styles.ownerContainer}>
+        <div className={styles.ownerFormContainer} id="ownerFormContainer">
+          <form className={styles.ownerForm} onSubmit={handleSubmit}>
             <h1 className={styles.ownerHead}>মালিকের নিবন্ধন ফর্ম</h1>
             <div className={styles.ownerInfield}>
               <p className={styles.ownerParagraph}>মালিকের নাম : প্রথম অংশ</p>
@@ -129,9 +127,7 @@ function OwnerRegistration() {
               )}
             </div>
             <div className={styles.ownerInfield}>
-              <p className={styles.ownerParagraph}>
-                জাতীয় পরিচয়পত্র নম্বর
-              </p>
+              <p className={styles.ownerParagraph}>জাতীয় পরিচয়পত্র নম্বর</p>
               <input
                 type="text"
                 id="owner_nid"
@@ -140,15 +136,42 @@ function OwnerRegistration() {
                 onChange={handleInputChange}
               />
               {errors.owner_nid && (
+                <span className={styles.ownerError}>{errors.owner_nid}</span>
+              )}
+            </div>
+            <div className={styles.ownerInfield}>
+              <p className={styles.ownerParagraph}>ট্রেড লাইসেন্স নং</p>
+              <input
+                type="text"
+                id="owner_tradeLicenseNo"
+                name="owner_tradeLicenseNo"
+                value={formData.owner_tradeLicenseNo}
+                onChange={handleInputChange}
+              />
+              {errors.owner_tradeLicenseNo && (
                 <span className={styles.ownerError}>
-                  {errors.owner_nid}
+                  {errors.owner_tradeLicenseNo}
+                </span>
+              )}
+            </div>
+
+            <div className={styles.ownerInfield}>
+              <p className={styles.ownerParagraph}>ইনস্যুরেন্স নং</p>
+              <input
+                type="text"
+                id="owner_insuranceNo"
+                name="owner_insuranceNo"
+                value={formData.owner_insuranceNo}
+                onChange={handleInputChange}
+              />
+              {errors.owner_insuranceNo && (
+                <span className={styles.ownerError}>
+                  {errors.owner_insuranceNo}
                 </span>
               )}
             </div>
             <div className={styles.ownerInfield}>
-              <p className={styles.ownerParagraph}>
-                জন্ম তারিখ (YYYY-MM-DD)
-              </p>
+              <p className={styles.ownerParagraph}>জন্ম তারিখ (YYYY-MM-DD)</p>
               <input
                 type="text"
                 id="owner_date_of_birth"
@@ -166,9 +189,7 @@ function OwnerRegistration() {
               )}
             </div>
             <div className={styles.ownerInfield}>
-              <p className={styles.ownerParagraph}>
-                বর্তমান ঠিকানা  
-              </p>
+              <p className={styles.ownerParagraph}>বর্তমান ঠিকানা</p>
               <input
                 type="text"
                 name="owner_houseNo"
@@ -183,9 +204,7 @@ function OwnerRegistration() {
               )}
             </div>
             <div className={styles.ownerInfield}>
-              <p className={styles.ownerParagraph}>
-                পোস্টাল কোড
-              </p>
+              <p className={styles.ownerParagraph}>পোস্টাল কোড</p>
               <input
                 type="text"
                 id="owner_postalCode"
@@ -200,9 +219,7 @@ function OwnerRegistration() {
               )}
             </div>
             <div className={styles.ownerInfield}>
-              <p className={styles.ownerParagraph}>
-                জেলা
-              </p>
+              <p className={styles.ownerParagraph}>জেলা</p>
               <select
                 className={styles.ownerSelect}
                 id="owner_address"
@@ -281,58 +298,23 @@ function OwnerRegistration() {
                 </span>
               )}
             </div>
-            <div className={styles.ownerInfield}>
-  <p className={styles.ownerParagraph}>
-    ট্রেড লাইসেন্স নং  
-  </p>
-  <input
-    type="text"
-    id="owner_tradeLicenseNo"
-    name="owner_tradeLicenseNo"
-    value={formData.owner_tradeLicenseNo}
-    onChange={handleInputChange}
-  />
-  {errors.owner_tradeLicenseNo && (
-    <span className={styles.ownerError}>
-      {errors.owner_tradeLicenseNo}
-    </span>
-  )}
-</div>
-
-<div className={styles.ownerInfield}>
-  <p className={styles.ownerParagraph}>
-    ইনস্যুরেন্স নং 
-  </p>
-  <input
-    type="text"
-    id="owner_insuranceNo"
-    name="owner_insuranceNo"
-    value={formData.owner_insuranceNo}
-    onChange={handleInputChange}
-  />
-  {errors.owner_insuranceNo && (
-    <span className={styles.ownerError}>
-      {errors.owner_insuranceNo}
-    </span>
-  )}
-</div>
-
 
             <button type="submit" className={styles.ownerButton}>
-              নিবন্ধন 
+              নিবন্ধন
             </button>
           </form>
-    </div>
-    <div className={styles.ownerOverlayContainer} id="overlayCon">
-      <div className={styles.ownerOverlay}>
-        <div className={`${styles.ownerOverlayPanel} ${styles.ownerOverlayRight}`}>
-          <div className={styles.ownerFormImage} />
+        </div>
+        <div className={styles.ownerOverlayContainer} id="overlayCon">
+          <div className={styles.ownerOverlay}>
+            <div
+              className={`${styles.ownerOverlayPanel} ${styles.ownerOverlayRight}`}
+            >
+              <div className={styles.ownerFormImage} />
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
-
   );
 }
 

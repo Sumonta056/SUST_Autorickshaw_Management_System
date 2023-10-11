@@ -14,12 +14,12 @@ function OwnerRegistrationValidation(formData) {
     errors.owner_houseNo = "";
   }
   if (!formData.owner_tradeLicenseNo.match(trade_license_pattern)) {
-    errors.owner_tradeLicenseNo = "ট্রেড লাইসেন্স নং সঠিক নয়.";
+    errors.owner_tradeLicenseNo = "ট্রেড লাইসেন্স নং সঠিক নয় (18-digit number).";
   } else {
     errors.owner_tradeLicenseNo = "";
   }
   if (!formData.owner_insuranceNo.match(insurance_pattern)) {
-    errors.owner_insuranceNo = "ইনস্যুরেন্স নং সঠিক নয়.";
+    errors.owner_insuranceNo = "ইনস্যুরেন্স নং সঠিক নয় (20-digit number).";
   } else {
     errors.owner_insuranceNo = "";
   }
