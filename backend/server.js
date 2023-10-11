@@ -184,11 +184,12 @@ app.post("/DriverRegistration", (req, res) => {
 
         // If the NID and driver_license_no are not found in the driver table, proceed with driver registration
         const driverSql =
-          "INSERT INTO driver (driver_nid, driver_license_no, driver_name, driver_date_of_birth, driver_houseNo, driver_postalCode, driver_address) VALUES (?, ?, ?, ?, ?, ?, ?)";
+          "INSERT INTO driver (driver_nid, driver_license_no, driver_firstName, driver_lastName, driver_date_of_birth, driver_houseNo, driver_postalCode, driver_address) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
         const driverValues = [
           req.body.driver_nid,
           req.body.driver_license_no,
-          req.body.driver_name,
+          req.body.driver_firstName,
+          req.body.driver_lastName,
           req.body.driver_date_of_birth,
           req.body.driver_houseNo,
           req.body.driver_postalCode,
