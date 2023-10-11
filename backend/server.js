@@ -213,6 +213,9 @@ app.post("/AutorickshawRegistration", async (req, res) => {
   const {
     autorickshaw_number,
     autorickshaw_company,
+    vehicle_registration_number,
+    chassis_number,
+    engine_number,
     autorickshaw_model,
     driver_nid,
     owner_nid,
@@ -286,10 +289,13 @@ app.post("/AutorickshawRegistration", async (req, res) => {
 
                 // If all checks pass, proceed with autorickshaw registration
                 const autorickshawSql =
-                  "INSERT INTO autorickshaw (autorickshaw_number, autorickshaw_company, autorickshaw_model, driver_nid, owner_nid) VALUES (?, ?, ?, ?, ?)";
+                  "INSERT INTO autorickshaw (autorickshaw_number, autorickshaw_company, vehicle_registration_number, chassis_number, engine_number, autorickshaw_model, driver_nid, owner_nid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
                 const autorickshawValues = [
                   autorickshaw_number,
                   autorickshaw_company,
+                  vehicle_registration_number,
+                  chassis_number,
+                  engine_number,
                   autorickshaw_model,
                   driver_nid,
                   owner_nid,
@@ -440,7 +446,7 @@ app.get("/api/owners/:id", (req, res) => {
         const ownerData = result[0];
 
         console.log(ownerData);
-         // Assuming owner_nid is unique
+        // Assuming owner_nid is unique
         res.json(ownerData);
       }
     }
@@ -494,8 +500,6 @@ app.put("/updateDriver/:id", (req, res) => {
   });
 });
 
-
-
 app.delete("/delete/drivers/:driver_nid", (req, res) => {
   const driverNID = req.params.driver_nid;
 
@@ -544,7 +548,7 @@ app.put("/updateOwner/:id", (req, res) => {
     "`owner_houseNo` = ?, " +
     "`owner_postalCode` = ?, " +
     "`owner_address` = ?, " +
-    "`owner_nid` = ? " + 
+    "`owner_nid` = ? " +
     "WHERE `id` = ?";
 
   const values = [
@@ -594,8 +598,6 @@ app.delete("/delete/owners/:owner_nid", (req, res) => {
     });
   });
 });
-
-
 
 const PORT = 3001;
 

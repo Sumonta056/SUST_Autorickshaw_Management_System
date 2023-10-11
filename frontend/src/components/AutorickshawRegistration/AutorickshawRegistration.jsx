@@ -11,6 +11,9 @@ function AutorickshawRegistration() {
   const [formData, setFormData] = useState({
     autorickshaw_number: "",
     autorickshaw_company: "",
+    vehicle_registration_number: "",
+    chassis_number: "",
+    engine_number: "",
     autorickshaw_model: "",
     driver_nid: "",
     owner_nid: "",
@@ -19,6 +22,9 @@ function AutorickshawRegistration() {
   const [errors, setErrors] = useState({
     autorickshaw_number: "",
     autorickshaw_company: "",
+    vehicle_registration_number: "",
+    chassis_number: "",
+    engine_number: "",
     autorickshaw_model: "",
     driver_nid: "",
     owner_nid: "",
@@ -44,6 +50,9 @@ function AutorickshawRegistration() {
     if (
       validationErrors.autorickshaw_number === "" &&
       validationErrors.autorickshaw_company === "" &&
+      validationErrors.vehicle_registration_number === "" &&
+      validationErrors.chassis_number === "" &&
+      validationErrors.engine_number === "" &&
       validationErrors.autorickshaw_model === "" &&
       validationErrors.owner_nid === "" &&
       validationErrors.driver_nid === ""
@@ -106,9 +115,10 @@ function AutorickshawRegistration() {
           <form className={styles.autorickshawForm} onSubmit={handleSubmit}>
             <h1 className={styles.autorickshawHead}>অটোরিকশা নিবন্ধন ফর্ম</h1>
             <div className={styles.autorickshawInfield}>
-              <input className={styles.autorickshawInput}
+              <p className={styles.autorickshawParagraph}>অটোরিকশা নাম্বার</p>
+              <input
+                className={styles.autorickshawInput}
                 type="text"
-                placeholder="অটোরিকশা নাম্বার"
                 id="autorickshaw_number"
                 name="autorickshaw_number"
                 value={formData.autorickshaw_number}
@@ -121,9 +131,10 @@ function AutorickshawRegistration() {
               )}
             </div>
             <div className={styles.autorickshawInfield}>
-              <input className={styles.autorickshawInput}
+              <p className={styles.autorickshawParagraph}>অটোরিকশা কোম্পানি</p>
+              <input
+                className={styles.autorickshawInput}
                 type="text"
-                placeholder="অটোরিকশা কোম্পানি"
                 id="autorickshaw_company"
                 name="autorickshaw_company"
                 value={formData.autorickshaw_company}
@@ -136,9 +147,60 @@ function AutorickshawRegistration() {
               )}
             </div>
             <div className={styles.autorickshawInfield}>
-              <input className={styles.autorickshawInput}
+              <p className={styles.autorickshawParagraph}>
+                গাড়ির নিবন্ধন নাম্বার
+              </p>
+              <input
+                className={styles.autorickshawInput}
                 type="text"
-                placeholder="অটোরিকশা মডেল"
+                id="vehicle_registration_number"
+                name="vehicle_registration_number"
+                value={formData.vehicle_registration_number}
+                onChange={handleInputChange}
+              />
+              {errors.vehicle_registration_number && (
+                <span className={styles.autorickshawError}>
+                  {errors.vehicle_registration_number}
+                </span>
+              )}
+            </div>
+            <div className={styles.autorickshawInfield}>
+              <p className={styles.autorickshawParagraph}> চেসিস নাম্বার</p>
+              <input
+                className={styles.autorickshawInput}
+                type="text"
+                id="chassis_number"
+                name="chassis_number"
+                value={formData.chassis_number}
+                onChange={handleInputChange}
+              />
+              {errors.chassis_number && (
+                <span className={styles.autorickshawError}>
+                  {errors.chassis_number}
+                </span>
+              )}
+            </div>
+            <div className={styles.autorickshawInfield}>
+              <p className={styles.autorickshawParagraph}>ইঞ্জিন নাম্বার</p>
+              <input
+                className={styles.autorickshawInput}
+                type="text"
+                id="engine_number"
+                name="engine_number"
+                value={formData.engine_number}
+                onChange={handleInputChange}
+              />
+              {errors.engine_number && (
+                <span className={styles.autorickshawError}>
+                  {errors.engine_number}
+                </span>
+              )}
+            </div>
+            <div className={styles.autorickshawInfield}>
+              <p className={styles.autorickshawParagraph}>অটোরিকশা মডেল</p>
+              <input
+                className={styles.autorickshawInput}
+                type="text"
                 id="autorickshaw_model"
                 name="autorickshaw_model"
                 value={formData.autorickshaw_model}
@@ -151,9 +213,12 @@ function AutorickshawRegistration() {
               )}
             </div>
             <div className={styles.autorickshawInfield}>
-              <input className={styles.autorickshawInput}
+              <p className={styles.autorickshawParagraph}>
+                মালিকের জাতীয় পরিচয়পত্র নম্বর
+              </p>
+              <input
+                className={styles.autorickshawInput}
                 type="text"
-                placeholder="মালিকের জাতীয় পরিচয়পত্র নম্বর"
                 id="owner_nid"
                 name="owner_nid"
                 value={formData.owner_nid}
@@ -166,9 +231,12 @@ function AutorickshawRegistration() {
               )}
             </div>
             <div className={styles.autorickshawInfield}>
-              <input className={styles.autorickshawInput}
+              <p className={styles.autorickshawParagraph}>
+                ড্রাইভারের জাতীয় পরিচয়পত্র নম্বর
+              </p>
+              <input
+                className={styles.autorickshawInput}
                 type="text"
-                placeholder="ড্রাইভারের জাতীয় পরিচয়পত্র নম্বর"
                 id="driver_nid"
                 name="driver_nid"
                 value={formData.driver_nid}

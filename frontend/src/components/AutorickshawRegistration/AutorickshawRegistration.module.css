@@ -10,7 +10,7 @@
     display: grid;
     place-content: center;
     font-family: 'Poppins', sans-serif;
-} 
+}
 
 
 
@@ -26,18 +26,46 @@
 }
 
 .autorickshawFormContainer {
+    margin-top: 20px;
     position: absolute;
     width: 56%;
-    height: 100%;
+    overflow: auto;
+    /* Add this to enable scrolling */
+    max-height: 78vh;
     padding: 0px 40px;
     transition: all 0.6s ease-in-out;
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    scroll-snap-align: start;
+
+    /* Hide the default scrollbar */
+    /* Set scrollbar width and color (thumb and track) */
+
+    /* Styles for Webkit (Chrome, Edge, Safari) */
+    &::-webkit-scrollbar {
+        width: 2px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--grad-clr2);
+        border-radius: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: var(--grad-clr2);
+        /* Change color on hover */
+    }
+
+    &::-webkit-scrollbar-track {
+        background: var(--grad-clr1);
+    }
 }
 
 .autorickshawSignInContainer {
     z-index: 2;
 }
 
-.autorickshawForm{
+.autorickshawForm {
     height: 100%;
     display: flex;
     flex-direction: column;
@@ -65,6 +93,12 @@
     color: #888787;
 }
 
+.autorickshawInfield input {
+    border: none;
+    color: #535252;
+}
+
+
 .autorickshawInput {
     width: 100%;
     padding: 12px 8px;
@@ -77,6 +111,7 @@
 .autorickshawInput[type="date"]::-webkit-calendar-picker-indicator {
     color: #a5a3a3;
 }
+
 .autorickshawSelect {
     width: 100%;
     padding: 12px 8px;
@@ -85,10 +120,12 @@
     outline: none;
     color: grey;
 }
-.autorickshawSelect:focus{
+
+.autorickshawSelect:focus {
     color: black;
 }
-.autorickshawSelect:focus~label{
+
+.autorickshawSelect:focus~label {
     width: 100%;
     color: black;
 }
@@ -183,13 +220,11 @@ a.forgot {
     transform: translateX(0%);
 }
 
-p {
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 20px;
-    letter-spacing: 0.5px;
+.autorickshawParagraph {
+    font-size: 12px;
+    margin-bottom: 1px;
+    margin-top: 2px;
 }
-
 
 .autorickshawInfield .autorickshawError {
 
@@ -213,12 +248,12 @@ p {
 }
 
 
-@media (min-width: 1600px) {
+@media (min-width: 1400px) {
 
     .autorickshawContainer {
 
         width: 900px;
-        height: 85vh;
+        height: 84vh;
 
 
     }
