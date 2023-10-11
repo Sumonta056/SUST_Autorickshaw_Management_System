@@ -4,8 +4,8 @@ function OwnerRegistrationValidation(formData) {
   const nid_pattern = /^\d{10}$/;
   const postal_code_pattern = /^\d{4}$/;
   const date_of_birth_pattern = /^\d{4}-\d{2}-\d{2}$/;
-  const house_no_pattern = /^[a-zA-Z0-9\/-]{1,20}$/;
-
+  const house_no_pattern = /\b[a-zA-Z]{4,}\s[a-zA-Z]{1,2}[-/]\d{1,3}\b/;
+  
   if (!formData.owner_houseNo.match(house_no_pattern)) {
     errors.owner_houseNo = "বর্তমান ঠিকানা : বাড়ি নং সঠিক নয়.";
   } else {
