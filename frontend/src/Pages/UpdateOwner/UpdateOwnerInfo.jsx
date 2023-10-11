@@ -184,7 +184,7 @@ function UpdateOwnerInfo() {
             </div>
             <div className={styles.updateOwnerInfield}>
               <p className={styles.updateOwnerParagraph}>
-                বর্তমান ঠিকানা : বাড়ি নং
+                বর্তমান ঠিকানা  
               </p>
               <input
                 type="text"
@@ -201,7 +201,7 @@ function UpdateOwnerInfo() {
             </div>
             <div className={styles.updateOwnerInfield}>
               <p className={styles.updateOwnerParagraph}>
-                বর্তমান ঠিকানা : পোস্টাল কোড
+             পোস্টাল কোড
               </p>
               <input
                 type="text"
@@ -218,7 +218,7 @@ function UpdateOwnerInfo() {
             </div>
             <div className={styles.updateOwnerInfield}>
               <p className={styles.updateOwnerParagraph}>
-                বর্তমান ঠিকানা : জেলা
+                 জেলা
               </p>
               <select
                 className={styles.updateOwnerSelect}
@@ -227,7 +227,7 @@ function UpdateOwnerInfo() {
                 value={formData.owner_address}
                 onChange={handleInputChange}
               >
-                <option value="">বর্তমান ঠিকানা : জেলা</option>
+                <option value="">জেলা</option>
                 <option value="Dhaka">Dhaka</option>
                 <option value="Chattogram">Chattogram</option>
                 <option value="Sylhet">Sylhet</option>

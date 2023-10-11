@@ -175,7 +175,7 @@ function DriverRegistration() {
               )}
             </div>
             <div className={styles.driverInfield}>
-            <p className={styles.driverParagraph}>বর্তমান ঠিকানা : বাড়ি নং</p>
+            <p className={styles.driverParagraph}>বর্তমান ঠিকানা</p>
               <input className={styles.driverInput}
                 type="text"
              
@@ -191,7 +191,7 @@ function DriverRegistration() {
               )}
             </div>
             <div className={styles.driverInfield}>
-            <p className={styles.driverParagraph}>বর্তমান ঠিকানা : পোস্টাল কোড</p>
+            <p className={styles.driverParagraph}>পোস্টাল কোড</p>
               <input className={styles.driverInput}
                 type="text"
          
@@ -207,14 +207,14 @@ function DriverRegistration() {
               )}
             </div>
             <div className={styles.driverInfield}>
-            <p className={styles.driverParagraph}>বর্তমান ঠিকানা : জেলা</p>
+            <p className={styles.driverParagraph}>জেলা</p>
   <select className={styles.driverSelect}
     id="driver_address"
     name="driver_address"
     value={formData.driver_address}
     onChange={handleInputChange}
   >
-    <option value="">বর্তমান ঠিকানা : জেলা</option>
+    <option value=""> জেলা</option>
     <option value="Dhaka">Dhaka</option>
     <option value="Chattogram">Chattogram</option>
     <option value="Sylhet">Sylhet</option>

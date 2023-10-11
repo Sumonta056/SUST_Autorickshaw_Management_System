@@ -80,7 +80,7 @@ function Owner() {
       render: (date) => moment(date).format("YYYY-MM-DD"), 
     },
     {
-      title: "বাড়ি নং",
+      title: "বর্তমান ঠিকানা",
       dataIndex: "owner_houseNo",
     },
     {

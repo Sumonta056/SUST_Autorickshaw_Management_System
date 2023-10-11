@@ -79,7 +79,7 @@ function Driver() {
       dataIndex: "driver_date_of_birth",
     },
     {
-      title: "বাড়ি নং",
+      title: "বর্তমান ঠিকানা",
       dataIndex: "driver_houseNo",
     },
     {

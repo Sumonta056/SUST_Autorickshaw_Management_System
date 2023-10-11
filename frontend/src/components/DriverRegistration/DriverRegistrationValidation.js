@@ -4,20 +4,22 @@ function DriverRegistrationValidation(formData) {
   const nid_pattern = /^\d{10}$/;
   const postal_code_pattern = /^\d{4}$/;
   const date_of_birth_pattern = /^\d{4}-\d{2}-\d{2}$/;
-  const house_no_pattern = /^[1-9]\d{0,2}$/;
   const license_pattern = /^\d{15}$/; 
-  
-  if (!formData.driver_license_no.match(license_pattern)) {
-      errors.driver_license_no = "ড্রাইভারের লাইসেন্স নম্বরটি সঠিক নয় (15-digit number)";
-    } else {
-      errors.driver_license_no = "";
-    }
+  const house_no_pattern = /^[a-zA-Z0-9\/-]{1,20}$/;
 
   if (!formData.driver_houseNo.match(house_no_pattern)) {
     errors.driver_houseNo = "বর্তমান ঠিকানা : বাড়ি নং সঠিক নয়.";
   } else {
     errors.driver_houseNo = "";
   }
+
+  if (!formData.driver_license_no.match(license_pattern)) {
+      errors.driver_license_no = "ড্রাইভারের লাইসেন্স নম্বরটি সঠিক নয় (15-digit number)";
+    } else {
+      errors.driver_license_no = "";
+    }
+
+  
   if (!formData.driver_nid.match(nid_pattern)) {
     errors.driver_nid = "জাতীয় পরিচয়পত্র নম্বর সঠিক নয় (10-digit number).";
   } else {
@@ -61,12 +63,7 @@ function DriverRegistrationValidation(formData) {
     }
   }
 
-  if (formData.driver_houseNo.trim() === "") {
-    errors.driver_houseNo = "বর্তমান ঠিকানা : বাড়ি নং দিন.";
-  } else {
-    errors.driver_houseNo = "";
-  }
-
+ 
   if (formData.driver_address.trim() === "") {
     errors.driver_address = "আপনার জেলা বাছাই করুন.";
   } else {

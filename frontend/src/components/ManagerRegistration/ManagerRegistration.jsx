@@ -153,7 +153,7 @@ function ManagerRegistration() {
             </div>
             <div className={styles.managerInfield}>
               <p className={styles.managerParagraph}>
-                বর্তমান ঠিকানা : বাড়ি নং
+                বর্তমান ঠিকানা
               </p>
               <input
                 type="text"
@@ -170,7 +170,7 @@ function ManagerRegistration() {
             </div>
             <div className={styles.managerInfield}>
               <p className={styles.managerParagraph}>
-                বর্তমান ঠিকানা : পোস্টাল কোড
+                পোস্টাল কোড
               </p>
               <input
                 type="text"
@@ -186,7 +186,7 @@ function ManagerRegistration() {
               )}
             </div>
             <div className={styles.managerInfield}>
-              <p className={styles.managerParagraph}>বর্তমান ঠিকানা : জেলা</p>
+              <p className={styles.managerParagraph}> জেলা</p>
               <select
                 className={styles.managerSelect}
                 id="manager_address"
@@ -194,7 +194,7 @@ function ManagerRegistration() {
                 value={formData.manager_address}
                 onChange={handleInputChange}
               >
-                <option value="">বর্তমান ঠিকানা : জেলা</option>
+                <option value="">জেলা</option>
                 <option value="Dhaka">Dhaka</option>
                 <option value="Chattogram">Chattogram</option>
                 <option value="Sylhet">Sylhet</option>
