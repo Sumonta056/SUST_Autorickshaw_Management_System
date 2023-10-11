@@ -16,6 +16,8 @@ function OwnerRegistration() {
     owner_houseNo: "",
     owner_postalCode: "",
     owner_address: "",
+    owner_tradeLicenseNo:"",
+    owner_insuranceNo:"",
   });
 
   const [errors, setErrors] = useState({
@@ -26,6 +28,8 @@ function OwnerRegistration() {
     owner_houseNo: "",
     owner_postalCode: "",
     owner_address: "",
+    owner_tradeLicenseNo:"",
+    owner_insuranceNo:"",
   });
 
   const handleInputChange = (event) => {
@@ -53,6 +57,8 @@ function OwnerRegistration() {
       validationErrors.owner_date_of_birth === "" &&
       validationErrors.owner_houseNo === "" &&
       validationErrors.owner_postalCode === "" &&
+      validationErrors.owner_tradeLicenseNo === "" &&
+      validationErrors.owner_insuranceNo === "" &&
       validationErrors.owner_address === ""
     ) {
       try {
@@ -63,7 +69,15 @@ function OwnerRegistration() {
               navigate("/");
               alert("আপনি সফলভাবে মালিক নিবন্ধন করেছেন");
             } else if (res.data === "nid_exists") {
-              alert("আপনার এনআইডি নম্বরটি ইতিমধ্যে ব্যবহার করা হয়েছে");
+              alert("উক্ত এনআইডি নম্বরটি ইতিমধ্যে ব্যবহার করা হয়েছে");
+              navigate("/OwnerRegistration");
+            }
+            else if (res.data === "insurance_exists") {
+              alert("উক্ত ইনস্যুরেন্স নম্বরটি ইতিমধ্যে ব্যবহার করা হয়েছে");
+              navigate("/OwnerRegistration");
+            }
+            else if (res.data === "trade_license_exists") {
+              alert("আপনার ট্রেড লাইসেন্স নম্বরটি ইতিমধ্যে ব্যবহার করা হয়েছে");
               navigate("/OwnerRegistration");
             } else {
               alert("নিবন্ধন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
@@ -196,7 +210,7 @@ function OwnerRegistration() {
                 value={formData.owner_address}
                 onChange={handleInputChange}
               >
-                <option value="">জেলা</option>
+                <option value="">আপনার জেলা বাছাই করুন </option>
                 <option value="Dhaka">Dhaka</option>
                 <option value="Chattogram">Chattogram</option>
                 <option value="Sylhet">Sylhet</option>
@@ -267,6 +281,42 @@ function OwnerRegistration() {
                 </span>
               )}
             </div>
+            <div className={styles.ownerInfield}>
+  <p className={styles.ownerParagraph}>
+    ট্রেড লাইসেন্স নং  
+  </p>
+  <input
+    type="text"
+    id="owner_tradeLicenseNo"
+    name="owner_tradeLicenseNo"
+    value={formData.owner_tradeLicenseNo}
+    onChange={handleInputChange}
+  />
+  {errors.owner_tradeLicenseNo && (
+    <span className={styles.ownerError}>
+      {errors.owner_tradeLicenseNo}
+    </span>
+  )}
+</div>
+
+<div className={styles.ownerInfield}>
+  <p className={styles.ownerParagraph}>
+    ইনস্যুরেন্স নং 
+  </p>
+  <input
+    type="text"
+    id="owner_insuranceNo"
+    name="owner_insuranceNo"
+    value={formData.owner_insuranceNo}
+    onChange={handleInputChange}
+  />
+  {errors.owner_insuranceNo && (
+    <span className={styles.ownerError}>
+      {errors.owner_insuranceNo}
+    </span>
+  )}
+</div>
+
 
             <button type="submit" className={styles.ownerButton}>
               নিবন্ধন 
