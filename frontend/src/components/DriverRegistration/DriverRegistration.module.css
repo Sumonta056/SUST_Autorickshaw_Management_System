@@ -10,9 +10,7 @@
     display: grid;
     place-content: center;
     font-family: 'Poppins', sans-serif;
-} 
-
-
+}
 
 .driverContainer {
     position: relative;
@@ -22,36 +20,70 @@
     box-shadow: 25px 30px 55px #5557;
     border-radius: 13px;
     overflow: hidden;
-
 }
 
 .driverFormContainer {
+    margin-top: 20px;
     position: absolute;
     width: 56%;
-    height: 100%;
+    overflow: auto;
+    /* Add this to enable scrolling */
+    max-height: 84vh;
     padding: 0px 40px;
     transition: all 0.6s ease-in-out;
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    scroll-snap-align: start;
+
+    /* Hide the default scrollbar */
+    /* Set scrollbar width and color (thumb and track) */
+
+    /* Styles for Webkit (Chrome, Edge, Safari) */
+    &::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--grad-clr2);
+        border-radius: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: var(--grad-clr2);
+        /* Change color on hover */
+    }
+
+    &::-webkit-scrollbar-track {
+        background: var(--grad-clr1);
+    }
 }
+
+
+
 
 .driverSignInContainer {
     z-index: 2;
+
 }
 
-.driverForm{
-    height: 100%;
+.driverForm {
+    height: 66%;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
-    padding: 0px 20px;
+    padding: 0px 18px;
+
 }
 
-.driverHead {
-    color: black;
-    margin-top: 10px;
-    padding-top: 10px;
+.driverForm h1 {
+    margin-top: 3px;
+    padding-top: 2px;
     padding-bottom: 10px;
+    color: #000;
+    font-size: 25px;
 }
+
 
 .driverError {
     font-size: 12px;
@@ -62,6 +94,10 @@
     margin: 8px 0px;
     width: 100%;
     color: #888787;
+}
+
+.driverInfield input {
+    border: none;
 }
 
 .driverInput {
@@ -76,23 +112,28 @@
 .driverInput[type="date"]::-webkit-calendar-picker-indicator {
     color: #a5a3a3;
 }
+
 .driverSelect {
     width: 100%;
-    padding: 12px 8px;
+    padding: 10px 6px;
+    padding-bottom: 5px;
     background-color: #f3f3f3;
     border: none;
     outline: none;
     color: grey;
+    font-size: 12px;
 }
-.driverSelect:focus{
-    color: black;
-}
-.driverSelect:focus~label{
-    width: 100%;
+
+.driverSelect:focus {
     color: black;
 }
 
 .driverSelect:focus~label {
+    width: 100%;
+    color: black;
+}
+
+.driverInput:focus~label {
     width: 100%;
     color: black;
 }
@@ -109,7 +150,7 @@ a.forgot {
     color: #fff;
     font-size: 12px;
     font-weight: bold;
-    padding: 12px 45px;
+    padding: 10px 4px;
     letter-spacing: 1px;
     width: 100%;
     text-align: center;
@@ -137,11 +178,6 @@ a.forgot {
     z-index: 9;
 }
 
-.driverOverlayContainer h1 {
-    font-size: 2rem;
-    font-weight: 800;
-}
-
 .driverOverlay {
     position: relative;
     background: transparent;
@@ -153,8 +189,15 @@ a.forgot {
 
 }
 
+.driverHead {
+    color: var(--grad-clr1);
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
 .driverFormImage {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -162,6 +205,7 @@ a.forgot {
     background-image: url('../DriverRegistration/DriverRegistration.jpg');
     background-size: cover;
     z-index: -1;
+    overflow: hidden;
 }
 
 .driverOverlayPanel {
@@ -182,37 +226,21 @@ a.forgot {
     transform: translateX(0%);
 }
 
-p {
-    font-size: 14px;
-    font-weight: 300;
-    line-height: 20px;
-    letter-spacing: 0.5px;
-}
 
 
 .driverInfield .driverError {
 
     color: rgba(255, 0, 0, 0.781);
-    font-size: 12px;
+    font-size: 10px;
     padding-left: 3px;
 
 }
 
-.driverPrevReg {
-    margin-top: 8px;
-    font-size: 12px;
-}
-
-.driverRegIgnore {
-    font-size: 12px;
-}
-
-.driverRegIgnore:hover {
-    text-decoration: underline;
-}
 
 
-@media (min-width: 1600px) {
+
+
+@media (min-width: 1400px) {
 
     .driverContainer {
 
@@ -231,7 +259,7 @@ p {
         padding: 0px 40px;
         text-align: center;
         height: 100%;
-        width: 410px;
+        width: 500px;
         transition: 0.6s ease-in-out;
 
     }
@@ -251,6 +279,7 @@ p {
     .driverOverlayContainer h1 {
         font-size: 2rem;
         font-weight: 800;
+        color: white;
     }
 
     .driverOverlay {
@@ -262,6 +291,30 @@ p {
         width: 250%;
         transition: transform 0.6s ease-in-out;
 
+    }
+
+
+
+    .driverParagraph {
+        font-size: 12px;
+        margin-bottom: -2px;
+        margin-top: 2px;
+    }
+
+    .driverInfield Input {
+        font-size: 14px;
+        padding-bottom: 10px;
+        padding-top: 10px;
+        border: none;
+    }
+
+    .driverOverlayContainer h1 {
+        font-size: 2rem;
+        font-weight: 800;
+    }
+
+    .driverError {
+        font-size: 14px;
     }
 
 }
