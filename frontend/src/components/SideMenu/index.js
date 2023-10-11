@@ -77,7 +77,7 @@ function DriverMenu() {
         className={`DriverMenuItem ${
           selectedKey === "/driver" ? "DriverMenuItemSelected" : ""
         }`}
-        onClick={() => navigate("/driver")}
+        onClick={() => navigate("/manager")}
       >
         <UserSwitchOutlined className="icon" />{" "}
         <span className="CustomLabel">ম্যানেজার তালিকা</span>

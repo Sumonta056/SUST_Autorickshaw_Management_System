@@ -464,6 +464,40 @@ app.get("/api/drivers/:id", (req, res) => {
   });
 });
 
+// Getting Manager Database
+app.get("/api/managers", async (req, res) => {
+  // Execute the query
+  db.query("SELECT * FROM manager", (queryErr, rows) => {
+    if (queryErr) {
+      console.error("Error fetching customer data: ", queryErr);
+      return res.json({ error: "Internal server error" });
+    }
+
+    res.json({ users: rows });
+  });
+});
+
+// Route to fetch manager data by manager_nid
+app.get("/api/managers/:id", (req, res) => {
+  const { id } = req.params;
+
+  const query = "SELECT * FROM manager WHERE id = ?";
+
+  db.query(query, [id], (err, result) => {
+    if (err) {
+      console.error("Error fetching manager data from MySQL:", err);
+      res.json({ error: "Internal Server Error" });
+    } else {
+      if (result.length === 0) {
+        res.json({ error: "Manager not found" });
+      } else {
+        const managerData = result[0]; // Assuming manager_nid is unique
+        res.json(managerData);
+      }
+    }
+  });
+});
+
 // Getting Owner Database
 app.get("/api/owners", async (req, res) => {
   // Execute the query
