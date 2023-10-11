@@ -10,7 +10,7 @@
     display: grid;
     place-content: center;
     font-family: 'Poppins', sans-serif;
-} 
+}
 
 .ownerContainer {
     position: relative;
@@ -23,12 +23,39 @@
 }
 
 .ownerFormContainer {
+    margin-top: 20px;
     position: absolute;
     width: 56%;
-    height: 145%;
-    padding: 0px 35px;
+    overflow: auto;
+    /* Add this to enable scrolling */
+    max-height: 84vh;
+    padding: 0px 40px;
     transition: all 0.6s ease-in-out;
-    overflow: hidden;
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    scroll-snap-align: start;
+
+    /* Hide the default scrollbar */
+    /* Set scrollbar width and color (thumb and track) */
+
+    /* Styles for Webkit (Chrome, Edge, Safari) */
+    &::-webkit-scrollbar {
+        width: 12px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--grad-clr2);
+        border-radius: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: var(--grad-clr2);
+        /* Change color on hover */
+    }
+
+    &::-webkit-scrollbar-track {
+        background: var(--grad-clr1);
+    }
 }
 
 
@@ -36,7 +63,7 @@
 
 .ownerSignInContainer {
     z-index: 2;
-    
+
 }
 
 .ownerForm {
@@ -46,10 +73,10 @@
     justify-content: center;
     align-items: center;
     padding: 0px 18px;
-    
+
 }
 
-.ownerForm h1{
+.ownerForm h1 {
     margin-top: 3px;
     padding-top: 2px;
     padding-bottom: 10px;
@@ -59,33 +86,33 @@
 
 
 .ownerError {
-    font-size: 8px;
+    font-size: 12px;
 }
 
 .ownerInfield {
     position: relative;
-    margin: 6px 0px;
+    margin: 8px 0px;
     width: 100%;
     color: #888787;
 }
-.ownerInfield input{
+
+.ownerInfield input {
     border: none;
 }
 
 .ownerInput {
     width: 100%;
-    padding: 8px 6px;
+    padding: 12px 8px;
     background-color: #f3f3f3;
     border: none;
     outline: none;
-    font-size: 12px;
-    padding-bottom: 5px;
 }
 
 
 .ownerInput[type="date"]::-webkit-calendar-picker-indicator {
     color: #a5a3a3;
 }
+
 .ownerSelect {
     width: 100%;
     padding: 10px 6px;
@@ -96,10 +123,12 @@
     color: grey;
     font-size: 12px;
 }
-.ownerSelect:focus{
+
+.ownerSelect:focus {
     color: black;
 }
-.ownerSelect:focus~label{
+
+.ownerSelect:focus~label {
     width: 100%;
     color: black;
 }
@@ -159,12 +188,14 @@ a.forgot {
     transition: transform 0.6s ease-in-out;
 
 }
+
 .ownerHead {
     color: var(--grad-clr1);
     margin-top: 10px;
     padding-top: 10px;
     padding-bottom: 10px;
 }
+
 .ownerFormImage {
     position: fixed;
     top: 0;
@@ -173,8 +204,8 @@ a.forgot {
     height: 100%;
     background-image: url('../OwnerRegistration/OwnerRegistration.jpg');
     background-size: cover;
-    z-index: -1;   
-    overflow: hidden; 
+    z-index: -1;
+    overflow: hidden;
 }
 
 .ownerOverlayPanel {
@@ -209,7 +240,7 @@ a.forgot {
 
 
 
-@media (min-width: 1600px) {
+@media (min-width: 1400px) {
 
     .ownerContainer {
 
@@ -262,27 +293,26 @@ a.forgot {
 
     }
 
-   
+
 
     .ownerParagraph {
-        font-size: 15px;
+        font-size: 12px;
         margin-bottom: -2px;
         margin-top: 2px;
-        padding-bottom: 12px;
-        padding-top: 5px;
     }
 
-    .ownerInfield Input{
+    .ownerInfield Input {
         font-size: 14px;
         padding-bottom: 10px;
         padding-top: 10px;
-        border: none;
-     }
+        border: none;
+    }
 
-     .ownerOverlayContainer h1 {
+    .ownerOverlayContainer h1 {
         font-size: 2rem;
         font-weight: 800;
     }
+
     .ownerError {
         font-size: 14px;
     }

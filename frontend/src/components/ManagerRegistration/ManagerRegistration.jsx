@@ -80,12 +80,14 @@ function ManagerRegistration() {
 
   return (
     <div className={styles.RegistrationScreen}>
-  <div className={styles.managerContainer}>
-    <div className={styles.managerFormContainer} id="managerFormContainer">
-    <form className={styles.managerForm} onSubmit={handleSubmit}>
+      <div className={styles.managerContainer}>
+        <div className={styles.managerFormContainer} id="managerFormContainer">
+          <form className={styles.managerForm} onSubmit={handleSubmit}>
             <h1 className={styles.managerHead}>ম্যানেজারের নিবন্ধন ফর্ম</h1>
             <div className={styles.managerInfield}>
-              <p className={styles.managerParagraph}>ম্যানেজারের নাম : প্রথম অংশ</p>
+              <p className={styles.managerParagraph}>
+                ম্যানেজারের নাম : প্রথম অংশ
+              </p>
               <input
                 type="text"
                 id="manager_firstName"
@@ -100,7 +102,9 @@ function ManagerRegistration() {
               )}
             </div>
             <div className={styles.managerInfield}>
-              <p className={styles.managerParagraph}>ম্যানেজারের নাম : শেষ অংশ</p>
+              <p className={styles.managerParagraph}>
+                ম্যানেজারের নাম : শেষ অংশ
+              </p>
               <input
                 type="text"
                 id="manager_lastName"
@@ -115,9 +119,7 @@ function ManagerRegistration() {
               )}
             </div>
             <div className={styles.managerInfield}>
-              <p className={styles.managerParagraph}>
-                জাতীয় পরিচয়পত্র নম্বর
-              </p>
+              <p className={styles.managerParagraph}>জাতীয় পরিচয়পত্র নম্বর</p>
               <input
                 type="text"
                 id="manager_nid"
@@ -132,9 +134,7 @@ function ManagerRegistration() {
               )}
             </div>
             <div className={styles.managerInfield}>
-              <p className={styles.managerParagraph}>
-                জন্ম তারিখ (YYYY-MM-DD)
-              </p>
+              <p className={styles.managerParagraph}>জন্ম তারিখ (YYYY-MM-DD)</p>
               <input
                 type="text"
                 id="manager_date_of_birth"
@@ -186,9 +186,7 @@ function ManagerRegistration() {
               )}
             </div>
             <div className={styles.managerInfield}>
-              <p className={styles.managerParagraph}>
-                বর্তমান ঠিকানা : জেলা
-              </p>
+              <p className={styles.managerParagraph}>বর্তমান ঠিকানা : জেলা</p>
               <select
                 className={styles.managerSelect}
                 id="manager_address"
@@ -269,20 +267,21 @@ function ManagerRegistration() {
             </div>
 
             <button type="submit" className={styles.managerButton}>
-              নিবন্ধন 
+              নিবন্ধন
             </button>
           </form>
-    </div>
-    <div className={styles.managerOverlayContainer} id="overlayCon">
-      <div className={styles.managerOverlay}>
-        <div className={`${styles.managerOverlayPanel} ${styles.managerOverlayRight}`}>
-          <div className={styles.managerFormImage} />
+        </div>
+        <div className={styles.managerOverlayContainer} id="overlayCon">
+          <div className={styles.managerOverlay}>
+            <div
+              className={`${styles.managerOverlayPanel} ${styles.managerOverlayRight}`}
+            >
+              <div className={styles.managerFormImage} />
+            </div>
+          </div>
         </div>
       </div>
     </div>
-  </div>
-</div>
-
   );
 }
 
