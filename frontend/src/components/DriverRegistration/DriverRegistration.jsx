@@ -109,7 +109,7 @@ function DriverRegistration() {
                 value={formData.driver_firstName}
                 onChange={handleInputChange}
               />
-              {errors.driver_name && (
+              {errors.driver_firstName && (
                 <span className={styles.driverError}>{errors.driver_firstName}</span>
               )}
             </div>
@@ -123,7 +123,7 @@ function DriverRegistration() {
                 value={formData.driver_lastName}
                 onChange={handleInputChange}
               />
-              {errors.driver_name && (
+              {errors.driver_lastName && (
                 <span className={styles.driverError}>{errors.driver_lastName}</span>
               )}
             </div>
