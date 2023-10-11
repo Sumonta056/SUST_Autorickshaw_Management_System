@@ -208,7 +208,7 @@ function UpdateDriverInfo() {
             </div>
             <div className={styles.updateDriverInfield}>
               <p className={styles.updateDriverParagraph}>
-                বর্তমান ঠিকানা : বাড়ি নং
+                বর্তমান ঠিকানা 
               </p>
               <input
                 type="text"
@@ -225,7 +225,7 @@ function UpdateDriverInfo() {
             </div>
             <div className={styles.updateDriverInfield}>
               <p className={styles.updateDriverParagraph}>
-                বর্তমান ঠিকানা : পোস্টাল কোড
+               পোস্টাল কোড
               </p>
               <input
                 type="text"
@@ -242,7 +242,7 @@ function UpdateDriverInfo() {
             </div>
             <div className={styles.updateDriverInfield}>
               <p className={styles.updateDriverParagraph}>
-                বর্তমান ঠিকানা : জেলা
+                জেলা
               </p>
               <select className={styles.updateDriverSelect}
                 id="driver_address"
@@ -250,7 +250,7 @@ function UpdateDriverInfo() {
                 value={formData.driver_address}
                 onChange={handleInputChange}
               >
-                <option value="">বর্তমান ঠিকানা : জেলা</option>
+                <option value="">জেলা</option>
                 <option value="Dhaka">Dhaka</option>
                 <option value="Chattogram">Chattogram</option>
                 <option value="Sylhet">Sylhet</option>
