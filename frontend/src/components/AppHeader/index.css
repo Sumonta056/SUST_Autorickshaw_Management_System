@@ -43,3 +43,7 @@
 .AppHeaderTitle2 {
     padding: 10px;
 }
+
+.AppHeaderTitle2 span {
+    color: rgb(226, 108, 12);
+}

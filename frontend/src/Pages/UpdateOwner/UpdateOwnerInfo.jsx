@@ -115,8 +115,8 @@ function UpdateOwnerInfo() {
         >
           <form className={styles.updateOwnerForm} onSubmit={handleSubmit}>
             <h1>মালিকের তথ্য হালনাগাদ ফর্ম</h1>
-            <div className={styles.ownerInfield}>
-              <p className={styles.ownerParagraph}>মালিকের নাম : প্রথম অংশ</p>
+            <div className={styles.updateOwnerInfield}>
+              <p className={styles.updateOwnerParagraph}>মালিকের নাম : প্রথম অংশ</p>
               <input
                 type="text"
                 id="owner_firstName"
@@ -130,8 +130,8 @@ function UpdateOwnerInfo() {
                 </span>
               )}
             </div>
-            <div className={styles.ownerInfield}>
-              <p className={styles.ownerParagraph}>মালিকের নাম : শেষ অংশ</p>
+            <div className={styles.updateOwnerInfield}>
+              <p className={styles.updateOwnerParagraph}>মালিকের নাম : শেষ অংশ</p>
               <input
                 type="text"
                 id="owner_lastName"

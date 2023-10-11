@@ -62,11 +62,11 @@ function Owner() {
 
   const columns = [
     {
-      title: "মালিকের নাম : প্রথম অংশ",
+      title: "প্রথম নাম",
       dataIndex: "owner_firstName",
     },
     {
-      title: "মালিকের নাম : শেষ অংশ",
+      title: "শেষ নাম",
       dataIndex: "owner_lastName",
     },
     {

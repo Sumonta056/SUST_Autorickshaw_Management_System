@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 11, 2023 at 05:57 AM
+-- Generation Time: Oct 11, 2023 at 07:21 AM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -106,11 +106,12 @@ CREATE TABLE `driver` (
 --
 
 INSERT INTO `driver` (`driver_nid`, `driver_firstName`, `driver_lastName`, `driver_date_of_birth`, `driver_houseNo`, `driver_postalCode`, `driver_address`, `driver_license_no`, `id`) VALUES
-('2019831038', 'Promi Saha', '', '2023-09-05', '12', '1330', 'Pirojpur', '201983103866666', 2),
+('2019831038', 'Promi', 'Mojumder', '2003-01-05', '12', '3100', 'Pirojpur', '201983103866666', 2),
 ('1234567898', 'Mazarul Islam', '', '2023-09-08', '12', '1400', 'Narayanganj', '123456789012342', 4),
 ('1234567899', 'Ratul Saha', '', '2023-08-31', '45', '1000', 'Jhenaidah', '123456789111111', 5),
 ('1112223331', 'Mahamud Ali', '', '2023-09-12', '123', '1400', 'Jhalokathi', '123123123123123', 6),
-('2019831032', 'HORIPRIYA', 'DAS', '1998-05-11', '23', '3100', 'Barishal', '123456789012346', 7);
+('2019831032', 'HORIPRIYA', 'DAS', '1998-05-11', '23', '3100', 'Barishal', '123456789012346', 7),
+('2019831030', 'Promi', 'Mojumder', '2000-05-08', '22', '3100', 'Munshiganj', '201983103855576', 8);
 
 -- --------------------------------------------------------
 
@@ -161,7 +162,7 @@ CREATE TABLE `owner` (
 --
 
 INSERT INTO `owner` (`owner_nid`, `owner_firstName`, `owner_lastName`, `owner_date_of_birth`, `owner_houseNo`, `owner_postalCode`, `owner_address`, `id`) VALUES
-('1234567890', 'Sumonta', '0', '2023-10-01', '20', '2021', 'Dhaka', 1),
+('1234567890', 'Sumonta', 'Sa', '2002-12-30', '20', '2021', 'Dhaka', 1),
 ('1234567891', 'gg', '0', '2000-12-11', '10', '1440', 'dhaka', 2),
 ('1234567892', 'Promi Mojumder', '0', '2023-10-10', '20', '4000', 'Dhaka', 3),
 ('1234567894', 'Sumonta Saha', '0', '2000-12-04', '12', '1400', 'নরায়ণগঞ্জ', 5),
@@ -278,7 +279,7 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT for table `driver`
 --
 ALTER TABLE `driver`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT for table `manager`

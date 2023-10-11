@@ -55,7 +55,7 @@ function UpdateDriverInfo() {
     if (
       validationErrors.driver_nid === "" &&
       validationErrors.driver_firstName === "" &&
-    validationErrors.driver_lastName === "" &&
+      validationErrors.driver_lastName === "" &&
       validationErrors.driver_date_of_birth === "" &&
       validationErrors.driver_houseNo === "" &&
       validationErrors.driver_postalCode === "" &&
@@ -117,37 +117,45 @@ function UpdateDriverInfo() {
           className={`${styles["updateDriverFormContainer"]} ${styles["updateDriverSignUpContainer"]}`}
         >
           <form onSubmit={handleSubmit}>
-          <h1>ড্রাইভারের তথ্য হালনাগাদ ফর্ম</h1>
-          <div className={styles.driverInfield}>
-              <p className={styles.driverParagraph}>ড্রাইভারের নাম : প্রথম অংশ</p>
-              <input className={styles.driverInput}
+            <h1>ড্রাইভারের তথ্য হালনাগাদ ফর্ম</h1>
+            <div className={styles.updateDriverInfield}>
+              <p className={styles.updateDriverParagraph}>
+                ড্রাইভারের নাম : প্রথম অংশ
+              </p>
+              <input
+                className={styles.updateDriverInput}
                 type="text"
-      
                 id="driver_firstName"
                 name="driver_firstName"
                 value={formData.driver_firstName}
                 onChange={handleInputChange}
               />
-              {errors.driver_name && (
-                <span className={styles.driverError}>{errors.driver_firstName}</span>
+              {errors.driver_firstName && (
+                <span className={styles.driverError}>
+                  {errors.driver_firstName}
+                </span>
               )}
             </div>
-            <div className={styles.driverInfield}>
-            <p className={styles.driverParagraph}>ড্রাইভারের নাম : শেষ অংশ</p>
-              <input className={styles.driverInput}
+            <div className={styles.updateDriverInfield}>
+              <p className={styles.updateDriverParagraph}>ড্রাইভারের নাম : শেষ অংশ</p>
+              <input
+                className={styles.updateDriverInput}
                 type="text"
-             
                 id="driver_lastName"
                 name="driver_lastName"
                 value={formData.driver_lastName}
                 onChange={handleInputChange}
               />
-              {errors.driver_name && (
-                <span className={styles.driverError}>{errors.driver_lastName}</span>
+              {errors.driver_lastName && (
+                <span className={styles.driverError}>
+                  {errors.driver_lastName}
+                </span>
               )}
             </div>
             <div className={styles.updateDriverInfield}>
-            <p className={styles.updateDriverParagraph}>জাতীয় পরিচয়পত্র নম্বর</p>
+              <p className={styles.updateDriverParagraph}>
+                জাতীয় পরিচয়পত্র নম্বর
+              </p>
               <input
                 type="text"
                 id="driver_nid"
@@ -156,14 +164,17 @@ function UpdateDriverInfo() {
                 onChange={handleInputChange}
               />
               {errors.driver_nid && (
-                <span className={styles.updateDriverError}>{errors.driver_nid}</span>
+                <span className={styles.updateDriverError}>
+                  {errors.driver_nid}
+                </span>
               )}
             </div>
             <div className={styles.updateDriverInfield}>
-               <p className={styles.updateDriverParagraph}>ড্রাইভিং লাইসেন্স নম্বর</p>
+              <p className={styles.updateDriverParagraph}>
+                ড্রাইভিং লাইসেন্স নম্বর
+              </p>
               <input
                 type="text"
-                
                 id="driver_license_no"
                 name="driver_license_no"
                 value={formData.driver_license_no}
@@ -176,10 +187,11 @@ function UpdateDriverInfo() {
               )}
             </div>
             <div className={styles.updateDriverInfield}>
-              <p className={styles.updateDriverParagraph}>জন্ম তারিখ (YYYY-MM-DD)</p>
+              <p className={styles.updateDriverParagraph}>
+                জন্ম তারিখ (YYYY-MM-DD)
+              </p>
               <input
                 type="text"
-                
                 id="driver_date_of_birth"
                 name="driver_date_of_birth"
                 pattern="\d{4}-\d{2}-\d{2}"
@@ -195,10 +207,11 @@ function UpdateDriverInfo() {
               )}
             </div>
             <div className={styles.updateDriverInfield}>
-              <p className={styles.updateDriverParagraph}>বর্তমান ঠিকানা : বাড়ি নং</p>
+              <p className={styles.updateDriverParagraph}>
+                বর্তমান ঠিকানা : বাড়ি নং
+              </p>
               <input
                 type="text"
-                
                 name="driver_houseNo"
                 id="driver_houseNo"
                 value={formData.driver_houseNo}
@@ -211,10 +224,11 @@ function UpdateDriverInfo() {
               )}
             </div>
             <div className={styles.updateDriverInfield}>
-              <p className={styles.updateDriverParagraph}>বর্তমান ঠিকানা : পোস্টাল কোড</p>
+              <p className={styles.updateDriverParagraph}>
+                বর্তমান ঠিকানা : পোস্টাল কোড
+              </p>
               <input
                 type="text"
-                
                 id="driver_postalCode"
                 name="driver_postalCode"
                 value={formData.driver_postalCode}
@@ -227,8 +241,10 @@ function UpdateDriverInfo() {
               )}
             </div>
             <div className={styles.updateDriverInfield}>
-              <p className={styles.updateDriverParagraph}>বর্তমান ঠিকানা : জেলা</p>
-              <select
+              <p className={styles.updateDriverParagraph}>
+                বর্তমান ঠিকানা : জেলা
+              </p>
+              <select className={styles.updateDriverSelect}
                 id="driver_address"
                 name="driver_address"
                 value={formData.driver_address}
@@ -307,12 +323,14 @@ function UpdateDriverInfo() {
             </div>
 
             <button type="submit" className={styles.updateDriverButton}>
-             হালনাগাদ করুন 
+              হালনাগাদ করুন
             </button>
-            
           </form>
         </div>
-        <div className={`${styles["updateDriverOverlayContainer"]}`} id="overlayCon">
+        <div
+          className={`${styles["updateDriverOverlayContainer"]}`}
+          id="overlayCon"
+        >
           <div className={styles.updateDriverOverlay}>
             <div
               className={`${styles["updateDriverOverlayPanel"]} ${styles["updateDriverOverlayRight"]}`}

@@ -12,12 +12,6 @@
     font-family: 'Poppins', sans-serif;
 }
 
-.updateDriverHead {
-    color: var(--grad-clr1);
-    margin-top: 10px;
-    padding-top: 10px;
-    padding-bottom: 10px;
-}
 .updateDriverContainer {
     position: relative;
     width: 850px;
@@ -29,19 +23,50 @@
 }
 
 .updateDriverFormContainer {
+    margin-top: 20px;
     position: absolute;
     width: 56%;
-    height: 150%;
-    padding: 0px 35px;
+    overflow: auto;
+    /* Add this to enable scrolling */
+    max-height: 84vh;
+    padding: 0px 40px;
     transition: all 0.6s ease-in-out;
-    overflow-y: auto;
+    scroll-snap-type: y mandatory;
+    overflow-y: scroll;
+    scroll-snap-align: start;
+
+    /* Hide the default scrollbar */
+    /* Set scrollbar width and color (thumb and track) */
+
+    /* Styles for Webkit (Chrome, Edge, Safari) */
+    &::-webkit-scrollbar {
+        width: 2px;
+    }
+
+    &::-webkit-scrollbar-thumb {
+        background-color: var(--grad-clr2);
+        border-radius: 6px;
+    }
+
+    &::-webkit-scrollbar-thumb:hover {
+        background-color: var(--grad-clr2);
+        /* Change color on hover */
+    }
+
+    &::-webkit-scrollbar-track {
+        background: var(--grad-clr1);
+    }
 }
+
+
+
 
 .updateDriverSignInContainer {
     z-index: 2;
+
 }
 
-form {
+.updateDriverForm {
     height: 66%;
     display: flex;
     flex-direction: column;
@@ -51,66 +76,66 @@ form {
 
 }
 
-.updateDriverFormContainer h1{
-    margin-top: 2px;
+.updateDriverFormContainer h1 {
+    margin-top: 3px;
     padding-top: 2px;
     padding-bottom: 10px;
     color: #000;
-    font-size: 24px;
+    font-size: 25px;
 }
 
-span {
-    font-size: 8px;
+
+.updateDriverError {
+    font-size: 12px;
 }
 
 .updateDriverInfield {
     position: relative;
-    margin: 6px 0px;
+    margin: 8px 0px;
     width: 100%;
     color: #888787;
 }
 
-input {
+.updateDriverInfield input {
+    border: none;
+    color: #535252;
+}
+
+
+.updateDriverInput {
     width: 100%;
-    padding: 8px 6px;
+    padding: 12px 8px;
     background-color: #f3f3f3;
     border: none;
     outline: none;
-    font-size: 12px;
-    padding-bottom: 5px;
 }
 
 
-input[type="date"]::-webkit-calendar-picker-indicator {
+.updateDriverInput[type="date"]::-webkit-calendar-picker-indicator {
     color: #a5a3a3;
 }
 
-select {
+.updateDriverSelect {
     width: 100%;
-    padding: 10px 6px;
+    padding: 12px 8px;
     padding-bottom: 5px;
     background-color: #f3f3f3;
     border: none;
     outline: none;
     color: grey;
-    font-size: 12px;
-}
-option{
-
-    border: none;
+    font-size: 14px;
 }
 
-select:focus {
+.updateDriverSelect:focus {
     color: black;
 }
 
-
-select:focus~label {
+.updateDriverSelect:focus~label {
     width: 100%;
     color: black;
 }
 
-input:focus~label {
+.updateDriverInput:focus~label {
     width: 100%;
     color: black;
 }
@@ -127,7 +152,7 @@ a.forgot {
     color: #fff;
     font-size: 12px;
     font-weight: bold;
-    padding: 12px 4px;
+    padding: 10px 4px;
     letter-spacing: 1px;
     width: 100%;
     text-align: center;
@@ -155,11 +180,6 @@ a.forgot {
     z-index: 9;
 }
 
-.updateDriverOverlayContainer h1 {
-    font-size: 2rem;
-    font-weight: 800;
-}
-
 .updateDriverOverlay {
     position: relative;
     background: transparent;
@@ -171,14 +191,15 @@ a.forgot {
 
 }
 
-.updateDriverParagraph {
-    font-size: 10px;
-    margin-bottom: -2px;
-    margin-top: 2px;
+.updateDriverHead {
+    color: var(--grad-clr1);
+    margin-top: 10px;
+    padding-top: 10px;
+    padding-bottom: 10px;
 }
 
 .updateDriverFormImage {
-    position: absolute;
+    position: fixed;
     top: 0;
     left: 0;
     width: 100%;
@@ -186,6 +207,7 @@ a.forgot {
     background-image: url('../UpdateDriver/UpdateDriverRegistration.jpg');
     background-size: cover;
     z-index: -1;
+    overflow: hidden;
 }
 
 .updateDriverOverlayPanel {
@@ -216,15 +238,20 @@ a.forgot {
 
 }
 
+.updateDriverParagraph {
+    font-size: 12px;
+    margin-bottom: -2px;
+    margin-top: 2px;
+}
 
 
 
-@media (min-width: 1600px) {
+@media (min-width: 1400px) {
 
     .updateDriverContainer {
 
         width: 900px;
-        height: 93vh;
+        height: 90vh;
 
 
     }
@@ -256,6 +283,7 @@ a.forgot {
     }
 
 
+
     .updateDriverOverlay {
         position: relative;
         background: transparent;
@@ -268,6 +296,7 @@ a.forgot {
     }
 
 
+
     .updateDriverInfield Input {
         font-size: 14px;
         padding-bottom: 10px;
@@ -275,14 +304,10 @@ a.forgot {
         border: none;
     }
 
-    
 
-    .updateDriverOverlayContainer h1 {
-        font-size: 2rem;
-        font-weight: 800;
-    }
 
     .updateDriverError {
         font-size: 14px;
     }
+
 }

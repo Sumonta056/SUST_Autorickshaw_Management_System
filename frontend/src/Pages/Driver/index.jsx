@@ -59,11 +59,11 @@ function Driver() {
 
   const columns = [
     {
-      title: "মালিকের নাম : প্রথম অংশ",
+      title: "প্রথম নাম",
       dataIndex: "driver_firstName",
     },
     {
-      title: "মালিকের নাম : শেষ অংশ",
+      title: "শেষ নাম",
       dataIndex: "driver_lastName",
     },
     {
