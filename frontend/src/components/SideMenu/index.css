@@ -7,14 +7,14 @@
 }
 
 
-.DriverMenu , .OwnerMenu{
+.DriverMenu , .OwnerMenu, .ManagerMenu, .AutorickshawMenu{
     background-color: #c7c0c088;
     padding: 16px;
     width: 300px;
     height: 100%;
 }
 
-.DriverMenuItem , .OwnerMenuItem{
+.DriverMenuItem , .OwnerMenuItem, .ManagerMenuItem, .AutorickshawMenuItem{
     display: flex;
     align-items: center;
     padding: 15px 0px 5px 15px;
@@ -32,12 +32,12 @@
 
 }
 
-.DriverMenuItem .icon, .OwnerMenuItem .icon{
+.DriverMenuItem .icon, .OwnerMenuItem .icon, .ManagerMenuItem .icon, .AutorickshawMenuItem .icon{
 
     font-size: 20px;
 
 }
-.DriverMenuItem:hover, .OwnerMenuItem:hover{
+.DriverMenuItem:hover, .OwnerMenuItem:hover, .ManagerMenuItem:hover, .AutorickshawMenuItem:hover{
     background-color: #c2bfbf;
     padding: 15px;
 }
