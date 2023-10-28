@@ -1,4 +1,4 @@
-import React from "react";
+import { useEffect ,useState} from "react";
 import AppHeader from "../../components/AppHeader";
 import SideMenu from "../../components/SideMenu";
 import "./index.css";
@@ -6,9 +6,63 @@ import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 
 function Dashboard() {
-  const driver = 56;
-  const autorickshaw = 38;
-  const owner = 10;
+  const [driver, setDataSource] = useState([]);
+  const [owner, setDataSource2] = useState([]);
+  const [autorickshaw, setDataSource3] = useState([]);
+
+
+  function driverData() {
+    
+    fetch("http://localhost:3001/api/totalDrivers")
+      .then((response) => response.json())
+      .then((data) => {
+        setDataSource(data.totalDrivers);
+        console.log("Success fetching Schedule data: ", driver);
+      
+      })
+      .catch((error) => {
+        console.error("Error fetching Schedule data: ", error);
+      });
+
+
+  }
+
+  function ownerData() {
+    
+    fetch("http://localhost:3001/api/totalOwners")
+      .then((response) => response.json())
+      .then((data) => {
+        setDataSource2(data.totalOwners);
+      })
+      .catch((error) => {
+        console.error("Error fetching Schedule data: ", error);
+      });
+
+
+  }
+
+  
+  function autorickshawData() {
+    
+    fetch("http://localhost:3001/api/totalautorickshaws")
+      .then((response) => response.json())
+      .then((data) => {
+        setDataSource3(data.totalautorickshaws);
+      })
+      .catch((error) => {
+        console.error("Error fetching Schedule data: ", error);
+      });
+
+
+  }
+
+
+  useEffect(() => {
+    driverData();
+    ownerData();
+    autorickshawData();
+  }, []);
+
   return (
     <div className="App">
       <AppHeader />
@@ -16,7 +70,7 @@ function Dashboard() {
         <SideMenu></SideMenu>
         <div className="PageContentDash">
           <div className="dashboard-home">
-            <div style={{  width: 150, height: 150 }}>
+            <div style={{ width: 150, height: 150 }}>
               <CircularProgressbar
                 value={driver}
                 text={`${driver}`}
@@ -62,9 +116,8 @@ function Dashboard() {
             <h1 className="circularHeader">ড্রাইভারের সংখ্যা</h1>
           </div>
 
-
           <div className="dashboard-home">
-            <div style={{  width: 150, height: 150 }}>
+            <div style={{ width: 150, height: 150 }}>
               <CircularProgressbar
                 value={autorickshaw}
                 text={`${autorickshaw}`}
@@ -110,9 +163,8 @@ function Dashboard() {
             <h1 className="circularHeader">অটোরিক্সা সংখ্যা</h1>
           </div>
 
-
           <div className="dashboard-home">
-            <div style={{  width: 150, height: 150 }}>
+            <div style={{ width: 150, height: 150 }}>
               <CircularProgressbar
                 value={owner}
                 text={`${owner}`}

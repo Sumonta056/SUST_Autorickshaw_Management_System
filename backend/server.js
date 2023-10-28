@@ -942,8 +942,52 @@ app.put("/PermitAutorickshaw/:id", (req, res) => {
   });
 });
 
+
+// Define a route to get the total number of drivers
+app.get("/api/totalDrivers", (req, res) => {
+  db.query("SELECT COUNT(*) as total FROM driver", (error, results) => {
+    if (error) {
+      console.error("Error querying MySQL: " + error);
+      res.status(500).json({ error: "Internal Server Error" });
+    } else {
+      const totalDrivers = results[0].total;
+      res.json({ totalDrivers });
+    }
+  });
+});
+
+
+// Define a route to get the total number of drivers
+app.get("/api/totalOwners", (req, res) => {
+  db.query("SELECT COUNT(*) as total FROM owner", (error, results) => {
+    if (error) {
+      console.error("Error querying MySQL: " + error);
+      res.status(500).json({ error: "Internal Server Error" });
+    } else {
+      const totalOwners = results[0].total;
+      res.json({ totalOwners });
+    }
+  });
+});
+
+
+// Define a route to get the total number of drivers
+app.get("/api/totalautorickshaws", (req, res) => {
+  db.query("SELECT COUNT(*) as total FROM autorickshaw", (error, results) => {
+    if (error) {
+      console.error("Error querying MySQL: " + error);
+      res.status(500).json({ error: "Internal Server Error" });
+    } else {
+      const totalautorickshaws = results[0].total;
+      res.json({ totalautorickshaws });
+    }
+  });
+});
+
+
+
 const PORT = 3001;
 
 app.listen(PORT, () => {
-  console.log(`Server is running on port ${PORT}`);
+  console.log(`Server is running on the port ${PORT}`);
 });
