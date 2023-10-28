@@ -74,8 +74,8 @@ function DriverMenu() {
         <span className="CustomLabel">ড্রাইভারের তালিকা</span>
       </div>
       <div
-        className={`DriverMenuItem ${
-          selectedKey === "/driver" ? "DriverMenuItemSelected" : ""
+        className={`ManagerMenuItem ${
+          selectedKey === "/manager" ? "ManagerMenuItemSelected" : ""
         }`}
         onClick={() => navigate("/manager")}
       >
@@ -87,37 +87,37 @@ function DriverMenu() {
         অননুমোদিত
       </div>
       <div
-        className={`DriverMenuItem ${
-          selectedKey === "/inventory" ? "DriverMenuItemSelected" : ""
+        className={`OwnerMenuItem ${
+          selectedKey === "/inventory" ? "OwnerMenuItemSelected" : ""
         }`}
-        onClick={() => navigate("/owner")}
+        onClick={() => navigate("/UnauthorizedOwner")}
       >
         <UserOutlined className="icon" />{" "}
         <span className="CustomLabel">মালিকের তালিকা</span>
       </div>
       <div
-        className={`OwnerMenuItem ${
-          selectedKey === "/orders" ? "OwnerMenuItemSelected" : ""
+        className={`AutorickshawMenuItem ${
+          selectedKey === "/UnauthorizedAutorickshaw" ? "AutorickshawMenuItemSelected" : ""
         }`}
-        onClick={() => navigate("/autorickshaw")}
+        onClick={() => navigate("/UnauthorizedAutorickshaw")}
       >
         <CarOutlined className="icon" />{" "}
         <span className="CustomLabel">অটোরিকশার তালিকা</span>
       </div>
       <div
         className={`DriverMenuItem ${
-          selectedKey === "/driver" ? "DriverMenuItemSelected" : ""
+          selectedKey === "/UnauthorizedDriver" ? "DriverMenuItemSelected" : ""
         }`}
-        onClick={() => navigate("/driver")}
+        onClick={() => navigate("/UnauthorizedDriver")}
       >
         <UsergroupAddOutlined className="icon" />{" "}
         <span className="CustomLabel">ড্রাইভারের তালিকা</span>
       </div>
       <div
-        className={`DriverMenuItem ${
-          selectedKey === "/driver" ? "DriverMenuItemSelected" : ""
+        className={`ManagerMenuItem ${
+          selectedKey === "/UnauthorizedManager" ? "ManagerMenuItemSelected" : ""
         }`}
-        onClick={() => navigate("/manager")}
+        onClick={() => navigate("/UnauthorizedManager")}
       >
         <UserSwitchOutlined className="icon" />{" "}
         <span className="CustomLabel">ম্যানেজার তালিকা</span>

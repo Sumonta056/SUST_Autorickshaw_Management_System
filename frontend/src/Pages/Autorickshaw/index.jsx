@@ -17,7 +17,8 @@ function Owner() {
     fetch("http://localhost:3001/api/autorickshaws")
       .then((response) => response.json())
       .then((data) => {
-        setDataSource(data.users);
+        const unauthorizedAutorickshaw = data.users.filter((autorickshaw) => autorickshaw.autorickshaw_status === 1);
+        setDataSource(unauthorizedAutorickshaw);
         setLoading(false);
       })
       .catch((error) => {

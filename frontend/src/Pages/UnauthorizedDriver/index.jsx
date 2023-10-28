@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {  useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Table, Button } from "antd";
 import { UserOutlined } from "@ant-design/icons";
 import axios from "axios";
@@ -17,9 +17,8 @@ function Driver() {
     fetch("http://localhost:3001/api/drivers")
       .then((response) => response.json())
       .then((data) => {
-        // Filter only authorized drivers (where driver_status is true)
-        const authorizedDrivers = data.users.filter((driver) => driver.driver_status === 1);
-        setDataSource(authorizedDrivers);
+        const unauthorizedDrivers = data.users.filter((driver) => driver.driver_status === 0);
+        setDataSource(unauthorizedDrivers);
         setLoading(false);
       })
       .catch((error) => {
