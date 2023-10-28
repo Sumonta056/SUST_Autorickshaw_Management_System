@@ -21,4 +21,7 @@ cd frontend
 
 npm i bootstrap react-router-dom
 
+
+npm install --save react-circular-progressbar
+
 ``````
