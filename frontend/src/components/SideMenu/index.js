@@ -8,7 +8,7 @@ import {
   CaretRightOutlined,
   SettingOutlined,
   EditOutlined,
-  EyeOutlined,
+  // EyeOutlined,
   UserSwitchOutlined
 
 } from "@ant-design/icons";
@@ -130,20 +130,20 @@ function DriverMenu() {
         className={`DriverMenuItem ${
           selectedKey === "/inventory" ? "DriverMenuItemSelected" : ""
         }`}
-        onClick={() => navigate("/dashboard")}
+        onClick={() => navigate("/scheduleCreate")}
       >
         <EditOutlined className="icon" />{" "}
         <span className="CustomLabel">শিডিউল তৈরি করুন</span>
       </div>
-      <div
+      {/* <div
         className={`DriverMenuItem ${
           selectedKey === "/orders" ? "DriverMenuItemSelected" : ""
         }`}
-        onClick={() => navigate("/dashboard")}
+        onClick={() => navigate("/scheduleCreate")}
       >
         <EyeOutlined className="icon" />{" "}
         <span className="CustomLabel">শিডিউল দেখুন</span>
-      </div>
+      </div> */}
       <div className="unauthorized">
         <CaretRightOutlined className="icons" />
         সেটিংস

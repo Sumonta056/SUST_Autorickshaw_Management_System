@@ -187,7 +187,7 @@ app.post("/ManagerRegistration", (req, res) => {
         console.error(managerErr); // Log the error to the console
         return res.json(managerErr); // Return an error response
       }
-      
+
       console.log(managerValues);
       return res.json("manager_registration_success");
     });
@@ -612,7 +612,6 @@ app.delete("/delete/drivers/:driver_nid", (req, res) => {
   });
 });
 
-
 // Add a new route for deleting an autorickshaw by ID
 app.delete("/delete/autorickshaw/:id", (req, res) => {
   const autorickshawId = req.params.id;
@@ -628,7 +627,9 @@ app.delete("/delete/autorickshaw/:id", (req, res) => {
 
     // Check if any rows were affected by the delete operation
     if (result.affectedRows === 0) {
-      return res.status(404).json({ error: `Autorickshaw with ID ${autorickshawId} not found` });
+      return res
+        .status(404)
+        .json({ error: `Autorickshaw with ID ${autorickshawId} not found` });
     }
 
     // If successful, send a success response
@@ -637,7 +638,6 @@ app.delete("/delete/autorickshaw/:id", (req, res) => {
     });
   });
 });
-
 
 // Add a new route for deleting a manager by managerNID
 app.delete("/delete/managers/:managerNID", (req, res) => {
@@ -654,7 +654,9 @@ app.delete("/delete/managers/:managerNID", (req, res) => {
 
     // Check if any rows were affected by the delete operation
     if (result.affectedRows === 0) {
-      return res.status(404).json({ error: `Manager with NID ${managerNID} not found` });
+      return res
+        .status(404)
+        .json({ error: `Manager with NID ${managerNID} not found` });
     }
 
     // If successful, send a success response
@@ -832,6 +834,87 @@ app.put("/updateAutorickshaw/:id", (req, res) => {
     console.log("Autorickshaw information updated successfully");
     return res.json("success");
   });
+});
+
+// Getting Owner Database
+app.get("/api/schedule", async (req, res) => {
+  // Execute the query
+  db.query("SELECT * FROM schedule", (queryErr, rows) => {
+    if (queryErr) {
+      console.error("Error fetching owner data: ", queryErr);
+      return res.json({ error: "Internal server error" });
+    }
+
+    res.json({ users: rows });
+  });
+});
+
+// Getting Owner Database
+app.get("/api/autorickshaw", async (req, res) => {
+  // Execute the query
+  db.query("SELECT autorickshaw_number FROM autorickshaw", (queryErr, rows) => {
+    if (queryErr) {
+      console.error("Error fetching owner data: ", queryErr);
+      return res.json({ error: "Internal server error" });
+    }
+
+    res.json({ users: rows });
+  });
+});
+
+app.post("/updateschedule", (req, res) => {
+  const {
+    schedule_date,
+    schedule_round,
+    schedule_serial,
+    schedule_time,
+    schedule_autorickshaw,
+  } = req.body;
+
+  console.log(req.body);
+
+  const insertScheduleSql =
+    "INSERT INTO schedule (schedule_date, schedule_round, schedule_serial, schedule_time, schedule_autorickshaw) VALUES (?, ?, ?, ?, ?)";
+  const insertScheduleValues = [
+    schedule_date,
+    schedule_round,
+    schedule_serial,
+    schedule_time,
+    schedule_autorickshaw,
+  ];
+
+  console.log(insertScheduleValues);
+
+  db.query(insertScheduleSql, insertScheduleValues, (insertErr, insertData) => {
+    if (insertErr) {
+      console.error(insertErr); // Log the error to the console
+      return res.json({ error: "Failed to update schedule." });
+    }
+    return res.json("success");
+  });
+});
+
+
+/// Define a route to handle schedule deletion
+app.delete("/deleteschedule/:id", (req, res) => {
+  try {
+    const scheduleId = req.params.id;
+    const deleteQuery = "DELETE FROM schedule WHERE id = ?";
+    
+    // Execute the SQL delete query
+    db.query(deleteQuery, [scheduleId], (err, results) => {
+      if (err) {
+        console.error("Error deleting schedule: ", err);
+        res.status(500).json("Error deleting schedule");
+      } else {
+        
+        res.json("success");
+      }
+    });
+  } catch (error) {
+    console.error("Error deleting schedule: ", error);
+    res.status(500).json("Error deleting schedule");
+  }
 });
 
 const PORT = 3001;

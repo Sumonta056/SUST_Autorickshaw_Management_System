@@ -3,9 +3,9 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Generation Time: Oct 11, 2023 at 03:57 PM
+-- Generation Time: Oct 11, 2023 at 07:38 PM
 -- Server version: 10.4.28-MariaDB
--- PHP Version: 8.0.28
+-- PHP Version: 8.2.4
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 START TRANSACTION;
@@ -32,21 +32,27 @@ CREATE TABLE `autorickshaw` (
   `autorickshaw_company` varchar(30) DEFAULT NULL,
   `autorickshaw_model` varchar(20) DEFAULT NULL,
   `driver_nid` varchar(17) DEFAULT NULL,
-  `owner_nid` varchar(17) DEFAULT NULL
+  `owner_nid` varchar(17) DEFAULT NULL,
+  `vehicle_registration_number` varchar(255) DEFAULT NULL,
+  `chassis_number` varchar(255) DEFAULT NULL,
+  `engine_number` varchar(255) DEFAULT NULL,
+  `id` int(10) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `autorickshaw`
 --
 
-INSERT INTO `autorickshaw` (`autorickshaw_number`, `autorickshaw_company`, `autorickshaw_model`, `driver_nid`, `owner_nid`) VALUES
-('11', 'qwe', '12344', '1234567891', '2018201912'),
-('12', 'xpres', '13212', '1234567891', '1234567891'),
-('122', 'Toyto', 'poww', '1234567892', '2018201912'),
-('1233', 'qwe', 'q1212', '1234567891', '2018201912'),
-('13', 'Wps', '1231', '1234567898', '2018201912'),
-('32', 'Qwew', '12322', '1231231231', '2018201912'),
-('54', 'ASDS', '12333', '1231231231', '2018201912');
+INSERT INTO `autorickshaw` (`autorickshaw_number`, `autorickshaw_company`, `autorickshaw_model`, `driver_nid`, `owner_nid`, `vehicle_registration_number`, `chassis_number`, `engine_number`, `id`) VALUES
+('11', 'TVS', 'King', '2345678901', '8765432109', '7654321098', '23456789012345678', '234567890123456', 3),
+('78', 'Piaggio', 'Ape', '3456789012', '7654321098', '6543210987', '34567890123456789', '345678901234567', 4),
+('89', 'Bajaj', 'Maxima', '4567890123', '6543210987', '5432109876', '45678901234567890', '456789012345678', 5),
+('90', 'TVS', 'King', '5678901234', '5432109876', '4321098765', '56789012345678901', '567890123456789', 6),
+('81', 'Piaggio', 'Ape', '6789012345', '4321098765', '3210987654', '67890123456789012', '678901234567890', 7),
+('77', 'Bajaj', 'Qute', '7890123456', '3210987654', '2109876543', '78901234567890123', '789012345678901', 8),
+('23', 'TVS', 'King', '8901234567', '2109876543', '1098765432', '89012345678901234', '890123456789012', 9),
+('34', 'Piaggio', 'Ape', '9012345678', '1098765432', '0987654321', '90123456789012345', '901234567890123', 10),
+('45', 'Bajaj', 'Maxima', '0123456789', '0987654321', '9876543210', '01234567890123456', '012345678901234', 11);
 
 -- --------------------------------------------------------
 
@@ -91,36 +97,29 @@ INSERT INTO `customers` (`id`, `firstName`, `lastName`, `email`, `phone`, `image
 
 CREATE TABLE `driver` (
   `driver_nid` varchar(17) NOT NULL,
-  `driver_firstName` varchar(30) DEFAULT NULL,
-  `driver_lastName` varchar(255) NOT NULL,
   `driver_date_of_birth` varchar(20) DEFAULT NULL,
   `driver_houseNo` varchar(40) DEFAULT NULL,
   `driver_postalCode` varchar(40) DEFAULT NULL,
   `driver_address` varchar(40) DEFAULT NULL,
   `driver_license_no` varchar(20) DEFAULT NULL,
-  `id` int(100) NOT NULL
+  `id` int(100) NOT NULL,
+  `driver_firstName` varchar(30) NOT NULL,
+  `driver_lastName` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `driver`
 --
 
-INSERT INTO `driver` (`driver_nid`, `driver_firstName`, `driver_lastName`, `driver_date_of_birth`, `driver_houseNo`, `driver_postalCode`, `driver_address`, `driver_license_no`, `id`) VALUES
-('2019831038', 'Promi', 'Saha', '2003-01-05', '12r', '3100', 'Pirojpur', '201983103866666', 2),
-('1234567898', 'Mazarul Islam', '', '2023-09-08', '12', '1400', 'Narayanganj', '123456789012342', 4),
-('1234567899', 'Ratul Saha', '', '2023-08-31', '45', '1000', 'Jhenaidah', '123456789111111', 5),
-('1112223331', 'Mahamud ', 'ali', '2004-01-12', '123', '1400', 'Jhalokathi', '123123123123123', 6),
-('2019831032', 'HORIPRIYA', 'DAS', '1998-05-11', '23', '3100', 'Barishal', '123456789012346', 7),
-('2019831030', 'Promi', 'Mojumder', '2000-05-08', '22', '3100', 'Munshiganj', '201983103855576', 8),
-('2019831037', 'SADIA', 'HRIDI', '2008-01-21', '12', '3100', 'Chattogram', '201983103855670', 9),
-('2019831007', 'Mahamud', 'Hasan', '2003-12-29', '12r', '3100', 'Pirojpur', '201983100755555', 10),
-('2019831008', 'POPO', 'Miya', '2004-05-11', '22', '3100', 'Pirojpur', '201983103855557', 11),
-('2019831009', 'Ridwanur', 'Siam', '1997-01-11', '22', '3100', 'Jhalokathi', '123456789012340', 12),
-('2019831000', 'Team', 'Nightmare', '1995-05-11', '22', '3100', 'Bhola', '201983103855551', 13),
-('2019831011', 'Parthib', 'Roy', '1999-12-27', 'Mohona', '3100', 'Magura', '201983101155555', 14),
-('2019831022', 'Mamun', 'Hossain', '2003-01-11', 'MohonaB-92', '3100', 'Magura', '201983102255555', 15),
-('2019831044', 'Faruk', 'Mia', '2005-05-11', 'MohonaB-92', '3100', 'Jhalokathi', '201983104455555', 16),
-('2019831077', 'Ridwanur', 'Siam', '2001-12-30', 'Mohona B-92', '3100', 'Pirojpur', '201983103855559', 17);
+INSERT INTO `driver` (`driver_nid`, `driver_date_of_birth`, `driver_houseNo`, `driver_postalCode`, `driver_address`, `driver_license_no`, `id`, `driver_firstName`, `driver_lastName`) VALUES
+('1234567890', '1995-05-10', 'Chittagong M 15', '4000', 'Chittagong', '123456789012345', 9, 'Rahim', 'Hossain'),
+('3456789012', '1992-11-20', 'Surma R 7', '3100', 'Sylhet', '345678901234567', 11, 'Ayesha', 'Akter'),
+('4567890123', '1988-02-25', 'Karnaphuli B 9', '6000', 'Sylhet', '456789012345678', 12, 'Nazia', 'Khan'),
+('6789012345', '1991-09-05', ' Padma A 14', '2200', ' Pirojpur', '678901234567890', 14, 'Nusrat', 'Islam'),
+('7890123456', '1985-03-30', 'Chompa D 33', '3300', 'Comilla', '789012345678901', 15, 'Munira', 'Haque'),
+('8901234567', '1994-07-12', 'Doyel L 2', '9000', 'Dinajpur', '890123456789012', 16, 'Samir', 'Rahman'),
+('9012345678', '1980-12-08', 'Meghna S 8', '1200', 'Narayanganj', '901234567890123', 17, 'Sadia', 'Sultana'),
+('0123456789', '1983-05-18', 'Rajia F 6', '5500', 'Rangpur', '012345678901234', 18, 'Imran', 'Ali');
 
 -- --------------------------------------------------------
 
@@ -129,11 +128,11 @@ INSERT INTO `driver` (`driver_nid`, `driver_firstName`, `driver_lastName`, `driv
 --
 
 CREATE TABLE `manager` (
-  `manager_nid` int(11) NOT NULL,
+  `manager_nid` varchar(30) NOT NULL,
   `manager_firstName` varchar(255) DEFAULT NULL,
   `manager_lastName` varchar(255) NOT NULL,
   `manager_date_of_birth` varchar(255) DEFAULT NULL,
-  `manager_houseNo` int(11) DEFAULT NULL,
+  `manager_houseNo` varchar(255) DEFAULT NULL,
   `manager_postalCode` int(11) DEFAULT NULL,
   `manager_address` varchar(255) DEFAULT NULL,
   `id` int(11) NOT NULL
@@ -144,10 +143,14 @@ CREATE TABLE `manager` (
 --
 
 INSERT INTO `manager` (`manager_nid`, `manager_firstName`, `manager_lastName`, `manager_date_of_birth`, `manager_houseNo`, `manager_postalCode`, `manager_address`, `id`) VALUES
-(1234567891, 'Sumonta', '', '2023-08-30', 12, 1400, 'Jhalokathi', 1),
-(2019831038, 'Promi', 'Mojumder', '2000-09-18', 12, 3100, 'Munshiganj', 2),
-(2019831032, 'SADIA', 'HRIDI', '2000-10-24', 33, 3100, 'Pirojpur', 3),
-(2019831030, 'Shawon', 'Deep', '1999-05-25', 12, 3100, 'Madaripur', 4);
+('1234567890', 'Rohim', 'Mia', '1990-01-01', 'Topobon C-55', 3100, 'Sylhet', 98),
+('2345678901', 'Ahmed', 'Khan', '1985-05-15', 'Green City B-12', 4000, 'Dhaka', 99),
+('4567890123', 'Mehmood', 'Ali', '1992-08-10', 'Mohona M-9', 2200, 'Rajshahi', 101),
+('6789012345', 'Abdul', 'Haque', '1975-09-05', 'Meghna D-14', 7000, 'Khulna', 103),
+('7890123456', 'Momen', 'Haque', '1987-04-30', 'Lovely B-33', 3300, 'Comilla', 104),
+('8901234567', 'Siddique', 'Rahman', '1994-07-12', 'Amlapara L-222', 1200, 'Narayanganj', 105),
+('9012345678', 'Anowar', 'Aziz', '1983-12-08', 'Mohona F-8', 5000, 'Sylhet', 106),
+('0123456789', 'Papon', 'Sarkar', '1970-06-18', 'Surma H-6', 9000, 'Dinajpur', 107);
 
 -- --------------------------------------------------------
 
@@ -157,34 +160,30 @@ INSERT INTO `manager` (`manager_nid`, `manager_firstName`, `manager_lastName`, `
 
 CREATE TABLE `owner` (
   `owner_nid` varchar(17) NOT NULL,
-  `owner_firstName` varchar(30) DEFAULT NULL,
-  `owner_lastName` varchar(30) NOT NULL,
-  `owner_date_of_birth` varchar(255) DEFAULT NULL,
+  `owner_tradeLicenseNo` varchar(255) NOT NULL,
+  `owner_insuranceNo` varchar(255) NOT NULL,
+  `owner_date_of_birth` varchar(20) DEFAULT NULL,
   `owner_houseNo` varchar(40) DEFAULT NULL,
   `owner_postalCode` varchar(40) DEFAULT NULL,
   `owner_address` varchar(40) DEFAULT NULL,
-  `owner_tradeLicenseNo` varchar(255) NOT NULL,
-  `owner_insuranceNo` varchar(255) NOT NULL,
-  `id` int(11) NOT NULL
+  `id` int(10) NOT NULL,
+  `owner_firstName` varchar(30) NOT NULL,
+  `owner_lastName` varchar(30) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Dumping data for table `owner`
 --
 
-INSERT INTO `owner` (`owner_nid`, `owner_firstName`, `owner_lastName`, `owner_date_of_birth`, `owner_houseNo`, `owner_postalCode`, `owner_address`, `owner_tradeLicenseNo`, `owner_insuranceNo`, `id`) VALUES
-('1234567890', 'Sumonta', 'Sa', '2002-12-30', '20ee', '2021', 'Dhaka', '', '0', 1),
-('1234567891', 'gg', '0', '2000-12-11', '10', '1440', 'dhaka', '', '0', 2),
-('1234567892', 'Promi Mojumder', '0', '2023-10-10', '20', '4000', 'Dhaka', '', '0', 3),
-('1234567894', 'Sumonta Saha', '0', '2000-12-04', '12', '1400', 'নরায়ণগঞ্জ', '', '0', 5),
-('2018201912', 'Kali Mama', '0', '2023-09-20', '13', '1400', 'ভোলা', '', '0', 7),
-('2019831038', 'Promi', '0', '2023-10-09', '12', '3100', 'Munshiganj', '', '0', 8),
-('2019831055', 'Gguu', '0', '2023-09-04', '12', '3100', 'Mymensingh', '', '0', 9),
-('2019831031', 'Promi', '0', '2001-01-22', '12', '3100', 'Patuakhali', '', '0', 10),
-('2019831068', 'HORIPRIYA', 'DAS ARPITA', '1997-01-10', '124', '3100', 'Faridpur', '', '0', 11),
-('2019831088', '2002-09-11', 'Mohona B-33', '3100', 'Kishoreganj', '123456789123456789', '12345678912345678922', 'Promi', 'Mojumder', 12),
-('2019831050', 'Ridwanur', 'Siam', '2001-01-11', 'Surma B-33', '3100', 'Pirojpur', '123456789123456789', '12345678912345678922', 13),
-('2019831032', 'Promi', 'Mojumder', '2005-01-17', 'Akhalia B/22', '3100', 'Faridpur', '123456789123456780', '12345678912345678921', 14);
+INSERT INTO `owner` (`owner_nid`, `owner_tradeLicenseNo`, `owner_insuranceNo`, `owner_date_of_birth`, `owner_houseNo`, `owner_postalCode`, `owner_address`, `id`, `owner_firstName`, `owner_lastName`) VALUES
+('1234567890', '201983104420198310', '20198310442019831044', '2002-12-30', 'Topobon C 65', '2021', 'Dhaka', 9, 'Sumon', 'Chowdhury'),
+('2345678901', '201983104420198311', '20198310442019831145', '1995-08-15', 'Green City B 92', '4000', 'Dhaka', 10, 'Hashmat', 'Miya'),
+('5678901234', '201983104420198314', '20198310442019831448', '1988-05-25', 'SUST G 3', '8000', 'Barishal', 13, 'Nayem', 'Haque'),
+('6789012345', '201983104420198315', '20198310442019831549', '1975-09-05', 'Meghna D 14', '7000', 'Khulna', 14, 'Suman', 'Haque'),
+('7890123456', '201983104420198316', '20198310442019831640', '1987-07-30', 'Mohona B 33', '3300', 'Comilla', 15, 'Taijul', 'Islam'),
+('8901234567', '201983104420198317', '20198310442019831741', '1994-04-12', 'Jamuna L 2', '1200', 'Narayanganj', 16, 'Asif', 'Islam'),
+('9012345678', '201983104420198318', '20198310442019831842', '1983-12-08', 'Meghna F 8', '5000', 'Sylhet', 17, 'Faruk', 'Aziz'),
+('0123456789', '201983104420198319', '20198310442019831943', '1970-06-18', 'Akhalia H 6', '9000', 'Dinajpur', 18, 'Nahid', 'Hossain');
 
 -- --------------------------------------------------------
 
@@ -239,7 +238,8 @@ INSERT INTO `user` (`id`, `name`, `email`, `password`) VALUES
 -- Indexes for table `autorickshaw`
 --
 ALTER TABLE `autorickshaw`
-  ADD PRIMARY KEY (`autorickshaw_number`);
+  ADD PRIMARY KEY (`id`),
+  ADD UNIQUE KEY `autorickshaw_number` (`autorickshaw_number`);
 
 --
 -- Indexes for table `customers`
@@ -264,8 +264,7 @@ ALTER TABLE `manager`
 -- Indexes for table `owner`
 --
 ALTER TABLE `owner`
-  ADD PRIMARY KEY (`id`),
-  ADD KEY `owner_nid` (`owner_nid`);
+  ADD PRIMARY KEY (`id`);
 
 --
 -- Indexes for table `serial`
@@ -284,6 +283,12 @@ ALTER TABLE `user`
 --
 
 --
+-- AUTO_INCREMENT for table `autorickshaw`
+--
+ALTER TABLE `autorickshaw`
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=12;
+
+--
 -- AUTO_INCREMENT for table `customers`
 --
 ALTER TABLE `customers`
@@ -293,19 +298,19 @@ ALTER TABLE `customers`
 -- AUTO_INCREMENT for table `driver`
 --
 ALTER TABLE `driver`
-  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=18;
+  MODIFY `id` int(100) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `manager`
 --
 ALTER TABLE `manager`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=5;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=108;
 
 --
 -- AUTO_INCREMENT for table `owner`
 --
 ALTER TABLE `owner`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=15;
+  MODIFY `id` int(10) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=19;
 
 --
 -- AUTO_INCREMENT for table `serial`
