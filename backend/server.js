@@ -796,6 +796,7 @@ app.put("/updateAutorickshaw/:id", (req, res) => {
     autorickshaw_model,
     driver_nid,
     owner_nid,
+    autorickshaw_status
   } = req.body;
 
   // If both autorickshaw number and driver NID are unique, proceed with the update
@@ -809,6 +810,7 @@ app.put("/updateAutorickshaw/:id", (req, res) => {
     "`autorickshaw_model` = ?, " +
     "`driver_nid` = ?, " +
     "`owner_nid` = ? " +
+    "`autorickshaw_status` = ? " +
     "WHERE `id` = ?";
 
   const values = [
@@ -821,6 +823,7 @@ app.put("/updateAutorickshaw/:id", (req, res) => {
     driver_nid,
     owner_nid,
     id,
+    autorickshaw_status,
   ];
 
   console.log(values);
@@ -915,6 +918,28 @@ app.delete("/deleteschedule/:id", (req, res) => {
     console.error("Error deleting schedule: ", error);
     res.status(500).json("Error deleting schedule");
   }
+});
+app.put("/PermitAutorickshaw/:id", (req, res) => {
+  const id = req.params.id;
+  console.log("Received PUT request for autorickshaw with ID: " + id);
+
+  // Set autorickshaw_status to 1
+  const sql = "UPDATE autorickshaw SET `autorickshaw_status` = 1 WHERE `id` = ?";
+
+  const values = [id];
+
+  console.log(values);
+  console.log("SQL Query:", sql);
+  console.log("Values:", values);
+  db.query(sql, values, (err, data) => {
+    if (err) {
+      console.error("Error updating autorickshaw status: ", err);
+      return res.json("failed");
+    }
+
+    console.log("Autorickshaw status updated to 1 successfully");
+    return res.json("permit_success");
+  });
 });
 
 const PORT = 3001;

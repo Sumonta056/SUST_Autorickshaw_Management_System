@@ -19,6 +19,7 @@ import Owner from "./Pages/Owner/index";
 import UnauthorizedOwner from "./Pages/UnauthorizedOwner/index";
 import OwnerUpdate from "./Pages/UpdateOwner/UpdateOwnerInfo";
 import Autorickshaw from "./Pages/Autorickshaw/index"
+import PermitAutorickshaw from "./Pages/PermitAutoRickshaw/AutorickshawRegistration"
 import UnauthorizedAutorickshaw from "./Pages/UnauthorizedAutorickshaw/index"
 import AutorickshawUpdate from "./Pages/UpdateAutoRickshaw/AutorickshawRegistration"
 import Manager from "./Pages/Manager/index";
@@ -55,6 +56,7 @@ function App() {
         <Route path="/UnauthorizedOwner" element={<UnauthorizedOwner />}></Route>
         <Route path="/editOwner/:id" element={<OwnerUpdate />} />
         <Route path="/autorickshaw" element={<Autorickshaw />}></Route>
+        <Route path="/PermitAutorickshaw/:id" element={<PermitAutorickshaw />}></Route>
         <Route path="/UnauthorizedAutorickshaw" element={<UnauthorizedAutorickshaw />}></Route>
         <Route path="/editAutorickshaw/:id" element={<AutorickshawUpdate />} />
         <Route path="/manager" element={<Manager />}></Route>
