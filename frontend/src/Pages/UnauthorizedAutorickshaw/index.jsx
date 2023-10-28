@@ -5,27 +5,24 @@ import SideMenu from "../../components/SideMenu";
 import "./index.css";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import moment from "moment";
-import {
-  UserOutlined  
-} from "@ant-design/icons";
+import { UserOutlined } from "@ant-design/icons";
 
-function Manager() {
+function Owner() {
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
-    fetch("http://localhost:3001/api/managers")
+    fetch("http://localhost:3001/api/autorickshaws")
       .then((response) => response.json())
       .then((data) => {
-        const authorizedManager = data.users.filter((manager) => manager.manager_status === 1);
-        setDataSource(authorizedManager);
+        const authorizedAutorickshaw = data.users.filter((autorickshaw) => autorickshaw.autorickshaw_status === 0);
+        setDataSource(authorizedAutorickshaw);
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching manager data: ", error);
+        console.error("Error fetching autorickshaw data: ", error);
         setLoading(false);
       });
   }, []);
@@ -33,67 +30,61 @@ function Manager() {
   // Define a function to handle the "Edit" button click
   const handleEdit = (record) => {
     // Implement the edit functionality here
-    navigate(`/editManager/${record.id}`);
+    navigate(`/editAutorickshaw/${record.id}`);
   };
 
   // Define a function to handle the "Delete" button click
   const handleDelete = (record) => {
     // Implement the delete functionality here
-    const managerNID = record.manager_nid;
+    const autorickshawNID = record.id;
 
-    console.log("i am here");
     // Assuming you are using Axios for API requests, send a DELETE request to the backend
     axios
-      .delete(`http://localhost:3001/delete/managers/${managerNID}`)
+      .delete(`http://localhost:3001/delete/autorickshaw/${autorickshawNID}`)
       .then((response) => {
-        console.log("i am here");
         // Handle successful deletion (e.g., show a success message, update the data source, etc.)
-        console.log(`Manager with NID ${managerNID} deleted successfully.`);
+        console.log(`Owner with NID ${autorickshawNID} deleted successfully.`);
 
-        alert("আপনি সফলভাবে ম্যানেজারের তথ্য ডিলিট করেছেন");
+        alert("আপনি সফলভাবে অটোরিকশার তথ্য ডিলিট করেছেন");
         // You may want to update the data source after deletion to reflect the changes
-        // Here, you can filter out the deleted manager from the dataSource state
+        // Here, you can filter out the deleted autorickshaw from the dataSource state
         setDataSource((prevDataSource) =>
-          prevDataSource.filter((item) => item.manager_nid !== managerNID)
+          prevDataSource.filter(
+            (item) => item.autorickshaw_nid !== autorickshawNID
+          )
         );
       })
       .catch((error) => {
         // Handle any errors that occur during deletion (e.g., show an error message)
-        console.error(`Error deleting manager with NID ${managerNID}: `, error);
+        console.error(
+          `Error deleting autorickshaw with NID ${autorickshawNID}: `,
+          error
+        );
       });
   };
 
   const columns = [
     {
-      title: "প্রথম নাম",
-      dataIndex: "manager_firstName",
+      title: "অটোরিকশা নাম্বার",
+      dataIndex: "autorickshaw_number",
     },
     {
-      title: "শেষ নাম",
-      dataIndex: "manager_lastName",
+      title: "গাড়ির নিবন্ধন নাম্বার",
+      dataIndex: "vehicle_registration_number",
     },
     {
-      title: "জাতীয় পরিচয়পত্র নম্বর",
-      dataIndex: "manager_nid",
-    },
-    
-    {
-      title: "জন্ম তারিখ",
-      dataIndex: "manager_date_of_birth",
-      render: (date) => moment(date).format("YYYY-MM-DD"), 
+      title: "মালিকের জাতীয় পরিচয়পত্র নম্বর",
+      dataIndex: "owner_nid",
     },
     {
-      title: "বর্তমান ঠিকানা",
-      dataIndex: "manager_houseNo",
+      title: "ড্রাইভারের জাতীয় পরিচয়পত্র নম্বর",
+      dataIndex: "driver_nid",
     },
-    {
-      title: "জেলা",
-      dataIndex: "manager_address",
-    },
+
     {
       title: "কার্যক্রম",
       render: (text, record) => (
-        <div className="managerButton">
+        <div className="autorickshawButton">
           <Button type="primary" onClick={() => handleEdit(record)}>
           আরও দেখুন
           </Button>
@@ -111,9 +102,13 @@ function Manager() {
       <div className="SideMenuAndPageContent">
         <SideMenu></SideMenu>
         <div className="PageContent">
-          <h1 className="PageHeader"> <UserOutlined className="icon" />ম্যানেজারের তালিকা</h1>
+          <h1 className="PageHeader">
+            {" "}
+            <UserOutlined className="icon" />
+            অটোরিকশার তালিকা
+          </h1>
           <Table
-            className="TableManager"
+            className="TableOwner"
             loading={loading}
             columns={columns} // Use the modified columns configuration
             dataSource={dataSource}
@@ -127,4 +122,4 @@ function Manager() {
   );
 }
 
-export default Manager;
+export default Owner;

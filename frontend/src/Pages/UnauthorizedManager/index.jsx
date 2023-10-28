@@ -20,8 +20,8 @@ function Manager() {
     fetch("http://localhost:3001/api/managers")
       .then((response) => response.json())
       .then((data) => {
-        const authorizedManager = data.users.filter((manager) => manager.manager_status === 1);
-        setDataSource(authorizedManager);
+        const unauthorizedManager = data.users.filter((manager) => manager.manager_status === 0);
+        setDataSource(unauthorizedManager);
         setLoading(false);
       })
       .catch((error) => {

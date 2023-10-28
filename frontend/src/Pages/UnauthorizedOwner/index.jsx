@@ -10,22 +10,22 @@ import {
   UserOutlined  
 } from "@ant-design/icons";
 
-function Manager() {
+function Owner() {
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const navigate = useNavigate();
 
   useEffect(() => {
     setLoading(true);
-    fetch("http://localhost:3001/api/managers")
+    fetch("http://localhost:3001/api/owners")
       .then((response) => response.json())
       .then((data) => {
-        const authorizedManager = data.users.filter((manager) => manager.manager_status === 1);
-        setDataSource(authorizedManager);
+        const unauthorizedOwner = data.users.filter((owner) => owner.owner_status === 0);
+        setDataSource(unauthorizedOwner);
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching manager data: ", error);
+        console.error("Error fetching owner data: ", error);
         setLoading(false);
       });
   }, []);
@@ -33,69 +33,67 @@ function Manager() {
   // Define a function to handle the "Edit" button click
   const handleEdit = (record) => {
     // Implement the edit functionality here
-    navigate(`/editManager/${record.id}`);
+    navigate(`/editOwner/${record.id}`);
   };
 
   // Define a function to handle the "Delete" button click
   const handleDelete = (record) => {
     // Implement the delete functionality here
-    const managerNID = record.manager_nid;
+    const ownerNID = record.owner_nid;
 
-    console.log("i am here");
     // Assuming you are using Axios for API requests, send a DELETE request to the backend
     axios
-      .delete(`http://localhost:3001/delete/managers/${managerNID}`)
+      .delete(`http://localhost:3001/delete/owners/${ownerNID}`)
       .then((response) => {
-        console.log("i am here");
         // Handle successful deletion (e.g., show a success message, update the data source, etc.)
-        console.log(`Manager with NID ${managerNID} deleted successfully.`);
+        console.log(`Owner with NID ${ownerNID} deleted successfully.`);
 
-        alert("আপনি সফলভাবে ম্যানেজারের তথ্য ডিলিট করেছেন");
+        alert("আপনি সফলভাবে ড্রাইভারের তথ্য ডিলিট করেছেন");
         // You may want to update the data source after deletion to reflect the changes
-        // Here, you can filter out the deleted manager from the dataSource state
+        // Here, you can filter out the deleted owner from the dataSource state
         setDataSource((prevDataSource) =>
-          prevDataSource.filter((item) => item.manager_nid !== managerNID)
+          prevDataSource.filter((item) => item.owner_nid !== ownerNID)
         );
       })
       .catch((error) => {
         // Handle any errors that occur during deletion (e.g., show an error message)
-        console.error(`Error deleting manager with NID ${managerNID}: `, error);
+        console.error(`Error deleting owner with NID ${ownerNID}: `, error);
       });
   };
 
   const columns = [
     {
       title: "প্রথম নাম",
-      dataIndex: "manager_firstName",
+      dataIndex: "owner_firstName",
     },
     {
       title: "শেষ নাম",
-      dataIndex: "manager_lastName",
+      dataIndex: "owner_lastName",
     },
     {
       title: "জাতীয় পরিচয়পত্র নম্বর",
-      dataIndex: "manager_nid",
+      dataIndex: "owner_nid",
+    },
+    {
+      title: "ট্রেড লাইসেন্স নং",
+      dataIndex: "owner_tradeLicenseNo",
     },
     
     {
       title: "জন্ম তারিখ",
-      dataIndex: "manager_date_of_birth",
+      dataIndex: "owner_date_of_birth",
       render: (date) => moment(date).format("YYYY-MM-DD"), 
     },
     {
-      title: "বর্তমান ঠিকানা",
-      dataIndex: "manager_houseNo",
-    },
-    {
       title: "জেলা",
-      dataIndex: "manager_address",
+      dataIndex: "owner_address",
     },
     {
       title: "কার্যক্রম",
       render: (text, record) => (
-        <div className="managerButton">
+        <div className="ownerButton">
           <Button type="primary" onClick={() => handleEdit(record)}>
-          আরও দেখুন
+           আরও দেখুন
           </Button>
           <Button type="primary" danger onClick={() => handleDelete(record)}>
             <span>মুছুন</span>
@@ -111,9 +109,9 @@ function Manager() {
       <div className="SideMenuAndPageContent">
         <SideMenu></SideMenu>
         <div className="PageContent">
-          <h1 className="PageHeader"> <UserOutlined className="icon" />ম্যানেজারের তালিকা</h1>
+          <h1 className="PageHeader"> <UserOutlined className="icon" />মালিকের তালিকা</h1>
           <Table
-            className="TableManager"
+            className="TableOwner"
             loading={loading}
             columns={columns} // Use the modified columns configuration
             dataSource={dataSource}
@@ -127,4 +125,4 @@ function Manager() {
   );
 }
 
-export default Manager;
+export default Owner;

@@ -20,7 +20,8 @@ function Owner() {
     fetch("http://localhost:3001/api/owners")
       .then((response) => response.json())
       .then((data) => {
-        setDataSource(data.users);
+        const authorizedOwner = data.users.filter((owner) => owner.owner_status === 1);
+        setDataSource(authorizedOwner);
         setLoading(false);
       })
       .catch((error) => {
