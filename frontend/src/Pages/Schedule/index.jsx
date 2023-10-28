@@ -22,6 +22,8 @@ function Schedule() {
   const [loading2, setLoading2] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [dataSource2, setDataSource2] = useState([]);
+  const [autorickshaws, setAutorickshaws] = useState([]);
+
   // const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
@@ -133,6 +135,9 @@ function Schedule() {
       .then((response) => response.json())
       .then((data) => {
         setDataSource2(data.users);
+        console.log(data.users);
+        setAutorickshaws(data.users);
+        console.log(data.users);
         setLoading2(false);
       })
       .catch((error) => {
@@ -214,8 +219,11 @@ function Schedule() {
       title: "কার্যক্রম",
       render: (text, record) => (
         <div className="ScheduleButton">
+          <Button type="primary">
+            <span>উপস্থিত</span>
+          </Button>
           <Button type="primary" danger>
-            <span>মুছুন</span>
+            <span>অনুপস্থিত</span>
           </Button>
         </div>
       ),
@@ -323,15 +331,25 @@ function Schedule() {
                   <CarOutlined className={styles.iconShow} />
                   অটোরিকশা নাম্বার
                 </p>
-                <input
-                  className={styles.scheduleInput}
-                  type="text"
+                <select
+                  className={styles.scheduleSelect}
                   id="schedule_autorickshaw"
                   name="schedule_autorickshaw"
                   placeholder="অটোরিকশা নাম্বার নির্বাচন করুন"
-                  value={formData.schedule_autorickshaw}
+                  value={formData.schedule_autorickshaw.autorickshaw_number} // Change this line
                   onChange={handleInputChange}
-                />
+                >
+                  <option value="" > <span className={styles.first}>অটোরিকশা নির্বাচন করুন</span></option>
+                  {autorickshaws.map((autorickshaw, index) => (
+                    <option
+                      key={index}
+                      value={autorickshaw.autorickshaw_number}
+                    >
+                      {autorickshaw.autorickshaw_number}
+                    </option>
+                  ))}
+                </select>
+
                 {errors.schedule_autorickshaw && (
                   <span className={styles.scheduleError}>
                     {errors.schedule_autorickshaw}
@@ -344,7 +362,7 @@ function Schedule() {
               </button>
             </form>
           </div>
-          <div className="PageContent">
+          <div className="PageContentQ">
             <div className="Pagecenter">
               <h1 className="PageHeader">
                 <EyeOutlined className="icon" />

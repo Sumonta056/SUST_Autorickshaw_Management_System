@@ -38,7 +38,7 @@
   height: 100%;
 }
 
-.PageContent {
+.PageContentQ {
   width: 100%;
   padding-left: 15px;
   display: flex;
@@ -145,7 +145,7 @@
   transition: background 0.2s ease;
 }
 
-.driverButton {
+.ScheduleButton {
 
   width: 100%;
   height: 100%;
@@ -159,10 +159,7 @@
 }
 
 .driverButton button span {
-
   font-size: 14px;
-
-
 }
 
 
