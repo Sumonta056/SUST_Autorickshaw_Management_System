@@ -146,7 +146,7 @@ function DriverMenu() {
       </div> */}
       <div className="unauthorized">
         <CaretRightOutlined className="icons" />
-        সেটিংস
+        অর্থ ব্যবস্থাপনা
       </div>
       <div
         className={`DriverMenuItem ${
@@ -155,7 +155,7 @@ function DriverMenu() {
         onClick={() => navigate("/dashboard")}
       >
         <SettingOutlined  className="icon" />{" "}
-        <span className="CustomLabel">লগ আউট</span>
+        <span className="CustomLabel">হিসাব নিকাশ</span>
       </div>
     </div>
   );

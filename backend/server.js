@@ -984,7 +984,50 @@ app.get("/api/totalautorickshaws", (req, res) => {
   });
 });
 
+app.put("/PermitDriver/:id", (req, res) => {
+  const id = req.params.id;
+  console.log("Received PUT request for driver with ID: " + id);
 
+  // Set autorickshaw_status to 1
+  const sql = "UPDATE driver SET `driver_status` = 1 WHERE `id` = ?";
+
+  const values = [id];
+
+  console.log(values);
+  console.log("SQL Query:", sql);
+  console.log("Values:", values);
+  db.query(sql, values, (err, data) => {
+    if (err) {
+      console.error("Error updating driver status: ", err);
+      return res.json("failed");
+    }
+
+    console.log("Driver status updated to 1 successfully");
+    return res.json("permit_success");
+  });
+});
+app.put("/PermitManager/:id", (req, res) => {
+  const id = req.params.id;
+  console.log("Received PUT request for manager with ID: " + id);
+
+  // Set autorickshaw_status to 1
+  const sql = "UPDATE manager SET `manager_status` = 1 WHERE `id` = ?";
+
+  const values = [id];
+
+  console.log(values);
+  console.log("SQL Query:", sql);
+  console.log("Values:", values);
+  db.query(sql, values, (err, data) => {
+    if (err) {
+      console.error("Error updating manager status: ", err);
+      return res.json("failed");
+    }
+
+    console.log("manager status updated to 1 successfully");
+    return res.json("permit_success");
+  });
+});
 
 const PORT = 3001;
 

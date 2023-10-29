@@ -31,7 +31,10 @@ function Driver() {
   const handleEdit = (record) => {
     navigate(`/editDriver/${record.id}`);
   };
-
+  const handlePermission = (record) => {
+    // Implement the edit functionality here
+    navigate(`/PermitDriver/${record.id}`);
+  };
   // Define a function to handle the "Delete" button click
   const handleDelete = (record) => {
     const driverNID = record.driver_nid;
@@ -80,6 +83,9 @@ function Driver() {
         <div className="driverButton">
           <Button type="primary" onClick={() => handleEdit(record)}>
             <span>আরও দেখুন</span>
+          </Button>
+          <Button type="primary" onClick={() => handlePermission(record)}>
+            <span>অনুমোদন দিন</span>
           </Button>
           <Button type="primary" danger onClick={() => handleDelete(record)}>
             <span>মুছুন</span>

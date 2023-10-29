@@ -35,7 +35,10 @@ function Owner() {
     // Implement the edit functionality here
     navigate(`/editOwner/${record.id}`);
   };
-
+  const handlePermission = (record) => {
+    // Implement the edit functionality here
+    navigate(`/PermitOwner/${record.id}`);
+  };
   // Define a function to handle the "Delete" button click
   const handleDelete = (record) => {
     // Implement the delete functionality here
@@ -94,6 +97,9 @@ function Owner() {
         <div className="ownerButton">
           <Button type="primary" onClick={() => handleEdit(record)}>
            আরও দেখুন
+          </Button>
+          <Button type="primary" onClick={() => handlePermission(record)}>
+           অনুমোদন দিন 
           </Button>
           <Button type="primary" danger onClick={() => handleDelete(record)}>
             <span>মুছুন</span>
