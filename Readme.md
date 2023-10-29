@@ -24,4 +24,6 @@ npm i bootstrap react-router-dom
 
 npm install --save react-circular-progressbar
 
+npm install jspdf
+
 ``````

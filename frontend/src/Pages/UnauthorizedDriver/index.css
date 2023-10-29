@@ -144,7 +144,10 @@
 
 }
 
-
+.driverButton .driverPermitButton {
+  background-color: green;
+  color: #f8eded;
+}
 
 .driverButton .danger {
   background-color: red;
