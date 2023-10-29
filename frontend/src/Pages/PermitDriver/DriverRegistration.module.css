@@ -11,7 +11,7 @@
     justify-content: center;
     align-items: center;
     height: 100vh;
-    background-image: url(./AutorickshawRegistration.jpg);
+    background-image: url(./DriverRegistration.jpg);
     background-size: cover; 
     background-repeat: no-repeat; 
     background-position: center center; 
@@ -19,7 +19,7 @@
   }
   
   
-  .autorickshawContainer {
+  .driverContainer {
     display: flex;
     border-radius: 8px;
     box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
@@ -28,17 +28,17 @@
     background-color: rgba(255, 255, 255, 0.7); /* Background color with transparency */
   }
   
-  .autorickshawFormContainer {
+  .driverFormContainer {
     flex: 1;
     padding: 1rem;
   }
   
-  .autorickshawForm {
+  .driverForm {
     display: flex;
     flex-direction: column;
     
   }
-  .autorickshawContent {
+  .driverContent {
     max-height: 400px; /* Adjust the maximum height as needed */
     overflow-y: auto; /* Enable vertical scrolling if content exceeds the container height */
 
@@ -46,36 +46,36 @@
   
   
   
-  .autorickshawHead {
+  .driverHead {
     font-size: 1.2rem;
     margin-bottom: 1rem;
   }
-  .autorickshawPair {
+  .driverPair {
     display: flex;
     flex-direction: column;
     justify-content: space-between;
     margin-bottom: 1rem;
     margin-left: 10px;
   }
-  .autorickshawInfield {
+  .driverInfield {
     display: flex;
     flex-direction: row; 
     gap:10px;
     margin-bottom: 1rem;
   }
   
-  .autorickshawParagraph {
+  .driverParagraph {
     font-weight: normal;
    font-size: 10px;
   }
   
-  .autorickshawInput {
+  .driverInput {
     padding: 0.5rem;
     border: 1px solid #ccc;
     border-radius: 4px;
   }
   
-  .autorickshawError {
+  .driverError {
     color: red;
     font-size: 0.8rem;
   }
@@ -86,27 +86,27 @@
     gap:20px;
   }
   
-  .printAutorickshawButton,.permitAutorickshawButton,
-  .notpermitAutorickshawButton {
+  .printDriverButton,.permitDriverButton,
+  .notpermitDriverButton {
     padding: 0.5rem 1rem;
     border: none;
     border-radius: 4px;
     cursor: pointer;
   }
   
-  .printAutorickshawButton {
+  .printDriverButton {
     background-color: navy;
     color: #fff;
     height: fit-content;
     margin-top: 16px;
     font-size: 10px;
   }
-  .permitAutorickshawButton {
+  .permitDriverButton {
     background-color: #4caf50;
     color: #fff;
   }
   
-  .notpermitAutorickshawButton {
+  .notpermitDriverButton {
     background-color: #f44336;
     color: #fff;
   }
@@ -115,7 +115,7 @@
   
 @media (min-width: 1400px) {
 
-    .autorickshawContainer {
+    .driverContainer {
 
         width: 900px;
         height: 84vh;
@@ -123,7 +123,7 @@
 
     }
 
-    .autorickshawOverlayPanel {
+    .driverOverlayPanel {
         position: absolute;
         display: flex;
         align-items: center;
@@ -138,7 +138,7 @@
     }
 
 
-    .autorickshawOverlayContainer {
+    .driverOverlayContainer {
         position: relative;
         top: 0;
         left: 55%;
@@ -149,12 +149,12 @@
         z-index: 9;
     }
 
-    .autorickshawOverlayContainer h1 {
+    .driverOverlayContainer h1 {
         font-size: 2rem;
         font-weight: 800;
     }
 
-    .autorickshawOverlay {
+    .driverOverlay {
         position: relative;
         background: transparent;
         color: #fff;

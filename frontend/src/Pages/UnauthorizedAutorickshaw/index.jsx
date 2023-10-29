@@ -48,7 +48,7 @@ function Owner() {
       .delete(`http://localhost:3001/delete/autorickshaw/${autorickshawNID}`)
       .then((response) => {
         // Handle successful deletion (e.g., show a success message, update the data source, etc.)
-        console.log(`Owner with NID ${autorickshawNID} deleted successfully.`);
+        console.log(`Autorickshaw with NID ${autorickshawNID} deleted successfully.`);
 
         alert("আপনি সফলভাবে অটোরিকশার তথ্য ডিলিট করেছেন");
         // You may want to update the data source after deletion to reflect the changes
@@ -93,7 +93,7 @@ function Owner() {
           <Button type="primary" onClick={() => handleEdit(record)}>
           আরও দেখুন
           </Button>
-          <Button type="primary" onClick={() => handlePermission(record)}>
+          <Button type="primary" permit onClick={() => handlePermission(record)}>
           অনুমোদন দিন
           </Button>
           <Button type="primary" danger onClick={() => handleDelete(record)}>
