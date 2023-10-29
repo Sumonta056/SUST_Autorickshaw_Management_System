@@ -1,0 +1,168 @@
+:root {
+    --linear-grad: linear-gradient(to right, #141E30, #243B55);
+    --grad-clr1: #141E30;
+    --grad-clr2: #243B55;
+}
+
+/* Add your global styles here if needed */
+
+.RegistrationScreen {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background-image: url(./ManagerRegistration.jpg);
+    background-size: cover; 
+    background-repeat: no-repeat; 
+    background-position: center center; 
+    background-attachment: fixed;
+  }
+  
+  
+  .managerContainer {
+    display: flex;
+    border-radius: 8px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+    overflow: hidden;
+    backdrop-filter: blur(2px); /* Adjust the blur value as needed */
+    background-color: rgba(255, 255, 255, 0.7); /* Background color with transparency */
+  }
+  
+  .managerFormContainer {
+    flex: 1;
+    padding: 1rem;
+  }
+  
+  .managerForm {
+    display: flex;
+    flex-direction: column;
+    
+  }
+  .managerContent {
+    max-height: 400px; /* Adjust the maximum height as needed */
+    overflow-y: auto; /* Enable vertical scrolling if content exceeds the container height */
+
+  }
+  
+  
+  
+  .managerHead {
+    font-size: 1.2rem;
+    margin-bottom: 1rem;
+  }
+  .managerPair {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    margin-bottom: 0.7rem;
+    margin-left: 10px;
+  }
+  .managerInfield {
+    display: flex;
+    flex-direction: row; 
+    gap:10px;
+    margin-bottom: 0.6rem;
+  }
+  
+  .managerParagraph {
+    font-weight: normal;
+   font-size: 10px;
+  }
+  
+  .managerInput {
+    padding: 0.5rem;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+  }
+  
+  .managerError {
+    color: red;
+    font-size: 0.8rem;
+  }
+  
+  .permitButtonContainer {
+    display: flex;
+    justify-content: space-between;
+    gap:20px;
+  }
+  
+  .printManagerButton,.permitManagerButton,
+  .notpermitManagerButton {
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+  
+  .printManagerButton {
+    background-color: navy;
+    color: #fff;
+    height: fit-content;
+    margin-top: 16px;
+    font-size: 10px;
+  }
+  .permitManagerButton {
+    background-color: #4caf50;
+    color: #fff;
+  }
+  
+  .notpermitManagerButton {
+    background-color: #f44336;
+    color: #fff;
+  }
+  
+  /* Additional styles can be added here */
+  
+@media (min-width: 1400px) {
+
+    .managerContainer {
+
+        width: 900px;
+        height: 84vh;
+
+
+    }
+
+    .managerOverlayPanel {
+        position: absolute;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        flex-direction: column;
+        padding: 0px 40px;
+        text-align: center;
+        height: 100%;
+        width: 410px;
+        transition: 0.6s ease-in-out;
+
+    }
+
+
+    .managerOverlayContainer {
+        position: relative;
+        top: 0;
+        left: 55%;
+        width: 45%;
+        height: 100%;
+        overflow: hidden;
+        transition: transform 0.6s ease-in-out;
+        z-index: 9;
+    }
+
+    .managerOverlayContainer h1 {
+        font-size: 2rem;
+        font-weight: 800;
+    }
+
+    .managerOverlay {
+        position: relative;
+        background: transparent;
+        color: #fff;
+        left: -150%;
+        height: 100%;
+        width: 250%;
+        transition: transform 0.6s ease-in-out;
+
+    }
+
+}
