@@ -1,38 +1,57 @@
-function scheduleValidation(formData, serverErrors) {
+function moneyValidation(formData, serverErrors) {
   let errors = {};
 
-  // Added fields
-  if (formData.schedule_date.trim() === "") {
-    errors.schedule_date = "তফসিল তারিখ দিন";
+  // Validate date
+const selectedDate = new Date(formData.money_date);
+const currentDate = new Date();
+if (formData.money_date.trim() === "") {
+  errors.money_date = "তারিখ প্রদান করুন";
+} else if (
+  selectedDate.getFullYear() !== currentDate.getFullYear() ||
+  selectedDate.getMonth() !== currentDate.getMonth() ||
+  selectedDate.getDate() !== currentDate.getDate()
+) {
+  console.log(currentDate);
+  errors.money_date = "আজকের তারিখ নির্বাচন করুন";
+} else {
+  errors.money_date = "";
+}
+
+
+  if (formData.money_round.trim() === "") {
+    errors.money_round = "রাউন্ড নম্বর নির্বাচন করুন";
+  } else if (!/^\d+$/.test(formData.money_round)) {
+    errors.money_round = "রাউন্ড নম্বর সংখ্যায় হতে হবে";
   } else {
-    errors.schedule_date = "";
+    errors.money_round = "";
   }
 
-  if (formData.schedule_round.trim() === "") {
-    errors.schedule_round = "তফসিল রাউন্ড দিন";
+  if (formData.money_serial.trim() === "") {
+    errors.money_serial = "সিরিয়াল নম্বর নির্বাচন করুন";
+  } else if (!/^\d+$/.test(formData.money_serial)) {
+    errors.money_serial = "সিরিয়াল নম্বর সংখ্যায় হতে হবে";
   } else {
-    errors.schedule_round = "";
+    errors.money_serial = "";
   }
 
-  if (formData.schedule_serial.trim() === "") {
-    errors.schedule_serial = "তফসিল সিরিয়াল দিন";
+  const currentTime = new Date();
+  const selectedTime = new Date(currentDate.toDateString() + ' ' + formData.money_time);
+  if (formData.money_time.trim() === "") {
+    errors.money_time = "প্রস্থান সময় নির্বাচন করুন";
+  }  
+ else if (selectedTime <= currentTime) {
+    errors.money_time = "প্রস্থান সময় সঠিক নয়";
   } else {
-    errors.schedule_serial = "";
+    errors.money_time = "";
   }
 
-  if (formData.schedule_time.trim() === "") {
-    errors.schedule_time = "তফসিল সময় দিন";
+  if (formData.money_autorickshaw.trim() === "") {
+    errors.money_autorickshaw = "অটোরিকশা নাম্বার নির্বাচন করুন";
   } else {
-    errors.schedule_time = "";
-  }
-
-  if (formData.schedule_autorickshaw.trim() === "") {
-    errors.schedule_autorickshaw = "তফসিল অটোরিকশা নাম্বার দিন";
-  } else {
-    errors.schedule_autorickshaw = "";
+    errors.money_autorickshaw = "";
   }
 
   return errors;
 }
 
-export default scheduleValidation;
+export default moneyValidation;

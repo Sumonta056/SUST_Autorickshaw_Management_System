@@ -1052,6 +1052,56 @@ app.put("/PermitManager/:id", (req, res) => {
   });
 });
 
+// Define a route to get driver information for a specific autorickshaw by NID
+app.get("/api/driverInfoForAutorickshaw/:autorickshawNID", (req, res) => {
+  const autorickshawNID = req.params.autorickshawNID;
+
+  // Query the database to get the driver information based on the autorickshaw NID
+  db.query(
+    "SELECT d.driver_nid, d.driver_date_of_birth, d.driver_houseNo, d.driver_postalCode, d.driver_address, d.driver_license_no, d.driver_firstName, d.driver_lastName, d.driver_status " +
+    "FROM driver AS d " +
+    "INNER JOIN autorickshaw AS a ON d.driver_nid = a.driver_nid " +
+    "WHERE a.autorickshaw_number = ?",
+    [autorickshawNID],
+    (error, results) => {
+      if (error) {
+        console.error("Error querying MySQL: " + error);
+        res.json({ error: "Internal Server Error" });
+      } else {
+        if (results.length === 0) {
+          res.json({ error: "Driver not found for the selected autorickshaw." });
+        } else {
+          const driverInfo = results[0];
+          res.json({ driverInfo });
+        }
+      }
+    }
+  );
+});
+
+// Insert money information
+app.post("/insertmoney", (req, res) => {
+  const {
+    driver_nid, // Foreign key for the driver
+    payment_date,
+    payment_amount,
+  } = req.body;
+
+  const sql = "INSERT INTO payment (driver_nid, payment_date, payment_amount) VALUES (?, ?, ?)";
+
+  const values = [driver_nid, payment_date, payment_amount];
+
+  db.query(sql, values, (err, data) => {
+    if (err) {
+      console.error("Error inserting money information: ", err);
+      return res.json("failed");
+    }
+    console.log("Money information inserted successfully");
+    return res.json("success");
+  });
+});
+
+
 const PORT = 3001;
 
 app.listen(PORT, () => {
