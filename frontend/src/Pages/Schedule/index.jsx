@@ -375,8 +375,7 @@ function Schedule() {
                 <EyeOutlined className="icon" />
                 শিডিউল দেখুন
               </h1>
-             
-
+            
               <Table
                 className="TableSchedule"
                 loading={loading}
