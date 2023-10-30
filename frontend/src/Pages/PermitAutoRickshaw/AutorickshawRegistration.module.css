@@ -1,168 +1,188 @@
 :root {
-    --linear-grad: linear-gradient(to right, #141E30, #243B55);
-    --grad-clr1: #141E30;
-    --grad-clr2: #243B55;
+  --linear-grad: linear-gradient(to right, #141E30, #243B55);
+  --grad-clr1: #141E30;
+  --grad-clr2: #243B55;
 }
 
 /* Add your global styles here if needed */
 
 .RegistrationScreen {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    height: 100vh;
-    background-image: url(./AutorickshawRegistration.jpg);
-    background-size: cover; 
-    background-repeat: no-repeat; 
-    background-position: center center; 
-    background-attachment: fixed;
-  }
-  
-  
-  .autorickshawContainer {
-    display: flex;
-    border-radius: 8px;
-    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
-    overflow: hidden;
-    backdrop-filter: blur(2px); /* Adjust the blur value as needed */
-    background-color: rgba(255, 255, 255, 0.7); /* Background color with transparency */
-  }
-  
-  .autorickshawFormContainer {
-    flex: 1;
-    padding: 1rem;
-  }
-  
-  .autorickshawForm {
-    display: flex;
-    flex-direction: column;
-    
-  }
-  .autorickshawContent {
-    max-height: 400px; /* Adjust the maximum height as needed */
-    overflow-y: auto; /* Enable vertical scrolling if content exceeds the container height */
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #a5aab6;
+  /* background-image: url(./OwnerRegistration.jpg); */
+  background-size: cover;
+  background-repeat: no-repeat;
+  background-position: center center;
+  background-attachment: fixed;
+}
 
-  }
-  
-  
-  
-  .autorickshawHead {
-    font-size: 1.2rem;
-    margin-bottom: 1rem;
-  }
-  .autorickshawPair {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    margin-bottom: 1rem;
-    margin-left: 10px;
-  }
-  .autorickshawInfield {
-    display: flex;
-    flex-direction: row; 
-    gap:10px;
-    margin-bottom: 1rem;
-  }
-  
-  .autorickshawParagraph {
-    font-weight: normal;
-   font-size: 10px;
-  }
-  
-  .autorickshawInput {
-    padding: 0.5rem;
-    border: 1px solid #ccc;
-    border-radius: 4px;
-  }
-  
-  .autorickshawError {
-    color: red;
-    font-size: 0.8rem;
-  }
-  
-  .permitButtonContainer {
-    display: flex;
-    justify-content: space-between;
-    gap:20px;
-  }
-  
-  .printAutorickshawButton,.permitAutorickshawButton,
-  .notpermitAutorickshawButton {
-    padding: 0.5rem 1rem;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
-  
-  .printAutorickshawButton {
-    background-color: navy;
-    color: #fff;
-    height: fit-content;
-    margin-top: 16px;
-    font-size: 10px;
-  }
-  .permitAutorickshawButton {
-    background-color: #4caf50;
-    color: #fff;
-  }
-  
-  .notpermitAutorickshawButton {
-    background-color: #f44336;
-    color: #fff;
-  }
-  
-  /* Additional styles can be added here */
-  
+
+.autorickshawContainer {
+  display: flex;
+  border-radius: 8px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+  /* Adjust the blur value as needed */
+  background-color: rgba(231, 236, 238, 0.856);
+  border-radius: 10px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  box-shadow: 0 8px 32px 0 rgba(2, 4, 26, 0.37);
+  /* Background color with transparency */
+}
+
+.autorickshawFormContainer {
+  flex: 1;
+  padding: 0.7rem;
+}
+
+.autorickshawForm {
+  display: flex;
+  flex-direction: column;
+
+}
+
+.autorickshawContent {
+  max-height: 400px;
+  /* Adjust the maximum height as needed */
+  overflow-y: auto;
+  /* Enable vertical scrolling if content exceeds the container height */
+
+}
+
+
+
+.autorickshawHead {
+  font-size: 1.8rem;
+  margin-bottom: 2rem;
+}
+
+.autorickshawPair {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin-bottom: 0.7rem;
+  margin-left: 10px;
+}
+
+.autorickshawInfield {
+  display: flex;
+  flex-direction: row;
+  gap: 25px;
+  margin-bottom: 0.7rem;
+}
+
+.autorickshawParagraph {
+  font-weight: normal;
+  font-size: 13px;
+  padding-left: 4px;
+  margin-bottom: 0.2rem;
+}
+
+.autorickshawInput {
+  padding: 1rem 1.6rem;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+}
+
+.autorickshawError {
+  color: red;
+  font-size: 0.8rem;
+}
+
+.permitButtonContainer {
+  display: flex;
+  justify-content: space-between;
+  gap: 20px;
+}
+
+.printAutorickshawButton,
+.permitAutorickshawButton,
+.notpermitAutorickshawButton {
+  padding: 0.5rem 1rem;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.printAutorickshawButton {
+  background-color: navy;
+  color: #fff;
+  padding: 20px 50px;
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+.permitAutorickshawButton {
+  background-color: #4caf50;
+  color: #fff;
+  padding: 20px 50px;
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+.notpermitAutorickshawButton {
+  background-color: #f44336;
+  color: #fff;
+  padding: 20px 50px;
+  margin-top: 10px;
+  font-size: 15px;
+}
+
+/* Additional styles can be added here */
+
 @media (min-width: 1400px) {
 
-    .autorickshawContainer {
+  .autorickshawContainer {
 
-        width: 900px;
-        height: 84vh;
-
-
-    }
-
-    .autorickshawOverlayPanel {
-        position: absolute;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        flex-direction: column;
-        padding: 0px 40px;
-        text-align: center;
-        height: 100%;
-        width: 410px;
-        transition: 0.6s ease-in-out;
-
-    }
+    width: 900px;
+    height: 84vh;
 
 
-    .autorickshawOverlayContainer {
-        position: relative;
-        top: 0;
-        left: 55%;
-        width: 45%;
-        height: 100%;
-        overflow: hidden;
-        transition: transform 0.6s ease-in-out;
-        z-index: 9;
-    }
+  }
 
-    .autorickshawOverlayContainer h1 {
-        font-size: 2rem;
-        font-weight: 800;
-    }
+  .autorickshawOverlayPanel {
+    position: absolute;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    padding: 0px 40px;
+    text-align: center;
+    height: 100%;
+    width: 410px;
+    transition: 0.6s ease-in-out;
 
-    .autorickshawOverlay {
-        position: relative;
-        background: transparent;
-        color: #fff;
-        left: -150%;
-        height: 100%;
-        width: 250%;
-        transition: transform 0.6s ease-in-out;
+  }
 
-    }
+
+  .autorickshawOverlayContainer {
+    position: relative;
+    top: 0;
+    left: 55%;
+    width: 45%;
+    height: 100%;
+    overflow: hidden;
+    transition: transform 0.6s ease-in-out;
+    z-index: 9;
+  }
+
+  .autorickshawOverlayContainer h1 {
+    font-size: 2rem;
+    font-weight: 800;
+  }
+
+  .autorickshawOverlay {
+    position: relative;
+    background: transparent;
+    color: #fff;
+    left: -150%;
+    height: 100%;
+    width: 250%;
+    transition: transform 0.6s ease-in-out;
+
+  }
 
 }

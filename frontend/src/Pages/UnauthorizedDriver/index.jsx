@@ -84,7 +84,7 @@ function Driver() {
           <Button type="primary" onClick={() => handleEdit(record)}>
             <span>আরও দেখুন</span>
           </Button>
-          <Button type="primary" onClick={() => handlePermission(record)}>
+          <Button type="primary" style={{ background: "#1F8A70"}} onClick={() => handlePermission(record)}>
             <span>অনুমোদন দিন</span>
           </Button>
           <Button type="primary" danger onClick={() => handleDelete(record)}>

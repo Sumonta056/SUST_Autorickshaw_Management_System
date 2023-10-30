@@ -100,7 +100,7 @@ function Manager() {
           <Button type="primary" onClick={() => handleEdit(record)}>
           আরও দেখুন
           </Button>
-          <Button type="primary" onClick={() => handlePermission(record)}>
+          <Button type="primary"  style={{ background: "#1F8A70"}} onClick={() => handlePermission(record)}>
           অনুমোদন দিন 
           </Button>
           <Button type="primary" danger onClick={() => handleDelete(record)}>
