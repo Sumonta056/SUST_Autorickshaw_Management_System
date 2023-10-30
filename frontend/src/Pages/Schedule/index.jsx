@@ -7,6 +7,7 @@ import "./index.css";
 import axios from "axios";
 import scheduleRegistrationValidation from "./scheduleValidation";
 import styles from "./schedule.module.css"; //
+
 import {
   EditOutlined,
   CalendarOutlined,
@@ -54,7 +55,12 @@ function Schedule() {
     fetch("http://localhost:3001/api/schedule")
       .then((response) => response.json())
       .then((data) => {
-        setDataSource(data.users);
+        const sortedData = data.users.sort((a, b) => {
+          const dateA = new Date(a.schedule_date);
+          const dateB = new Date(b.schedule_date);
+          return dateB - dateA; 
+        });        
+        setDataSource(sortedData);
         setLoading(false);
       })
       .catch((error) => {
@@ -62,6 +68,7 @@ function Schedule() {
         setLoading(false);
       });
   }
+  
 
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -150,7 +157,7 @@ function Schedule() {
     // Display a confirmation modal before deleting
     Modal.confirm({
       title: "Confirm Deletion",
-      content: "আপনি কি নিশ্চিত যে আপনি এই সময়সূচি মুছতে চান ?",
+      content: "আপনি কি নিশ্চিত যে আপনি এই সময়সূচি মুছতে চান?",
       onOk: () => {
         console.log(record);
         axios
@@ -294,7 +301,7 @@ function Schedule() {
                   type="text"
                   id="schedule_serial"
                   name="schedule_serial"
-                  placeholder="সিরিয়াল নম্বর নির্বাচন করুন"
+                  placeholder="সিরিয়াল নম্বর দিন"
                   value={formData.schedule_serial}
                   onChange={handleInputChange}
                 />
@@ -314,7 +321,7 @@ function Schedule() {
                   type="text"
                   id="schedule_time"
                   name="schedule_time"
-                  placeholder="প্রস্থান সময় নির্বাচন করুনr"
+                  placeholder="প্রস্থান সময় নির্বাচন করুন"
                   onFocus={(e) => (e.target.type = "time")}
                   onBlur={(e) => (e.target.type = "text")}
                   value={formData.schedule_time}
@@ -368,7 +375,8 @@ function Schedule() {
                 <EyeOutlined className="icon" />
                 শিডিউল দেখুন
               </h1>
-
+              
+               
               <Table
                 className="TableSchedule"
                 loading={loading}
