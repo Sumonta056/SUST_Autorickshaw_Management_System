@@ -10,8 +10,7 @@ import {
   MoneyCollectOutlined,
   EditOutlined,
   // EyeOutlined,
-  UserSwitchOutlined
-
+  UserSwitchOutlined,
 } from "@ant-design/icons";
 import "./index.css"; // Import your custom CSS here
 
@@ -45,7 +44,7 @@ function DriverMenu() {
       <div className="unauthorized">
         {" "}
         <CaretRightOutlined className="icons" />
-        অনুমোদনপ্রাপ্ত 
+        অনুমোদনপ্রাপ্ত
       </div>
       <div
         className={`OwnerMenuItem ${
@@ -98,7 +97,9 @@ function DriverMenu() {
       </div>
       <div
         className={`AutorickshawMenuItem ${
-          selectedKey === "/UnauthorizedAutorickshaw" ? "AutorickshawMenuItemSelected" : ""
+          selectedKey === "/UnauthorizedAutorickshaw"
+            ? "AutorickshawMenuItemSelected"
+            : ""
         }`}
         onClick={() => navigate("/UnauthorizedAutorickshaw")}
       >
@@ -116,7 +117,9 @@ function DriverMenu() {
       </div>
       <div
         className={`ManagerMenuItem ${
-          selectedKey === "/UnauthorizedManager" ? "ManagerMenuItemSelected" : ""
+          selectedKey === "/UnauthorizedManager"
+            ? "ManagerMenuItemSelected"
+            : ""
         }`}
         onClick={() => navigate("/UnauthorizedManager")}
       >
@@ -155,7 +158,7 @@ function DriverMenu() {
         }`}
         onClick={() => navigate("/money")}
       >
-        <MoneyCollectOutlined  className="icon" />{" "}
+        <MoneyCollectOutlined className="icon" />{" "}
         <span className="CustomLabel">পেমেন্ট ফর্ম</span>
       </div>
 
@@ -165,10 +168,9 @@ function DriverMenu() {
         }`}
         onClick={() => navigate("/moneyShow")}
       >
-        <MoneyCollectOutlined  className="icon" />{" "}
-        <span className="CustomLabel">হিসাব-নিকাশ বিবরণী</span>
+        <MoneyCollectOutlined className="icon" />{" "}
+        <span className="CustomLabel">লগ আউট</span>
       </div>
-
 
       <div className="unauthorized">
         <CaretRightOutlined className="icons" />
@@ -180,12 +182,10 @@ function DriverMenu() {
         }`}
         onClick={() => navigate("/dashboard")}
       >
-        <SettingOutlined  className="icon" />{" "}
-        <span className="CustomLabel">লগ আউট</span>
+        <SettingOutlined className="icon" />{" "}
+        <span className="CustomLabel">হিসাব নিকাশ</span>
       </div>
     </div>
-
-    
   );
 }
 

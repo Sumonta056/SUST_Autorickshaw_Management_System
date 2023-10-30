@@ -12,6 +12,9 @@ import Home from "./components/Home/Home";
 // import Update from "./components/CRUD/UpdateStudent";
 
 import Driver from "./Pages/Driver/index";
+import PermitDriver from "./Pages/PermitDriver/DriverRegistration"
+import PermitOwner from "./Pages/PermitOwner/OwnerRegistration"
+import PermitManager from "./Pages/PermitManager/ManagerRegistration"
 import UnauthorizedDriver from "./Pages/UnauthorizedDriver/index";
 import DriverUpdate from "./Pages/UpdateDriver/UpdateDriverInfo";
 import Dashboard from "./Pages/Dashbaord/index";
@@ -52,6 +55,9 @@ function App() {
 
         <Route path="/dashboard" element={<Dashboard />}></Route>
         <Route path="/driver" element={<Driver />}></Route>
+        <Route path="/PermitDriver/:id" element={<PermitDriver />}></Route>
+        <Route path="/PermitOwner/:id" element={<PermitOwner />}></Route>
+        <Route path="/PermitManager/:id" element={<PermitManager />}></Route>
         <Route path="/UnauthorizedDriver" element={<UnauthorizedDriver />}></Route>
         <Route path="/editDriver/:id" element={<DriverUpdate />} />
         <Route path="/owner" element={<Owner />}></Route>
