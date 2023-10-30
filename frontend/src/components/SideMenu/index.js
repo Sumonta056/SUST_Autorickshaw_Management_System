@@ -169,7 +169,7 @@ function DriverMenu() {
         onClick={() => navigate("/moneyShow")}
       >
         <MoneyCollectOutlined className="icon" />{" "}
-        <span className="CustomLabel">লগ আউট</span>
+        <span className="CustomLabel">হিসাব নিকাশ</span>
       </div>
 
       <div className="unauthorized">
@@ -183,7 +183,7 @@ function DriverMenu() {
         onClick={() => navigate("/dashboard")}
       >
         <SettingOutlined className="icon" />{" "}
-        <span className="CustomLabel">হিসাব নিকাশ</span>
+        <span className="CustomLabel">লগ আউট</span>
       </div>
     </div>
   );
