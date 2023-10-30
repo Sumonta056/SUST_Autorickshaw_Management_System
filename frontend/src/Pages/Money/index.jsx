@@ -1,12 +1,10 @@
-import { Modal } from "antd"; // Import Button from Ant Design
+import { Modal } from "antd";
 import { useEffect, useState } from "react";
 import AppHeader from "../../components/AppHeader";
 import SideMenu from "../../components/SideMenu";
-import "./index.css";
-// import { useNavigate } from "react-router-dom";
 import axios from "axios";
-import scheduleRegistrationValidation from "./scheduleValidation";
-import styles from "./money.module.css"; //
+import moneyRegistrationValidation from "./moneyValidation";
+import styles from "./money.module.css";
 import {
   EditOutlined,
   CalendarOutlined,
@@ -16,24 +14,21 @@ import {
   PoundOutlined,
 } from "@ant-design/icons";
 
-function Schedule() {
+function Money() {
   const [autorickshaws, setAutorickshaws] = useState([]);
-  // const navigate = useNavigate();
-
   const [formData, setFormData] = useState({
-    schedule_date: "",
-    schedule_round: "",
-    schedule_serial: "",
-    schedule_time: "",
-    schedule_autorickshaw: "",
+    payment_date: "",
+    autorickshaw_number: "",
+    driver_name: "",
+    driver_nid: "",
+    payment_amount: "",
   });
-
   const [errors, setErrors] = useState({
-    schedule_date: "",
-    schedule_round: "",
-    schedule_serial: "",
-    schedule_time: "",
-    schedule_autorickshaw: "",
+    payment_date: "",
+    autorickshaw_number: "",
+    driver_name: "",
+    driver_nid: "",
+    payment_amount: "",
   });
 
   const handleInputChange = (event) => {
@@ -43,63 +38,89 @@ function Schedule() {
     });
   };
 
+  const handleAutorickshawChange = async (event) => {
+    const selectedAutorickshawNumber = event.target.value;
+
+    try {
+      const response = await axios.get(
+        `http://localhost:3001/api/driverInfoForAutorickshaw/${selectedAutorickshawNumber}`
+      );
+
+      if (response.data && response.data.driverInfo) {
+        const { driverInfo } = response.data;
+        const driverName = `${driverInfo.driver_firstName} ${driverInfo.driver_lastName}`;
+
+        setFormData({
+          ...formData,
+          autorickshaw_number: selectedAutorickshawNumber,
+          driver_name: driverName,
+          driver_nid: driverInfo.driver_nid,
+        });
+      } else {
+        console.log("No driver found for the selected autorickshaw.");
+        // You can provide feedback to the user as needed
+      }
+    } catch (error) {
+      console.error("Error fetching driver information:", error);
+      // Handle errors, e.g., display an error message to the user
+    }
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
 
-    console.log(formData);
-
-    // Wait until the errors are set
-    const validationErrors = scheduleRegistrationValidation(formData);
+    // Validate the form data
+    const validationErrors = moneyRegistrationValidation(formData);
     setErrors(validationErrors);
 
-    console.log(validationErrors);
+    // Check if there are any errors
+    const hasErrors = Object.values(validationErrors).some((error) => error !== "");
 
-    // Use async/await to ensure state is updated
-
-    // Check for specific error conditions
-    if (
-      validationErrors.schedule_date === "" &&
-      validationErrors.schedule_round === "" &&
-      validationErrors.schedule_serial === "" &&
-      validationErrors.schedule_time === "" &&
-      validationErrors.schedule_autorickshaw === ""
-    ) {
+    if (!hasErrors) {
       try {
-        console.log("herhr");
-        axios
-          .post(`http://localhost:3001/updateschedule`, formData)
-          .then((res) => {
-            console.log(res);
-            if (res.data === "success") {
-              // alert("আপনি সফলভাবে একটি শিডিউল তৈরি করেছেন");
-              Modal.success({
-                title: "Successful !",
-                content: "আপনি সফলভাবে একটি শিডিউল তৈরি করেছেন",
-                onOk: () => {},
+        const response = await axios.post("http://localhost:3001/insertmoney", formData);
+        if (response.data === "success") {
+          Modal.success({
+            title: "Successful!",
+            content: "আপনি সফলভাবে পেমেন্ট করেছেন",
+            onOk: () => {
+              setFormData({
+                payment_date: "",
+                autorickshaw_number: "",
+                driver_name: "",
+                driver_nid: "",
+                payment_amount: "",
               });
-            }
-            // Redirect to the owner list page after successful update
-            else {
-              alert("হালনাগাদ ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
-            }
-          })
-          .catch((err) => {
-            alert("হালনাগাদ ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
-            // Handle errors, e.g., display an error message to the user
+            },
           });
+        } else {
+          Modal.error({
+            title: "Error",
+            content: "পেমেন্ট ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন",
+            onOk: () => {
+              // Handle error, e.g., allow the user to retry
+            },
+          });
+        }
       } catch (error) {
-        alert("হালনাগাদ ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
+        console.error("Error submitting payment:", error);
+        Modal.error({
+          title: "Error",
+          content: "পেমেন্ট ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন",
+          onOk: () => {
+            // Handle error, e.g., allow the user to retry
+          },
+        });
       }
-    } else {
-      // Display an error message based on the first encountered error
-      const errorMessages = Object.values(validationErrors).filter(
-        (error) => error !== ""
-      );
-      if (errorMessages.length > 0) {
-        alert("হালনাগাদ ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
-      } else {
-        alert("হালনাগাদ ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
-      }
+    }
+    else {
+      Modal.error({
+        title: "Error",
+        content: "পেমেন্ট ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন",
+        onOk: () => {
+          // Handle error, e.g., allow the user to retry
+        },
+      });
     }
   };
 
@@ -107,15 +128,12 @@ function Schedule() {
     fetch("http://localhost:3001/api/autorickshaw")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data.users);
         setAutorickshaws(data.users);
-        console.log(data.users);
       })
       .catch((error) => {
-        console.error("Error fetching Schedule data: ", error);
+        console.error("Error fetching autorickshaw data: ", error);
       });
   }, []);
-
   return (
     <div className="App">
       <AppHeader />
@@ -127,125 +145,119 @@ function Schedule() {
               <EditOutlined className="icon" />
               ড্রাইভারের পেমেন্ট বিবরণ এন্ট্রি ফর্ম
             </h1>
-            <form className={styles.scheduleForm} onSubmit={handleSubmit}>
-              <div className={styles.scheduleInfield}>
-                <p className={styles.scheduleParagraph}>
+            <form className={styles.moneyForm} onSubmit={handleSubmit}>
+              <div className={styles.moneyInfield}>
+                <p className={styles.moneyParagraph}>
                   <CalendarOutlined className={styles.iconShow} />
                   তারিখ
                 </p>
                 <input
-                  className={styles.scheduleInput}
+                  className={styles.moneyInput}
                   type="text"
-                  id="schedule_date"
-                  name="schedule_date"
+                  id="payment_date"
+                  name="payment_date"
                   placeholder="তারিখ প্রদান করুন"
                   onFocus={(e) => (e.target.type = "date")}
                   onBlur={(e) => (e.target.type = "text")}
-                  value={formData.schedule_date}
+                  value={formData.payment_date}
                   onChange={handleInputChange}
                 />
-                {errors.schedule_date && (
-                  <span className={styles.scheduleError}>
-                    {errors.schedule_date}
+                {errors.payment_date && (
+                  <span className={styles.moneyError}>
+                    {errors.payment_date}
                   </span>
                 )}
               </div>
 
-              <div className={styles.scheduleInfield}>
-                <p className={styles.scheduleParagraph}>
+              <div className={styles.moneyInfield}>
+                <p className={styles.moneyParagraph}>
                   <CarOutlined className={styles.iconShow} />
                   অটোরিকশা নাম্বার
                 </p>
-                <select
-                  className={styles.scheduleSelect}
-                  id="schedule_autorickshaw"
-                  name="schedule_autorickshaw"
-                  placeholder="অটোরিকশা নাম্বার নির্বাচন করুন"
-                  value={formData.schedule_autorickshaw.autorickshaw_number} // Change this line
-                  onChange={handleInputChange}
+               <select
+                  className={styles.moneySelect}
+                  id="autorickshaw_number"
+                  name="autorickshaw_number"
+                  value={formData.autorickshaw_number}
+                  onChange={handleAutorickshawChange}
                 >
                   <option value="">
                     {" "}
                     <span className={styles.first}>অটোরিকশা নির্বাচন করুন</span>
                   </option>
                   {autorickshaws.map((autorickshaw, index) => (
-                    <option
-                      key={index}
-                      value={autorickshaw.autorickshaw_number}
-                    >
+                    <option key={index} value={autorickshaw.autorickshaw_number}>
                       {autorickshaw.autorickshaw_number}
                     </option>
                   ))}
                 </select>
-
-                {errors.schedule_autorickshaw && (
-                  <span className={styles.scheduleError}>
-                    {errors.schedule_autorickshaw}
+                {errors.autorickshaw_number && (
+                  <span className={styles.moneyError}>
+                    {errors.autorickshaw_number}
                   </span>
                 )}
               </div>
 
-              <div className={styles.scheduleInfield}>
-                <p className={styles.scheduleParagraph}>
+              <div className={styles.moneyInfield}>
+                <p className={styles.moneyParagraph}>
                   <HourglassOutlined className={styles.iconShow} />
                   ড্রাইভারের নাম
                 </p>
                 <input
-                  className={styles.scheduleInput}
+                  className={styles.moneyInput}
                   type="text"
-                  id="schedule_serial"
-                  name="schedule_serial"
+                  id="driver_name"
+                  name="driver_name"
                   placeholder="ড্রাইভারের নাম দিন"
-                  value={formData.schedule_serial}
+                  value={formData.driver_name}
                   onChange={handleInputChange}
+                  readOnly // Add the readonly attribute
                 />
-                {errors.schedule_serial && (
-                  <span className={styles.scheduleError}>
-                    {errors.schedule_serial}
-                  </span>
-                )}
               </div>
-              <div className={styles.scheduleInfield}>
-                <p className={styles.scheduleParagraph}>
-                  <NotificationOutlined className={styles.iconShow} />
-                  ড্রাইভারের জাতীয় পরিচয়পত্র নম্বর
-                </p>
-                <input
-                  className={styles.scheduleInput}
-                  type="text"
-                  id="schedule_serial"
-                  name="schedule_serial"
-                  placeholder="ড্রাইভারের জাতীয় পরিচয়পত্র দিন"
-                  value={formData.schedule_serial}
-                  onChange={handleInputChange}
-                />
-                {errors.schedule_serial && (
-                  <span className={styles.scheduleError}>
-                    {errors.schedule_serial}
-                  </span>
-                )}
-              </div>
-              <div className={styles.scheduleInfield}>
-                <p className={styles.scheduleParagraph}>
+
+              <div className={styles.moneyInfield}>
+  <p className={styles.moneyParagraph}>
+    <NotificationOutlined className={styles.iconShow} />
+    ড্রাইভারের জাতীয় পরিচয়পত্র নম্বর
+  </p>
+  <input
+    className={`${styles.moneyInput} ${styles.readonly}`} // Add a custom CSS class for readonly style
+    type="text"
+    id="driver_nid"
+    name="driver_nid"
+    placeholder="ড্রাইভারের জাতীয় পরিচয়পত্র দিন"
+    value={formData.driver_nid}
+    onChange={handleInputChange}
+    readOnly // Add the readonly attribute
+  />
+  {errors.driver_nid && (
+    <span className={styles.moneyError}>
+      {errors.driver_nid}
+    </span>
+  )}
+</div>
+
+              <div className={styles.moneyInfield}>
+                <p className={styles.moneyParagraph}>
                   <PoundOutlined className={styles.iconShow} />
                   টাকার পরিমাণ
                 </p>
                 <input
-                  className={styles.scheduleInput}
+                  className={styles.moneyInput}
                   type="text"
-                  id="schedule_round"
-                  name="schedule_round"
+                  id="payment_amount"
+                  name="payment_amount"
                   placeholder="টাকার পরিমাণ দিন"
-                  value={formData.schedule_round}
+                  value={formData.payment_amount}
                   onChange={handleInputChange}
                 />
-                {errors.schedule_round && (
-                  <span className={styles.scheduleError}>
-                    {errors.schedule_round}
+                {errors.payment_amount && (
+                  <span className={styles.moneyError}>
+                    {errors.payment_amount}
                   </span>
                 )}
               </div>
-              <button type="submit" className={styles.scheduleButton}>
+              <button type="submit" className={styles.moneyButton}>
                 জমা দিন
               </button>
             </form>
@@ -256,4 +268,4 @@ function Schedule() {
   );
 }
 
-export default Schedule;
+export default Money;

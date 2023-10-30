@@ -1,33 +1,52 @@
 function scheduleValidation(formData, serverErrors) {
   let errors = {};
 
-  // Added fields
-  if (formData.schedule_date.trim() === "") {
-    errors.schedule_date = "তফসিল তারিখ দিন";
-  } else {
-    errors.schedule_date = "";
-  }
+  // Validate date
+const selectedDate = new Date(formData.schedule_date);
+const currentDate = new Date();
+if (formData.schedule_date.trim() === "") {
+  errors.schedule_date = "তারিখ প্রদান করুন";
+} else if (
+  selectedDate.getFullYear() !== currentDate.getFullYear() ||
+  selectedDate.getMonth() !== currentDate.getMonth() ||
+  selectedDate.getDate() !== currentDate.getDate()
+) {
+  console.log(currentDate);
+  errors.schedule_date = "আজকের তারিখ নির্বাচন করুন";
+} else {
+  errors.schedule_date = "";
+}
+
 
   if (formData.schedule_round.trim() === "") {
-    errors.schedule_round = "তফসিল রাউন্ড দিন";
+    errors.schedule_round = "রাউন্ড নম্বর নির্বাচন করুন";
+  } else if (!/^\d+$/.test(formData.schedule_round)) {
+    errors.schedule_round = "রাউন্ড নম্বর সংখ্যায় হতে হবে";
   } else {
     errors.schedule_round = "";
   }
 
   if (formData.schedule_serial.trim() === "") {
-    errors.schedule_serial = "তফসিল সিরিয়াল দিন";
+    errors.schedule_serial = "সিরিয়াল নম্বর নির্বাচন করুন";
+  } else if (!/^\d+$/.test(formData.schedule_serial)) {
+    errors.schedule_serial = "সিরিয়াল নম্বর সংখ্যায় হতে হবে";
   } else {
     errors.schedule_serial = "";
   }
 
+  const currentTime = new Date();
+  const selectedTime = new Date(currentDate.toDateString() + ' ' + formData.schedule_time);
   if (formData.schedule_time.trim() === "") {
-    errors.schedule_time = "তফসিল সময় দিন";
+    errors.schedule_time = "প্রস্থান সময় নির্বাচন করুন";
+  }  
+ else if (selectedTime <= currentTime) {
+    errors.schedule_time = "প্রস্থান সময় সঠিক নয়";
   } else {
     errors.schedule_time = "";
   }
 
   if (formData.schedule_autorickshaw.trim() === "") {
-    errors.schedule_autorickshaw = "তফসিল অটোরিকশা নাম্বার দিন";
+    errors.schedule_autorickshaw = "অটোরিকশা নাম্বার নির্বাচন করুন";
   } else {
     errors.schedule_autorickshaw = "";
   }

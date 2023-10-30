@@ -5,8 +5,8 @@
     --grad-clr2: #243B55;
 }
 
-/* CSS for the Schedule component */
-.scheduleForm {
+/* CSS for the Money component */
+.moneyForm {
     width: 100%;
     height: 100%;
     display: flex;
@@ -17,14 +17,14 @@
     background-color: #ffffff;
 }
 
-.scheduleInfield {
+.moneyInfield {
     position: relative;
     margin: 9px 4px;
     width: 100%;
     color: #b3b2b2;
 }
 
-.scheduleInfield input {
+.moneyInfield input {
     border: #030303;
   
     width: 100%;
@@ -39,7 +39,7 @@
     border-radius: 5px;
 }
 
-.scheduleInput::placeholder {
+.moneyInput::placeholder {
    
     color: #9c9c9c;
     font-size: 12px;
@@ -53,12 +53,12 @@
 
 
 
-.scheduleInput[type="date"]::-webkit-calendar-picker-indicator,
-.scheduleInput[type="time"]::-webkit-calendar-picker-indicator {
+.moneyInput[type="date"]::-webkit-calendar-picker-indicator,
+.moneyInput[type="time"]::-webkit-calendar-picker-indicator {
     color: #a5a3a3;
 }
 
-.scheduleButton{
+.moneyButton{
     border: none;
     border-radius: 5px;
     width: 100px;
@@ -73,13 +73,13 @@
     text-align: center;
 }
 
-.scheduleError {
+.moneyError {
     font-size: 12px;
     color: rgba(255, 0, 0, 0.781);
     padding-left: 3px;
 }
 
-.scheduleParagraph {
+.moneyParagraph {
     font-size: 16px;
     color: #030303;
     font-weight: 500;
@@ -91,7 +91,7 @@
 .first {
     color: rgb(245, 242, 242) !important;
 }
-.scheduleSelect {
+.moneySelect {
     border: #030303;
     color: #7c7979;
     width: 100%;
@@ -107,16 +107,16 @@
 }
 
 
-.scheduleSelect:focus {
+.moneySelect:focus {
     color: rgb(20, 20, 20);
 }
 
-.scheduleSelect:focus~label {
+.moneySelect:focus~label {
     width: 100%;
     color: rgb(2, 2, 2);
 }
 
-.scheduleSelect:focus~label {
+.moneySelect:focus~label {
     width: 100%;
     color: black;
 }
@@ -131,12 +131,12 @@
 
 /* Media query for larger screens */
 @media (min-width: 1400px) {
-    .scheduleContainer {
+    .moneyContainer {
         width: 900px;
         height: 84vh;
     }
 
-    .scheduleOverlayPanel {
+    .moneyOverlayPanel {
         position: absolute;
         display: flex;
         align-items: center;
