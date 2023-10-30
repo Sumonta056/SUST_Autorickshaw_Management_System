@@ -26,6 +26,8 @@ import Manager from "./Pages/Manager/index";
 import UnauthorizedManager from "./Pages/UnauthorizedManager/index";
 import ManagerUpdate from "./Pages/UpdateManager/UpdateManagerInfo";
 import CreateSchedule from "./Pages/Schedule/index";
+import Money from "./Pages/Money/index";
+import  MoneyShow from "./Pages/MoneyShow/index";
 
 
 import { BrowserRouter, Routes, Route } from "react-router-dom";
@@ -65,6 +67,8 @@ function App() {
 
 
         <Route path="/scheduleCreate" element={<CreateSchedule />} />
+        <Route path="/money" element={<Money />} />
+        <Route path="/moneyShow" element={<MoneyShow />} />
 
 
 

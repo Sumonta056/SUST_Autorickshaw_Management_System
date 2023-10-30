@@ -7,6 +7,7 @@ import {
   UserOutlined,
   CaretRightOutlined,
   SettingOutlined,
+  MoneyCollectOutlined,
   EditOutlined,
   // EyeOutlined,
   UserSwitchOutlined
@@ -146,6 +147,31 @@ function DriverMenu() {
       </div> */}
       <div className="unauthorized">
         <CaretRightOutlined className="icons" />
+        অর্থ ব্যবস্থাপনা
+      </div>
+      <div
+        className={`DriverMenuItem ${
+          selectedKey === "/inventory" ? "DriverMenuItemSelected" : ""
+        }`}
+        onClick={() => navigate("/money")}
+      >
+        <MoneyCollectOutlined  className="icon" />{" "}
+        <span className="CustomLabel">পেমেন্ট ফর্ম</span>
+      </div>
+
+      <div
+        className={`DriverMenuItem ${
+          selectedKey === "/inventory" ? "DriverMenuItemSelected" : ""
+        }`}
+        onClick={() => navigate("/moneyShow")}
+      >
+        <MoneyCollectOutlined  className="icon" />{" "}
+        <span className="CustomLabel">হিসাব-নিকাশ বিবরণী</span>
+      </div>
+
+
+      <div className="unauthorized">
+        <CaretRightOutlined className="icons" />
         সেটিংস
       </div>
       <div
@@ -158,6 +184,8 @@ function DriverMenu() {
         <span className="CustomLabel">লগ আউট</span>
       </div>
     </div>
+
+    
   );
 }
 

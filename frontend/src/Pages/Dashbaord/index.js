@@ -1,4 +1,4 @@
-import { useEffect ,useState} from "react";
+import { useEffect, useState } from "react";
 import AppHeader from "../../components/AppHeader";
 import SideMenu from "../../components/SideMenu";
 import "./index.css";
@@ -10,25 +10,19 @@ function Dashboard() {
   const [owner, setDataSource2] = useState([]);
   const [autorickshaw, setDataSource3] = useState([]);
 
-
   function driverData() {
-    
     fetch("http://localhost:3001/api/totalDrivers")
       .then((response) => response.json())
       .then((data) => {
         setDataSource(data.totalDrivers);
         console.log("Success fetching Schedule data: ", driver);
-      
       })
       .catch((error) => {
         console.error("Error fetching Schedule data: ", error);
       });
-
-
   }
 
   function ownerData() {
-    
     fetch("http://localhost:3001/api/totalOwners")
       .then((response) => response.json())
       .then((data) => {
@@ -37,13 +31,9 @@ function Dashboard() {
       .catch((error) => {
         console.error("Error fetching Schedule data: ", error);
       });
-
-
   }
 
-  
   function autorickshawData() {
-    
     fetch("http://localhost:3001/api/totalautorickshaws")
       .then((response) => response.json())
       .then((data) => {
@@ -52,16 +42,13 @@ function Dashboard() {
       .catch((error) => {
         console.error("Error fetching Schedule data: ", error);
       });
-
-
   }
-
 
   useEffect(() => {
     driverData();
     ownerData();
     autorickshawData();
-  }, []);
+  });
 
   return (
     <div className="App">
