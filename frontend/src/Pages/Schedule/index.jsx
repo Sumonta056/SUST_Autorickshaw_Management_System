@@ -24,23 +24,24 @@ function Schedule() {
   const [dataSource, setDataSource] = useState([]);
   const [dataSource2, setDataSource2] = useState([]);
   const [autorickshaws, setAutorickshaws] = useState([]);
+  const [selectedSchedule, setSelectedSchedule] = useState(null);
 
   // const navigate = useNavigate();
 
   const [formData, setFormData] = useState({
     schedule_date: "",
     schedule_round: "",
-    schedule_serial: "",
+    schedule_place: "",
     schedule_time: "",
-    schedule_autorickshaw: "",
+    autorickshaw_number: "",
   });
 
   const [errors, setErrors] = useState({
     schedule_date: "",
     schedule_round: "",
-    schedule_serial: "",
+    schedule_place: "",
     schedule_time: "",
-    schedule_autorickshaw: "",
+    autorickshaw_number: "",
   });
 
   const handleInputChange = (event) => {
@@ -52,7 +53,7 @@ function Schedule() {
 
   function ScheduleData() {
     setLoading(true);
-    fetch("http://localhost:3001/api/schedule")
+    fetch("http://localhost:3001/api/autorickshawSchedule")
       .then((response) => response.json())
       .then((data) => {
         const sortedData = data.users.sort((a, b) => {
@@ -72,52 +73,47 @@ function Schedule() {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-
+  
     console.log(formData);
-
+  
     // Wait until the errors are set
     const validationErrors = scheduleRegistrationValidation(formData);
     setErrors(validationErrors);
-
+  
     console.log(validationErrors);
-
+  
     // Use async/await to ensure state is updated
-
+  
     // Check for specific error conditions
     if (
       validationErrors.schedule_date === "" &&
       validationErrors.schedule_round === "" &&
-      validationErrors.schedule_serial === "" &&
+      validationErrors.schedule_place === "" &&
       validationErrors.schedule_time === "" &&
-      validationErrors.schedule_autorickshaw === ""
+      validationErrors.autorickshaw_number === ""
     ) {
       try {
-        console.log("herhr");
-        axios
-          .post(`http://localhost:3001/updateschedule`, formData)
-          .then((res) => {
-            console.log(res);
-            if (res.data === "success") {
-              // alert("আপনি সফলভাবে একটি শিডিউল তৈরি করেছেন");
-              Modal.success({
-                title: "Successful !",
-                content: "আপনি সফলভাবে একটি শিডিউল তৈরি করেছেন",
-                onOk: () => {
-                  ScheduleData();
-                },
-              });
-            }
-            // Redirect to the owner list page after successful update
-            else {
-              alert("হালনাগাদ ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
-            }
-          })
-          .catch((err) => {
-            alert("হালনাগাদ ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
-            // Handle errors, e.g., display an error message to the user
-          });
+        console.log("here");
+        const response = await axios.post(`http://localhost:3001/updateschedule`, formData);
+  
+        if (response.status === 200) { // Check if the response status is in the 200 range
+          // Check the response data or message in a flexible way
+          if (response.data === "success") {
+            Modal.success({
+              title: "Successful !",
+              content: "আপনি সফলভাবে একটি শিডিউল তৈরি করেছেন",
+              onOk: () => {
+                ScheduleData();
+              },
+            });
+          } else {
+            alert("শিডিউল তৈরি ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
+          }
+        } else {
+          alert("শিডিউল তৈরি ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
+        }
       } catch (error) {
-        alert("হালনাগাদ ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
+        alert("শিডিউল তৈরি ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
       }
     } else {
       // Display an error message based on the first encountered error
@@ -125,12 +121,13 @@ function Schedule() {
         (error) => error !== ""
       );
       if (errorMessages.length > 0) {
-        alert("হালনাগাদ ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
+        alert("শিডিউল তৈরি ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
       } else {
-        alert("হালনাগাদ ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
+        alert("শিডিউল তৈরি ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
       }
     }
   };
+  
 
   useEffect(() => {
     ScheduleData();
@@ -138,13 +135,13 @@ function Schedule() {
 
   useEffect(() => {
     setLoading2(true);
-    fetch("http://localhost:3001/api/autorickshaw")
+    fetch("http://localhost:3001/api/permittedAutorickshaws")
       .then((response) => response.json())
       .then((data) => {
-        setDataSource2(data.users);
-        console.log(data.users);
-        setAutorickshaws(data.users);
-        console.log(data.users);
+        console.log(data);
+        setDataSource2(data.autorickshaws);
+        setAutorickshaws(data.autorickshaws);
+        console.log(data.autorickshaws);
         setLoading2(false);
       })
       .catch((error) => {
@@ -152,6 +149,8 @@ function Schedule() {
         setLoading2(false);
       });
   }, []);
+  
+  
 
   const handleDelete = (record) => {
     // Display a confirmation modal before deleting
@@ -187,36 +186,139 @@ function Schedule() {
   const columns = [
     {
       title: "তারিখ",
-      dataIndex: "schedule_date",
+      dataIndex: "combined_info",
+      render: (text, record, index) =>
+        index === dataSource.findIndex((item) => item.id === record.id) ? (
+          <span>{record.schedule_date}</span>
+        ) : null,
+    },
+    {
+      title: "গন্তব্য",
+      dataIndex: "combined_info",
+      render: (text, record, index) =>
+        index === dataSource.findIndex((item) => item.id === record.id) ? (
+          <span>{record.schedule_place}</span>
+        ) : null,
     },
     {
       title: "রাউন্ড",
-      dataIndex: "schedule_round",
+      dataIndex: "combined_info",
+      render: (text, record, index) =>
+        index === dataSource.findIndex((item) => item.id === record.id) ? (
+          <span>{record.schedule_round}</span>
+        ) : null,
     },
     {
-      title: "সিরিয়াল নম্বর ",
-      dataIndex: "schedule_serial",
-    },
-    {
-      title: "প্রস্থান সময়",
-      dataIndex: "schedule_time",
-    },
-    {
-      title: "অটোরিকশা নাম্বার",
-      dataIndex: "schedule_autorickshaw",
+      title: "সময়",
+      dataIndex: "combined_info",
+      render: (text, record, index) =>
+        index === dataSource.findIndex((item) => item.id === record.id) ? (
+          <span>{record.schedule_time}</span>
+        ) : null,
     },
     {
       title: "কার্যক্রম",
-      render: (text, record) => (
-        <div className="ScheduleButton">
-          <Button type="primary" danger onClick={() => handleDelete(record)}>
-            <span>মুছুন</span>
-          </Button>
-        </div>
-      ),
+      render: (text, record, index) => {
+        if (index === 0) {
+          return (
+            <Button type="primary" onClick={() => handleViewAutorickshaws(record)}>
+              দেখুন অটোরিক্শা
+            </Button>
+          );
+        }
+        return null;
+      },
+    },
+    {
+      title: "কার্যক্রম",
+      render: (text, record, index) => {
+        if (index === 0) {
+          return (
+            <Button type="primary" danger onClick={() => handleDelete(record)}>
+              মুছুন
+            </Button>
+          );
+        }
+        return null;
+      },
     },
   ];
+  
+  
+  
+  // Define a state variable to track the currently open schedule ID
+const [openScheduleID, setOpenScheduleID] = useState(null);
 
+const handleViewAutorickshaws = (schedule) => {
+    // Fetch autorickshaw numbers from the API using the schedule ID
+    fetch(`http://localhost:3001/api/autorickshawSchedule/${schedule.id}`)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+        if (Array.isArray(data.data) && data.data.length > 0) {
+          const autorickshawNumbers = data.data.map((item) => item.autorickshaw_number); // Extract all autorickshaw numbers
+          console.log(autorickshawNumbers);
+  
+          // Display the autorickshaw numbers in a list
+          Modal.info({
+            title: `${schedule.schedule_date} - ${schedule.schedule_place} - ${schedule.schedule_round}`,
+            content: (
+              <div>
+                <p>অটোরিক্শা নাম্বারঃ</p>
+                <ul>
+                  {autorickshawNumbers.map((number, index) => (
+                    <li key={index}>{number}</li> 
+                  ))}
+                </ul>
+              </div>
+            ),
+            width: "60%",
+          });
+        } else {
+          // Handle the case when data is not in the expected format or is empty
+          console.error("No autorickshaw data found or it's not in the expected format.");
+          // You can display an error message or take appropriate action here
+        }
+      })
+      .catch((error) => {
+        // Handle any errors that occurred during fetching autorickshaw data
+        console.error("Error fetching autorickshaw data: ", error);
+        // You can display an error message or take appropriate action here
+      });
+  };
+  
+  
+  
+  
+  
+  
+
+
+  const AutorickshawsTable = ({ autorickshaws, scheduleId }) => {
+    const autorickshawColumns = [
+      {
+        title: "অটোরিক্শা নাম্বার",
+        dataIndex: "autorickshaw_number",
+      },
+      {
+        title: "কার্যক্রম",
+        render: (text, record) => (
+          <Button type="primary" danger onClick={() => handleDelete(record)}>
+            মুছুন
+          </Button>
+        ),
+      },
+    ];
+
+    return (
+      <Table
+        columns={autorickshawColumns}
+        dataSource={autorickshaws}
+        pagination={false}
+      />
+    );
+  };
+  
   const columns2 = [
     {
       title: "অটোরিকশা নাম্বার",
@@ -226,9 +328,7 @@ function Schedule() {
       title: "কার্যক্রম",
       render: (text, record) => (
         <div className="ScheduleButton">
-          <Button type="primary">
-            <span>উপস্থিত</span>
-          </Button>
+         
           <Button type="primary" danger>
             <span>অনুপস্থিত</span>
           </Button>
@@ -292,25 +392,29 @@ function Schedule() {
                 )}
               </div>
               <div className={styles.scheduleInfield}>
-                <p className={styles.scheduleParagraph}>
-                  <HourglassOutlined className={styles.iconShow} />
-                  সিরিয়াল নম্বর{" "}
-                </p>
-                <input
-                  className={styles.scheduleInput}
-                  type="text"
-                  id="schedule_serial"
-                  name="schedule_serial"
-                  placeholder="সিরিয়াল নম্বর দিন"
-                  value={formData.schedule_serial}
-                  onChange={handleInputChange}
-                />
-                {errors.schedule_serial && (
-                  <span className={styles.scheduleError}>
-                    {errors.schedule_serial}
-                  </span>
-                )}
-              </div>
+  <p className={styles.scheduleParagraph}>
+    <HourglassOutlined className={styles.iconShow} />
+    গন্তব্য{" "}
+  </p>
+  <select
+    className={styles.scheduleSelect}
+    id="schedule_place"
+    name="schedule_place"
+    value={formData.schedule_place}
+    onChange={handleInputChange}
+  >
+    <option key="default" value="">গন্তব্য নির্বাচন করুন</option>
+    <option value="E Building">E Building</option>
+    <option value="Boys Hall">Boys Hall</option>
+    <option value="Ladies Hall">Ladies Hall</option>
+  </select>
+  {errors.schedule_place && (
+    <span className={styles.scheduleError}>
+      {errors.schedule_place}
+    </span>
+  )}
+</div>
+
               <div className={styles.scheduleInfield}>
                 <p className={styles.scheduleParagraph}>
                   <FieldTimeOutlined className={styles.iconShow} />
@@ -334,35 +438,36 @@ function Schedule() {
                 )}
               </div>
               <div className={styles.scheduleInfield}>
-                <p className={styles.scheduleParagraph}>
-                  <CarOutlined className={styles.iconShow} />
-                  অটোরিকশা নাম্বার
-                </p>
-                <select
-                  className={styles.scheduleSelect}
-                  id="schedule_autorickshaw"
-                  name="schedule_autorickshaw"
-                  placeholder="অটোরিকশা নাম্বার নির্বাচন করুন"
-                  value={formData.schedule_autorickshaw.autorickshaw_number} // Change this line
-                  onChange={handleInputChange}
-                >
-                  <option value="" > <span className={styles.first}>অটোরিকশা নির্বাচন করুন</span></option>
-                  {autorickshaws.map((autorickshaw, index) => (
-                    <option
-                      key={index}
-                      value={autorickshaw.autorickshaw_number}
-                    >
-                      {autorickshaw.autorickshaw_number}
-                    </option>
-                  ))}
-                </select>
+  <p className={styles.scheduleParagraph}>
+    <CarOutlined className={styles.iconShow} />
+    অটোরিক্শা নাম্বার
+  </p>
+  <select
+  className={styles.scheduleSelect}
+  id="autorickshaw_number"
+  name="autorickshaw_number"
+  placeholder="অটোরিক্শা নাম্বার নির্বাচন করুন"
+  value={formData.autorickshaw_number}
+  onChange={handleInputChange}
+>
+  <option key="default" value="">
+    অটোরিক্শা নির্বাচন করুন
+  </option>
+  {autorickshaws &&
+    autorickshaws.map((autorickshaw, index) => (
+      <option key={index} value={autorickshaw.autorickshaw_number}>
+        {autorickshaw.autorickshaw_number}
+      </option>
+    ))}
+</select>
 
-                {errors.schedule_autorickshaw && (
-                  <span className={styles.scheduleError}>
-                    {errors.schedule_autorickshaw}
-                  </span>
-                )}
-              </div>
+
+  {errors.autorickshaw_number && ( // Corrected the error check here
+    <span className={styles.scheduleError}>
+      {errors.autorickshaw_number} 
+    </span>
+  )}
+</div>
 
               <button type="submit" className={styles.scheduleButton}>
                 ADD

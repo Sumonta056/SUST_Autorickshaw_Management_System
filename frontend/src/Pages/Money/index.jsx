@@ -35,12 +35,13 @@ function Money() {
     setFormData({
       ...formData,
       [event.target.name]: event.target.value,
+
     });
   };
 
   const handleAutorickshawChange = async (event) => {
     const selectedAutorickshawNumber = event.target.value;
-
+console.log("Selected Autorickshaw Number:", selectedAutorickshawNumber);
     try {
       const response = await axios.get(
         `http://localhost:3001/api/driverInfoForAutorickshaw/${selectedAutorickshawNumber}`
@@ -125,15 +126,20 @@ function Money() {
   };
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/autorickshaw")
+    fetch("http://localhost:3001/api/permittedAutorickshaws")
       .then((response) => response.json())
       .then((data) => {
-        setAutorickshaws(data.users);
+        if (data.autorickshaws && Array.isArray(data.autorickshaws)) { // Check if data.autorickshaws is an array
+          setAutorickshaws(data.autorickshaws);
+        } else {
+          console.error("Invalid or missing data for autorickshaws.");
+        }
       })
       .catch((error) => {
         console.error("Error fetching autorickshaw data: ", error);
       });
   }, []);
+  
   return (
     <div className="App">
       <AppHeader />
@@ -174,23 +180,25 @@ function Money() {
                   <CarOutlined className={styles.iconShow} />
                   অটোরিকশা নাম্বার
                 </p>
-               <select
-                  className={styles.moneySelect}
-                  id="autorickshaw_number"
-                  name="autorickshaw_number"
-                  value={formData.autorickshaw_number}
-                  onChange={handleAutorickshawChange}
-                >
-                  <option value="">
-                    {" "}
-                    <span className={styles.first}>অটোরিকশা নির্বাচন করুন</span>
-                  </option>
-                  {autorickshaws.map((autorickshaw, index) => (
+                <select
+                className={styles.moneySelect}
+                id="autorickshaw_number"
+                name="autorickshaw_number"
+                value={formData.autorickshaw_number}
+                onChange={handleAutorickshawChange}
+              >
+                <option value="">
+                  {" "}
+                  <span className={styles.first}>অটোরিকশা নির্বাচন করুন</span>
+                </option>
+                {autorickshaws.length > 0 &&
+                  autorickshaws.map((autorickshaw, index) => (
                     <option key={index} value={autorickshaw.autorickshaw_number}>
                       {autorickshaw.autorickshaw_number}
                     </option>
                   ))}
-                </select>
+              </select>
+
                 {errors.autorickshaw_number && (
                   <span className={styles.moneyError}>
                     {errors.autorickshaw_number}
