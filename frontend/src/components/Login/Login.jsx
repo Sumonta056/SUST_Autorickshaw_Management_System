@@ -26,6 +26,7 @@ function Login() {
   };
 
   // Submitting the form and checking the form values validation and return the errors
+  axios.defaults.withCredentials = true;
   const handleSubmit = (event) => {
     event.preventDefault();
     setErrors(LoginValidation(values));
@@ -35,7 +36,8 @@ function Login() {
       axios
         .post("http://localhost:3001/login", values)
         .then((res) => {
-          if (res.data === "success") {
+          if (res.data=== "success") {
+  
             Modal.success({
               title: "Successful!",
               content: "আপনি সফলভাবে লগইন করেছেন",

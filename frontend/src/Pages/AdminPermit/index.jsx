@@ -14,6 +14,7 @@ import {
 } from "@ant-design/icons";
 
 function AdminPermit() {
+  axios.defaults.withCredentials = true;
   const [adminNIDs, setadminNIDs] = useState([]);
   const [authorityData, setAuthorityData] = useState([]);
   const [formData, setFormData] = useState({

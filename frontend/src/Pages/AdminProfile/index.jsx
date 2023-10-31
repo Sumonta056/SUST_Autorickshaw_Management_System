@@ -6,20 +6,17 @@ import axios from "axios";
 import styles from "./money.module.css";
 import {
   ProfileOutlined,
-UserOutlined,
-SafetyOutlined,
-AliwangwangOutlined ,
-
+  UserOutlined,
+  SafetyOutlined,
+  AliwangwangOutlined,
 } from "@ant-design/icons";
 
 function Money() {
-  const [autorickshaws, setAutorickshaws] = useState([]);
+  const [id, setID] = useState(null);
   const [formData, setFormData] = useState({
-    payment_date: "",
-    autorickshaw_number: "",
-    driver_name: "",
-    driver_nid: "",
-    payment_amount: "",
+    authority_adminType: "",
+    admin_username: "",
+    admin_password: "",
   });
 
   const handleInputChange = (event) => {
@@ -29,76 +26,64 @@ function Money() {
     });
   };
 
-  const handleAutorickshawChange = async (event) => {
-    const selectedAutorickshawNumber = event.target.value;
-
-    try {
-      const response = await axios.get(
-        `http://localhost:3001/api/driverInfoForAutorickshaw/${selectedAutorickshawNumber}`
-      );
-
-      if (response.data && response.data.driverInfo) {
-        const { driverInfo } = response.data;
-        const driverName = `${driverInfo.driver_firstName} ${driverInfo.driver_lastName}`;
-
-        setFormData({
-          ...formData,
-          autorickshaw_number: selectedAutorickshawNumber,
-          driver_name: driverName,
-          driver_nid: driverInfo.driver_nid,
-        });
-      } else {
-        console.log("No driver found for the selected autorickshaw.");
-        // You can provide feedback to the user as needed
-      }
-    } catch (error) {
-      console.error("Error fetching driver information:", error);
-      // Handle errors, e.g., display an error message to the user
-    }
-  };
-
   const handleSubmit = async (event) => {
     event.preventDefault();
+    console.log("herr");
 
-    const response = await axios.post(
-      "http://localhost:3001/insertmoney",
-      formData
-    );
-    if (response.data === "success") {
-      Modal.success({
-        title: "Successful!",
-        content: "আপনি সফলভাবে পেমেন্ট করেছেন",
-        onOk: () => {
-          setFormData({
-            payment_date: "",
-            autorickshaw_number: "",
-            driver_name: "",
-            driver_nid: "",
-            payment_amount: "",
-          });
-        },
+    try {
+      const response = await axios.post(`http://localhost:3001/api/updatePassword/${id}`, {
+        password: formData.admin_password,
       });
-    } else {
-      Modal.error({
-        title: "Error",
-        content: "পেমেন্ট ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন",
-        onOk: () => {
-          // Handle error, e.g., allow the user to retry
-        },
-      });
+      
+      if (response.data === 'success') {
+        Modal.success({
+          title: 'Successful!',
+          content: 'আপনি সফলভাবে পাসওয়ার্ড পরিবর্তন করেছেন',
+        });
+      } else {
+        Modal.error({
+          title: 'Error',
+          content: 'পাসওয়ার্ড পরিবর্তন ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন',
+        });
+      }
+    } catch (error) {
+      console.log('Error:', error);
     }
   };
 
   useEffect(() => {
-    fetch("http://localhost:3001/api/autorickshaw")
-      .then((response) => response.json())
-      .then((data) => {
-        setAutorickshaws(data.users);
-      })
-      .catch((error) => {
-        console.error("Error fetching autorickshaw data: ", error);
+    // Fetch the user ID
+    axios.get("http://localhost:3001/api/profile", { withCredentials: true })
+      .then((res) => {
+        if (res.data.statusbar === "success") {
+          console.log(res.data.id);
+          setID(res.data.id);
+          // After setting the ID, call the function to fetch profile info
+          fetchProfileInfo(res.data.id);
+        } else {
+          console.log("error");
+        }
       });
   }, []);
+
+  async function fetchProfileInfo(id) {
+    try {
+      const response = await axios.get(`http://localhost:3001/api/profileInfo/${id}`);
+      if (response.data) {
+        console.log(response.data.id);
+        setFormData({
+          authority_adminType: response.data.authority_adminType,
+          admin_username: response.data.username,
+          admin_password: response.data.password,
+        });
+      } else {
+        console.log("error");
+      }
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  }
+
   return (
     <div className="App">
       <AppHeader />
@@ -113,18 +98,18 @@ function Money() {
             <form className={styles.moneyForm} onSubmit={handleSubmit}>
               <div className={styles.moneyInfield}>
                 <p className={styles.moneyParagraph}>
-                  <AliwangwangOutlined  className={styles.iconShow} />
+                  <AliwangwangOutlined className={styles.iconShow} />
                   অ্যাডমিন টাইপ
                 </p>
                 <input
                   className={styles.moneyInput}
                   type="text"
-                  id="driver_name"
-                  name="driver_name"
+                  id="authority_adminType"
+                  name="authority_adminType"
                   placeholder="অ্যাডমিন টাইপ নির্বাচন করুন"
-                  value={formData.driver_name}
+                  value={formData.authority_adminType}
                   onChange={handleInputChange}
-                  readOnly // Add the readonly attribute
+                  readOnly
                 />
               </div>
 
@@ -136,10 +121,10 @@ function Money() {
                 <input
                   className={`${styles.moneyInput} ${styles.readonly}`} // Add a custom CSS class for readonly style
                   type="text"
-                  id="driver_nid"
-                  name="driver_nid"
+                  id="admin_username"
+                  name="admin_username"
                   placeholder="অ্যাডমিন ইউজারনেম দিন"
-                  value={formData.driver_nid}
+                  value={formData.admin_username}
                   onChange={handleInputChange}
                   readOnly
                 />
@@ -153,15 +138,15 @@ function Money() {
                 <input
                   className={`${styles.moneyInput} ${styles.readonly}`} // Add a custom CSS class for readonly style
                   type="text"
-                  id="driver_nid"
-                  name="driver_nid"
+                  id="admin_password"
+                  name="admin_password"
                   placeholder="পাসওয়ার্ড প্রদান করুন"
-                  value={formData.driver_nid}
+                  value={formData.admin_password}
                   onChange={handleInputChange}
                 />
               </div>
               <button type="submit" className={styles.moneyButton}>
-              পাসওয়ার্ড পরিবর্তন করুন
+                পাসওয়ার্ড পরিবর্তন করুন
               </button>
             </form>
           </div>

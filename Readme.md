@@ -26,4 +26,9 @@ npm install --save react-circular-progressbar
 
 npm install jspdf
 
+
+cd backend
+
+npm install express-session cookie-parser  jsonwebtoken
+
 ``````

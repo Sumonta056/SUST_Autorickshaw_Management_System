@@ -1,9 +1,20 @@
 const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
+const cookieParser = require("cookie-parser");
+const jwt = require("jsonwebtoken");
 
 const app = express();
-app.use(cors());
+
+app.use(cookieParser());
+app.use(
+  cors({
+    origin: ["http://localhost:3000"],
+    methods: ["GET", "POST", "PUT", "DELETE"],
+    credentials: true,
+  })
+);
+
 app.use(express.json());
 
 const db = mysql.createConnection({
@@ -37,7 +48,6 @@ app.post("/signupss", (req, res) => {
       if (err) {
         return res.json(err);
       }
-
       return res.json("success");
     });
   });
@@ -48,16 +58,19 @@ app.post("/login", (req, res) => {
 
   db.query(sql, [req.body.email, req.body.password], (err, data) => {
     console.log(data);
-
     if (err) {
       return res.json(err);
     }
-
-    if (data.length > 0) {
-      return res.json("success");
-    } else {
-      return res.json("error");
+    if (data.length === 0) {
+      return res.status(401).json({ message: "Invalid username or password" });
     }
+
+    console.log(data[0].id);
+    const id = data[0].id;
+    const token = jwt.sign({ id }, "screet-token", { expiresIn: "1d" });
+    res.cookie("token", token);
+
+    return res.json("success");
   });
 });
 
@@ -1115,7 +1128,6 @@ app.get("/api/authorityNID", (req, res) => {
   });
 });
 
-
 app.post("/signup", (req, res) => {
   const adminNIDToCheck = req.body.admin_NID;
 
@@ -1130,8 +1142,6 @@ app.post("/signup", (req, res) => {
     if (nidCheckData.length > 0) {
       return res.json("NID already registered");
     }
-
-
 
     // First, check if the email already exists in the database
     const usernameCheckSql = "SELECT * FROM user WHERE username = ?";
@@ -1166,6 +1176,7 @@ app.post("/signup", (req, res) => {
             console.error("Database error:", err);
             return res.status(500).json("Database error");
           }
+
           return res.json("success");
         });
       }
@@ -1173,6 +1184,71 @@ app.post("/signup", (req, res) => {
   });
 });
 
+const verifyUser = (req, res, next) => {
+  const token = req.cookies.token;
+  if (!token) {
+    return res.json("error");
+  } else {
+    jwt.verify(token, "screet-token", (err, decoded) => {
+      if (err) {
+        return res.json("error");
+      } else {
+        req.id = decoded.id;
+        next();
+      }
+    });
+  }
+};
+
+app.get("/api/profile", verifyUser, (req, res) => {
+  return res.json({ statusbar: "success", id: req.id });
+});
+
+app.get("/api/profileInfo/:id", (req, res) => {
+  const id = req.params.id; // Get the id from the request parameters
+  const query = "SELECT * FROM user WHERE id = ?"; // Modify the SQL query to fetch user data based on id
+
+  db.query(query, [id], (err, results) => {
+    if (err) {
+      console.error("Error executing SQL query: " + err);
+      res.status(500).json({ error: "Internal Server Error" });
+    } else {
+      if (results.length === 0) {
+        // If no user with the specified id is found, return a 404 Not Found response
+        res.status(404).json({ error: "User not found" });
+      } else {
+        // Send the retrieved user data as a JSON response
+        console.log(results[0]);
+        res.json(results[0]); // Assuming you expect only one user with the given id
+      }
+    }
+  });
+});
+
+
+// Create an API endpoint to update the user's password
+app.post('/api/updatePassword/:id', (req, res) => {
+  const { id } = req.params;
+  const { password } = req.body;
+
+  // Update the user's password in the database
+  const query = 'UPDATE user SET password = ? WHERE id = ?';
+
+  db.query(query, [password, id], (err, result) => {
+    if (err) {
+      console.error('Error updating password: ' + err.message);
+      res.status(500).json({ error: 'Internal Server Error' });
+    } else {
+      if (result.affectedRows === 1) {
+        // Password updated successfully
+        res.json('success');
+      } else {
+        // No user with the provided ID found
+        res.status(404).json({ error: 'User not found' });
+      }
+    }
+  });
+});
 
 const PORT = 3001;
 
