@@ -51,14 +51,14 @@ function Schedule() {
 
   function ScheduleData() {
     setLoading(true);
-    fetch("http://localhost:3001/api/schedule")
+    fetch("http://localhost:3001/api/payment")
       .then((response) => response.json())
       .then((data) => {
         setDataSource(data.users);
         setLoading(false);
       })
       .catch((error) => {
-        console.error("Error fetching Schedule data: ", error);
+        console.error("Error fetching payment data: ", error);
         setLoading(false);
       });
   }
@@ -69,16 +69,15 @@ function Schedule() {
 
   useEffect(() => {
     setLoading2(true);
-    fetch("http://localhost:3001/api/autorickshaw")
+    fetch("http://localhost:3001/api/paymentdue")
       .then((response) => response.json())
       .then((data) => {
-        setDataSource2(data.users);
-        console.log(data.users);
-        console.log(data.users);
+        setDataSource2(data.payments);
+        console.log(data.payments);
         setLoading2(false);
       })
       .catch((error) => {
-        console.error("Error fetching Schedule data: ", error);
+        console.error("Error fetching payment due data: ", error);
         setLoading2(false);
       });
   }, []);
@@ -87,45 +86,44 @@ function Schedule() {
     // Display a confirmation modal before deleting
     Modal.confirm({
       title: "Confirm Deletion",
-      content: "আপনি কি নিশ্চিত যে আপনি এই সময়সূচি মুছতে চান ?",
+      content: "আপনি কি নিশ্চিত যে আপনি এই পেমেন্ট ইতিহাস মুছতে চান ?",
       onOk: () => {
-        console.log(record);
         axios
-          .delete(`http://localhost:3001/deleteschedule/${record.id}`)
+          .delete(`http://localhost:3001/deletePayment/${record.payment_id}`)
           .then((res) => {
             if (res.data === "success") {
               Modal.success({
                 title: "Successful !",
-                content: "আপনি সফলভাবে একটি সময়সূচি মুছে ফেলেছেন",
+                content: "আপনি সফলভাবে একটি পেমেন্ট ইতিহাস মুছে ফেলেছেন",
                 onOk: () => {
-                  ScheduleData();
+                  ScheduleData(); // Fetch updated data after deletion
                 },
-              }); // Refresh the schedule data after deletion
+              });
             } else {
-              alert("Failed to delete the schedule. Please try again.");
+              alert("পেমেন্ট ডিলিট ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
             }
           })
           .catch((err) => {
-            alert(
-              "An error occurred while deleting the schedule. Please try again."
-            );
+            alert("পেমেন্ট ডিলিট ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
           });
       },
     });
   };
+  
+  
 
   const columns = [
     {
       title: "তারিখ",
-      dataIndex: "schedule_date",
+      dataIndex: "payment_date",
     },
     {
       title: "অটোরিকশা নাম্বার",
-      dataIndex: "schedule_autorickshaw",
+      dataIndex: "autorickshaw_number",
     },
     {
       title: "টাকার পরিমাণ",
-      dataIndex: "schedule_time",
+      dataIndex: "payment_amount",
     },
     {
       title: "কার্যক্রম",
@@ -146,11 +144,11 @@ function Schedule() {
     },
     {
       title: "প্রদত্ত টাকার পরিমাণ",
-      dataIndex: "autorickshaw_number",
+      dataIndex: "payment_total",
     },
     {
       title: "বাকি টাকার পরিমাণ",
-      dataIndex: "autorickshaw_number",
+      dataIndex: "payment_due",
     },
 
     {
@@ -268,7 +266,7 @@ function Schedule() {
                     }}
                   />
                 </div>
-                <h1 className="circularHeader">অটোরিক্সা সংখ্যা</h1>
+                <h1 className="circularHeader">অটোরিকশা সংখ্যা</h1>
               </div>
             </div>
           </div>
@@ -276,7 +274,7 @@ function Schedule() {
             <div className="PagecenterM">
               <h1 className="PageHeader">
                 <EyeOutlined className="icon" />
-                শিডিউল দেখুন
+                পরিশোধিত অর্থের হিসাব 
               </h1>
 
               <Table
@@ -293,7 +291,7 @@ function Schedule() {
             <div className="PageFooterM">
               <h1 className="PageHeader">
                 <EyeOutlined className="icon" />
-                অটোরিকশার তালিকা
+                বকেয়া পেমেন্ট
               </h1>
 
               <Table
