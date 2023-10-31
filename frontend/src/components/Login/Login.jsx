@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { Modal } from "antd";
 import styles from "../Login/Login.module.css";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import LoginValidation from "./LoginValidation";
 import axios from "axios";
 
@@ -35,10 +36,21 @@ function Login() {
         .post("http://localhost:3001/login", values)
         .then((res) => {
           if (res.data === "success") {
-            navigate("/");
-            alert("আপনি সফলভাবে লগইন করেছেন");
+            Modal.success({
+              title: "Successful!",
+              content: "আপনি সফলভাবে লগইন করেছেন",
+              onOk: () => {
+                navigate("/dashboard");
+              },
+            });
           } else {
-            alert("কোন তথ্য পাওয়া যায়নি");
+            Modal.error({
+              title: "Not Found",
+              content: "কোন তথ্য পাওয়া যায়নি",
+              onOk: () => {
+               
+              },
+            });
           }
         })
         .catch((error) => {
@@ -57,10 +69,10 @@ function Login() {
             <h1>লগইন করুন</h1>
             <div className={styles.infield}>
               <input
-                type="email"
+                type="text"
                 id="email"
                 name="email"
-                placeholder="ইমেইল"
+                placeholder="অ্যাডমিন ইউজারনেম"
                 onChange={handleInput}
               />
 
@@ -81,9 +93,9 @@ function Login() {
                 <span className={styles.error}>{errors.password}</span>
               )}
             </div>
-            <a href="#d" className={styles.forgot}>
+            {/* <a href="#d" className={styles.forgot}>
               পাসওয়ার্ড ভুলে গিয়েছেন ?
-            </a>
+            </a> */}
             <button
               type="submit"
               className={`${styles.button} ${styles.login}`}
@@ -101,25 +113,25 @@ function Login() {
               <h1>
                 শাবিপ্রবি অটোরিকশা ম্যানেজমেন্ট সিস্টেম
                 <br />
-                <Link
+                {/* <Link
                   to="/signup"
                   className={`${styles.button} ${styles.registration}`}
                 >
                   রেজিস্ট্রেশন করুন
-                </Link>
+                </Link> */}
               </h1>
             </div>
           </div>
         </div>
       </div>
-      <footer>
+      {/* <footer>
         <mark>
           Learn more on{" "}
           <a href="https://github.com/Sumonta056/SUST-Autorickshaw-Management-System">
             Github
           </a>
         </mark>
-      </footer>
+      </footer> */}
     </div>
   );
 }

@@ -9,8 +9,11 @@ import {
   SettingOutlined,
   MoneyCollectOutlined,
   EditOutlined,
-  // EyeOutlined,
+  HistoryOutlined,
   UserSwitchOutlined,
+  ProfileOutlined,
+  SecurityScanOutlined,
+  
 } from "@ant-design/icons";
 import "./index.css"; // Import your custom CSS here
 
@@ -168,13 +171,31 @@ function DriverMenu() {
         }`}
         onClick={() => navigate("/moneyShow")}
       >
-        <MoneyCollectOutlined className="icon" />{" "}
-        <span className="CustomLabel">হিসাব নিকাশ</span>
+        <HistoryOutlined  className="icon" />{" "}
+        <span className="CustomLabel">হিসাব নিকাশ তথ্য</span>
       </div>
 
       <div className="unauthorized">
         <CaretRightOutlined className="icons" />
         সেটিংস
+      </div>
+      <div
+        className={`DriverMenuItem ${
+          selectedKey === "/inventory" ? "DriverMenuItemSelected" : ""
+        }`}
+        onClick={() => navigate("/access")}
+      >
+        <SecurityScanOutlined className="icon" />{" "}
+        <span className="CustomLabel">প্রবেশাধিকার প্রদান</span>
+      </div>
+      <div
+        className={`DriverMenuItem ${
+          selectedKey === "/inventory" ? "DriverMenuItemSelected" : ""
+        }`}
+        onClick={() => navigate("/profile")}
+      >
+        <ProfileOutlined className="icon" />{" "}
+        <span className="CustomLabel">প্রোফাইল</span>
       </div>
       <div
         className={`DriverMenuItem ${

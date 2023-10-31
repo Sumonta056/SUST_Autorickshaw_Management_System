@@ -85,7 +85,7 @@ function Registration() {
             </div>
             <div className={styles.infield}>
               <input
-                type="email"
+                type="text"
                 placeholder="ইমেইল"
                 id="email"
                 name="email"

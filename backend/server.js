@@ -13,7 +13,7 @@ const db = mysql.createConnection({
   database: "sarms",
 });
 
-app.post("/signup", (req, res) => {
+app.post("/signupss", (req, res) => {
   // First, check if the email already exists in the database
   const emailCheckSql = "SELECT * FROM user WHERE email = ?";
   const emailToCheck = req.body.email;
@@ -44,7 +44,7 @@ app.post("/signup", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-  const sql = "SELECT * FROM user WHERE `email` = ? AND `password` = ?";
+  const sql = "SELECT * FROM user WHERE `username` = ? AND `password` = ?";
 
   db.query(sql, [req.body.email, req.body.password], (err, data) => {
     console.log(data);
@@ -796,7 +796,7 @@ app.put("/updateAutorickshaw/:id", (req, res) => {
     autorickshaw_model,
     driver_nid,
     owner_nid,
-    autorickshaw_status
+    autorickshaw_status,
   } = req.body;
 
   // If both autorickshaw number and driver NID are unique, proceed with the update
@@ -897,20 +897,18 @@ app.post("/updateschedule", (req, res) => {
   });
 });
 
-
 /// Define a route to handle schedule deletion
 app.delete("/deleteschedule/:id", (req, res) => {
   try {
     const scheduleId = req.params.id;
     const deleteQuery = "DELETE FROM schedule WHERE id = ?";
-    
+
     // Execute the SQL delete query
     db.query(deleteQuery, [scheduleId], (err, results) => {
       if (err) {
         console.error("Error deleting schedule: ", err);
         res.status(500).json("Error deleting schedule");
       } else {
-        
         res.json("success");
       }
     });
@@ -924,7 +922,8 @@ app.put("/PermitAutorickshaw/:id", (req, res) => {
   console.log("Received PUT request for autorickshaw with ID: " + id);
 
   // Set autorickshaw_status to 1
-  const sql = "UPDATE autorickshaw SET `autorickshaw_status` = 1 WHERE `id` = ?";
+  const sql =
+    "UPDATE autorickshaw SET `autorickshaw_status` = 1 WHERE `id` = ?";
 
   const values = [id];
 
@@ -942,7 +941,6 @@ app.put("/PermitAutorickshaw/:id", (req, res) => {
   });
 });
 
-
 // Define a route to get the total number of drivers
 app.get("/api/totalDrivers", (req, res) => {
   db.query("SELECT COUNT(*) as total FROM driver", (error, results) => {
@@ -956,7 +954,6 @@ app.get("/api/totalDrivers", (req, res) => {
   });
 });
 
-
 // Define a route to get the total number of drivers
 app.get("/api/totalOwners", (req, res) => {
   db.query("SELECT COUNT(*) as total FROM owner", (error, results) => {
@@ -969,7 +966,6 @@ app.get("/api/totalOwners", (req, res) => {
     }
   });
 });
-
 
 // Define a route to get the total number of drivers
 app.get("/api/totalautorickshaws", (req, res) => {
@@ -1059,9 +1055,9 @@ app.get("/api/driverInfoForAutorickshaw/:autorickshawNID", (req, res) => {
   // Query the database to get the driver information based on the autorickshaw NID
   db.query(
     "SELECT d.driver_nid, d.driver_date_of_birth, d.driver_houseNo, d.driver_postalCode, d.driver_address, d.driver_license_no, d.driver_firstName, d.driver_lastName, d.driver_status " +
-    "FROM driver AS d " +
-    "INNER JOIN autorickshaw AS a ON d.driver_nid = a.driver_nid " +
-    "WHERE a.autorickshaw_number = ?",
+      "FROM driver AS d " +
+      "INNER JOIN autorickshaw AS a ON d.driver_nid = a.driver_nid " +
+      "WHERE a.autorickshaw_number = ?",
     [autorickshawNID],
     (error, results) => {
       if (error) {
@@ -1069,7 +1065,9 @@ app.get("/api/driverInfoForAutorickshaw/:autorickshawNID", (req, res) => {
         res.json({ error: "Internal Server Error" });
       } else {
         if (results.length === 0) {
-          res.json({ error: "Driver not found for the selected autorickshaw." });
+          res.json({
+            error: "Driver not found for the selected autorickshaw.",
+          });
         } else {
           const driverInfo = results[0];
           res.json({ driverInfo });
@@ -1087,7 +1085,8 @@ app.post("/insertmoney", (req, res) => {
     payment_amount,
   } = req.body;
 
-  const sql = "INSERT INTO payment (driver_nid, payment_date, payment_amount) VALUES (?, ?, ?)";
+  const sql =
+    "INSERT INTO payment (driver_nid, payment_date, payment_amount) VALUES (?, ?, ?)";
 
   const values = [driver_nid, payment_date, payment_amount];
 
@@ -1098,6 +1097,79 @@ app.post("/insertmoney", (req, res) => {
     }
     console.log("Money information inserted successfully");
     return res.json("success");
+  });
+});
+
+// Create a GET endpoint to retrieve all authority information
+app.get("/api/authorityNID", (req, res) => {
+  const query = "SELECT * FROM authority";
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error("Error executing SQL query: " + err);
+      res.status(500).json({ error: "Internal Server Error" });
+    } else {
+      // Send the retrieved authority data as a JSON response
+      res.json(results);
+    }
+  });
+});
+
+
+app.post("/signup", (req, res) => {
+  const adminNIDToCheck = req.body.admin_NID;
+
+  // First, check if the NID already exists in the database
+  const nidCheckSql = "SELECT * FROM user WHERE admin_NID = ?";
+  db.query(nidCheckSql, [adminNIDToCheck], (nidCheckErr, nidCheckData) => {
+    if (nidCheckErr) {
+      console.error("NID check error:", nidCheckErr);
+      return res.status(500).json({ message: "Database error" });
+    }
+
+    if (nidCheckData.length > 0) {
+      return res.json("NID already registered");
+    }
+
+
+
+    // First, check if the email already exists in the database
+    const usernameCheckSql = "SELECT * FROM user WHERE username = ?";
+    const usernameToCheck = req.body.admin_username;
+
+    db.query(
+      usernameCheckSql,
+      [usernameToCheck],
+      (usernameCheckErr, usernameCheckData) => {
+        if (usernameCheckErr) {
+          return res.json(usernameCheckErr);
+        }
+
+        // If there is a user with the same username, return a message
+        if (usernameCheckData.length > 0) {
+          console.log("username already registered");
+          return res.json("username");
+        }
+
+        const sql =
+          "INSERT INTO user (`authority_adminType`, `admin_NID`, `name`, `username`, `password`) VALUES (?, ?, ?, ?, ?)";
+        const values = [
+          req.body.authority_adminType,
+          req.body.admin_NID,
+          req.body.admin_name,
+          req.body.admin_username,
+          req.body.admin_password,
+        ];
+
+        db.query(sql, values, (err, data) => {
+          if (err) {
+            console.error("Database error:", err);
+            return res.status(500).json("Database error");
+          }
+          return res.json("success");
+        });
+      }
+    );
   });
 });
 

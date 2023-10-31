@@ -17,18 +17,22 @@ function Home() {
             <li>
               <a href="/home">About</a>
             </li>
-            <li>
+            {/* <li>
               <a href="/home">Services</a>
-            </li>
-            <li>
-              <a href="/home">Search</a>
-            </li>
+            </li> */}
             <li>
               <a href="/home">Contact</a>
             </li>
+{/* 
             <li>
               <Link to="/login" className={styles["a"]}>
                 Login
+              </Link>
+            </li> */}
+
+            <li>
+              <Link to="/login" className={styles["ap"]}>
+                Dashboard
               </Link>
             </li>
           </ul>
@@ -55,9 +59,9 @@ function Home() {
             <Link to="/ManagerRegistration" className={styles["a"]}>
               Manager Registration
             </Link>
-            <Link to="/dashboard" className={styles["a"]}>
-              Dashboard
-            </Link>
+            {/* <Link to="/AuthorityRegistration" className={styles["a"]}>
+              Authority Registration
+            </Link> */}
           </div>
         </div>
       </header>
