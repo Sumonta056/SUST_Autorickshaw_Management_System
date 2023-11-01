@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import axios from "axios";
 import { useLocation, useNavigate } from "react-router-dom";
 import {
   AppstoreOutlined,
@@ -13,12 +14,12 @@ import {
   UserSwitchOutlined,
   ProfileOutlined,
   SecurityScanOutlined,
-  
 } from "@ant-design/icons";
 import "./index.css"; // Import your custom CSS here
 
 function DriverMenu() {
   const location = useLocation();
+  const [status, setStatus] = useState(true);
   const [selectedKey, setSelectedKey] = useState("/");
 
   useEffect(() => {
@@ -27,6 +28,40 @@ function DriverMenu() {
   }, [location.pathname]);
 
   const navigate = useNavigate();
+
+  useEffect(() => {
+    // Fetch the user ID
+    axios
+      .get("http://localhost:3001/api/profile", { withCredentials: true })
+      .then((res) => {
+        if (res.data.statusbar === "success") {
+          console.log(res.data.id);
+
+          fetchProfileInfo(res.data.id);
+        } else {
+          console.log("error");
+        }
+      });
+  }, []);
+
+  async function fetchProfileInfo(id) {
+    try {
+      const response = await axios.get(
+        `http://localhost:3001/api/profileInfo/${id}`
+      );
+      if (response.data) {
+        console.log(response.data.id);
+        console.log(response.data.authority_adminType);
+        if (response.data.authority_adminType === "ম্যানেজার") {
+          setStatus(false);
+        }
+      } else {
+        console.log("error");
+      }
+    } catch (error) {
+      console.log("Error:", error);
+    }
+  }
 
   return (
     <div className="DriverMenu">
@@ -85,7 +120,8 @@ function DriverMenu() {
         <UserSwitchOutlined className="icon" />{" "}
         <span className="CustomLabel">ম্যানেজার তালিকা</span>
       </div>
-      <div className="unauthorized">
+
+      {/* <div className="unauthorized">
         <CaretRightOutlined className="icons" />
         অননুমোদিত
       </div>
@@ -98,6 +134,7 @@ function DriverMenu() {
         <UserOutlined className="icon" />{" "}
         <span className="CustomLabel">মালিকের তালিকা</span>
       </div>
+     
       <div
         className={`AutorickshawMenuItem ${
           selectedKey === "/UnauthorizedAutorickshaw"
@@ -128,7 +165,69 @@ function DriverMenu() {
       >
         <UserSwitchOutlined className="icon" />{" "}
         <span className="CustomLabel">ম্যানেজার তালিকা</span>
-      </div>
+      </div> */}
+
+      {status && (
+        <div className="unauthorized">
+          <CaretRightOutlined className="icons" />
+          অননুমোদিত
+        </div>
+      )}
+
+      {status && (
+        <div
+          className={`OwnerMenuItem ${
+            selectedKey === "/inventory" ? "OwnerMenuItemSelected" : ""
+          }`}
+          onClick={() => navigate("/UnauthorizedOwner")}
+        >
+          <UserOutlined className="icon" />
+          <span className="CustomLabel">মালিকের তালিকা</span>
+        </div>
+      )}
+
+      {status && (
+        <div
+          className={`AutorickshawMenuItem ${
+            selectedKey === "/UnauthorizedAutorickshaw"
+              ? "AutorickshawMenuItemSelected"
+              : ""
+          }`}
+          onClick={() => navigate("/UnauthorizedAutorickshaw")}
+        >
+          <CarOutlined className="icon" />
+          <span className="CustomLabel">অটোরিকশার তালিকা</span>
+        </div>
+      )}
+
+      {status && (
+        <div
+          className={`DriverMenuItem ${
+            selectedKey === "/UnauthorizedDriver"
+              ? "DriverMenuItemSelected"
+              : ""
+          }`}
+          onClick={() => navigate("/UnauthorizedDriver")}
+        >
+          <UsergroupAddOutlined className="icon" />
+          <span className="CustomLabel">ড্রাইভারের তালিকা</span>
+        </div>
+      )}
+
+      {status && (
+        <div
+          className={`ManagerMenuItem ${
+            selectedKey === "/UnauthorizedManager"
+              ? "ManagerMenuItemSelected"
+              : ""
+          }`}
+          onClick={() => navigate("/UnauthorizedManager")}
+        >
+          <UserSwitchOutlined className="icon" />
+          <span className="CustomLabel">ম্যানেজার তালিকা</span>
+        </div>
+      )}
+
       <div className="unauthorized">
         <CaretRightOutlined className="icons" />
         শিডিউল
@@ -171,7 +270,7 @@ function DriverMenu() {
         }`}
         onClick={() => navigate("/moneyShow")}
       >
-        <HistoryOutlined  className="icon" />{" "}
+        <HistoryOutlined className="icon" />{" "}
         <span className="CustomLabel">হিসাব নিকাশ তথ্য</span>
       </div>
 
@@ -179,15 +278,17 @@ function DriverMenu() {
         <CaretRightOutlined className="icons" />
         সেটিংস
       </div>
-      <div
-        className={`DriverMenuItem ${
-          selectedKey === "/inventory" ? "DriverMenuItemSelected" : ""
-        }`}
-        onClick={() => navigate("/access")}
-      >
-        <SecurityScanOutlined className="icon" />{" "}
-        <span className="CustomLabel">প্রবেশাধিকার প্রদান</span>
-      </div>
+      {status && (
+        <div
+          className={`DriverMenuItem ${
+            selectedKey === "/inventory" ? "DriverMenuItemSelected" : ""
+          }`}
+          onClick={() => navigate("/access")}
+        >
+          <SecurityScanOutlined className="icon" />{" "}
+          <span className="CustomLabel">প্রবেশাধিকার প্রদান</span>
+        </div>
+      )}
       <div
         className={`DriverMenuItem ${
           selectedKey === "/inventory" ? "DriverMenuItemSelected" : ""

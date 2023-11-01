@@ -15,6 +15,7 @@ import {
 
 function AdminPermit() {
   axios.defaults.withCredentials = true;
+  const [type, setType] = useState([]);
   const [adminNIDs, setadminNIDs] = useState([]);
   const [authorityData, setAuthorityData] = useState([]);
   const [formData, setFormData] = useState({
@@ -42,6 +43,7 @@ function AdminPermit() {
     });
 
     if (value === "কর্তৃপক্ষ") {
+      setType("authority");
       console.log(adminType);
       try {
         const response = await axios.get(
@@ -57,6 +59,29 @@ function AdminPermit() {
         console.log(nidNumbers);
 
         console.log(authorityData.authority_nid);
+        setadminNIDs(nidNumbers);
+
+        console.log(adminNIDs);
+      } catch (error) {
+        console.error("Error fetching authority data: ", error);
+      }
+    } else {
+      setType("manager");
+      console.log(adminType);
+      try {
+        const response = await axios.get(
+          `http://localhost:3001/api/ManagerNID`
+        );
+
+        console.log(response.data);
+        setAuthorityData(response.data);
+
+        const nidNumbers = authorityData.map(
+          (authority) => authority.manager_nid
+        );
+        console.log(nidNumbers);
+
+        console.log(authorityData.manager_nid);
         setadminNIDs(nidNumbers);
 
         console.log(adminNIDs);
@@ -104,21 +129,46 @@ function AdminPermit() {
 
     console.log("handleNIDChange", value);
 
-    // Find the authority data based on the selected NID
-    const selectedAuthority = authorityData.find(
-      (authority) => authority.authority_nid === value
-    );
+    if (type === "authority") {
+      // Find the authority data based on the selected NID
+      const selectedAuthority = authorityData.find(
+        (authority) => authority.authority_nid === value
+      );
 
-    const name = findLongestWord(selectedAuthority.authority_name);
-    const username = name + generateRandomUsername(4);
+      const name = findLongestWord(selectedAuthority.authority_name);
+      const username = name + generateRandomUsername(4);
 
-    setFormData({
-      ...formData,
-      admin_NID: value,
-      admin_name: selectedAuthority.authority_name,
-      admin_username: username,
-      admin_password: username,
-    });
+      setFormData({
+        ...formData,
+        admin_NID: value,
+        admin_name: selectedAuthority.authority_name,
+        admin_username: username,
+        admin_password: username,
+      });
+    } else if (type === "manager") {
+      // Find the authority data based on the selected NID
+      const selectedAuthority = authorityData.find(
+        (authority) => authority.manager_nid === value
+      );
+
+      const name = findLongestWord(
+        selectedAuthority.manager_firstName +
+          " " +
+          selectedAuthority.manager_lastName
+      );
+      const username = name + generateRandomUsername(4);
+
+      setFormData({
+        ...formData,
+        admin_NID: value,
+        admin_name:
+          selectedAuthority.manager_firstName +
+          " " +
+          selectedAuthority.manager_lastName,
+        admin_username: username,
+        admin_password: username,
+      });
+    }
   };
 
   const handleSubmit = async (event) => {
@@ -135,17 +185,13 @@ function AdminPermit() {
         Modal.success({
           title: "Successful!",
           content: "সফলভাবে অনুমতি দেওয়া হয়েছে",
-          onOk: () => {
-          
-          },
+          onOk: () => {},
         });
       } else if (response.data === "NID already registered") {
         Modal.error({
           title: "Successful!",
           content: "অ্যাডমিন ইতিমধ্যেই বিদ্যমান",
-          onOk: () => {
-           
-          },
+          onOk: () => {},
         });
       } else {
         Modal.error({
@@ -223,10 +269,20 @@ function AdminPermit() {
 
                   {authorityData.map((authority) => (
                     <option
-                      key={authority.authority_nid}
-                      value={authority.authority_nid}
+                      key={
+                        type === "authority"
+                          ? authority.authority_nid
+                          : authority.manager_nid
+                      }
+                      value={
+                        type === "authority"
+                          ? authority.authority_nid
+                          : authority.manager_nid
+                      }
                     >
-                      {authority.authority_nid}
+                      {type === "authority"
+                        ? authority.authority_nid
+                        : authority.manager_nid}
                     </option>
                   ))}
                 </select>

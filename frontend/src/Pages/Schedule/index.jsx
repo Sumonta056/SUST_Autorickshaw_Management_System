@@ -24,7 +24,7 @@ function Schedule() {
   const [dataSource, setDataSource] = useState([]);
   const [dataSource2, setDataSource2] = useState([]);
   const [autorickshaws, setAutorickshaws] = useState([]);
-  const [selectedSchedule, setSelectedSchedule] = useState(null);
+  // const [selectedSchedule, setSelectedSchedule] = useState(null);
 
   // const navigate = useNavigate();
 
