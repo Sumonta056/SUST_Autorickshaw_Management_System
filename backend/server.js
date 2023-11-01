@@ -1362,6 +1362,21 @@ app.get("/api/ManagerNID", (req, res) => {
   });
 });
 
+
+app.get("/api/admins", (req, res) => {
+  const query = "SELECT * FROM user";
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error("Error executing SQL query: " + err);
+      res.status(500).json({ error: "Internal Server Error" });
+    } else {
+      // Send the retrieved authority data as a JSON response
+      res.json(results);
+    }
+  });
+});
+
 app.post("/signup", (req, res) => {
   const adminNIDToCheck = req.body.admin_NID;
 

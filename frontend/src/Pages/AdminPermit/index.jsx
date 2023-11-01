@@ -1,9 +1,11 @@
 import { Modal } from "antd";
-import { useState } from "react";
+import React, { useEffect, useState } from "react";
+import { Table } from "antd";
 import AppHeader from "../../components/AppHeader";
 import SideMenu from "../../components/SideMenu";
 import axios from "axios";
 import styles from "./AdminPermit.module.css";
+import "./index.css";
 import {
   SecurityScanOutlined,
   SafetyOutlined,
@@ -18,6 +20,24 @@ function AdminPermit() {
   const [type, setType] = useState([]);
   const [adminNIDs, setadminNIDs] = useState([]);
   const [authorityData, setAuthorityData] = useState([]);
+
+  const [loading, setLoading] = useState(false);
+  const [dataSource, setDataSource] = useState([]);
+
+  useEffect(() => {
+    setLoading(true);
+    fetch("http://localhost:3001/api/admins")
+      .then((response) => response.json())
+      .then((data) => {
+        setDataSource(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching driver data: ", error);
+        setLoading(false);
+      });
+  }, []);
+
   const [formData, setFormData] = useState({
     authority_adminType: "",
     admin_NID: "",
@@ -185,7 +205,19 @@ function AdminPermit() {
         Modal.success({
           title: "Successful!",
           content: "সফলভাবে অনুমতি দেওয়া হয়েছে",
-          onOk: () => {},
+          onOk: () => {
+            setLoading(true);
+            fetch("http://localhost:3001/api/admins")
+              .then((response) => response.json())
+              .then((data) => {
+                setDataSource(data);
+                setLoading(false);
+              })
+              .catch((error) => {
+                console.error("Error fetching driver data: ", error);
+                setLoading(false);
+              });
+          },
         });
       } else if (response.data === "NID already registered") {
         Modal.error({
@@ -213,6 +245,32 @@ function AdminPermit() {
       });
     }
   };
+
+  const columns = [
+    {
+      title: "অ্যাডমিন টাইপ",
+      dataIndex: "authority_adminType",
+    },
+    {
+      title: "জাতীয় পরিচয়পত্র নম্বর",
+      dataIndex: "admin_NID",
+    },
+    {
+      title: "অ্যাডমিনের নাম",
+      dataIndex: "name",
+    },
+
+    // {
+    //   title: "কার্যক্রম",
+    //   render: (text, record) => (
+    //     <div className="driverButton">
+    //       <Button type="primary" danger>
+    //         <span>মুছুন</span>
+    //       </Button>
+    //     </div>
+    //   ),
+    // },
+  ];
   return (
     <div className="App">
       <AppHeader />
@@ -339,6 +397,23 @@ function AdminPermit() {
                 অনুমতি দিন
               </button>
             </form>
+          </div>
+
+          <div className="PageFooterM7">
+            <h1 className="PageHeader">
+              {" "}
+              <UserOutlined className="icon" />
+              অ্যাডমিনের তালিকা
+            </h1>
+            <Table
+              className="TableDriverA"
+              loading={loading}
+              columns={columns}
+              dataSource={dataSource}
+              pagination={{
+                pageSize: 7,
+              }}
+            ></Table>
           </div>
         </div>
       </div>
