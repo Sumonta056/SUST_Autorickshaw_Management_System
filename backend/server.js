@@ -3,6 +3,7 @@ const mysql = require("mysql");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
+const cron = require('node-cron');
 
 const app = express();
 
@@ -1069,12 +1070,14 @@ app.get("/api/totalautorickshaws", (req, res) => {
   });
 });
 
+
+
 app.put("/PermitDriver/:id", (req, res) => {
   const id = req.params.id;
   console.log("Received PUT request for driver with ID: " + id);
 
   // Set autorickshaw_status to 1
-  const sql = "UPDATE driver SET `driver_status` = 1 WHERE `id` = ?";
+  const sql = "UPDATE driver SET `driver_status` = 1, `driver_payment_due` = `driver_payment_due` + 25 WHERE `id` = ?";
 
   const values = [id];
 
@@ -1083,14 +1086,15 @@ app.put("/PermitDriver/:id", (req, res) => {
   console.log("Values:", values);
   db.query(sql, values, (err, data) => {
     if (err) {
-      console.error("Error updating driver status: ", err);
+      console.error("Error updating driver status and payment_due: ", err);
       return res.json("failed");
     }
 
-    console.log("Driver status updated to 1 successfully");
+    console.log("Driver status updated to 1 successfully, and 25 taka added to payment_due");
     return res.json("permit_success");
   });
 });
+
 app.put("/PermitOwner/:id", (req, res) => {
   const id = req.params.id;
   console.log("Received PUT request for owner with ID: " + id);
@@ -1178,7 +1182,6 @@ app.get("/api/driverInfoForAutorickshaw/:autorickshawNID", (req, res) => {
   });
 });
 
-
 app.post("/insertmoney", (req, res) => {
   const {
     driver_nid,
@@ -1187,65 +1190,95 @@ app.post("/insertmoney", (req, res) => {
     payment_amount,
   } = req.body;
 
-  const insertPaymentSql = "INSERT INTO payment (driver_nid, autorickshaw_number, payment_date, payment_amount) VALUES (?, ?, ?, ?)";
-  const insertPaymentValues = [driver_nid, autorickshaw_number, payment_date, payment_amount];
+  // Retrieve the current driver_payment_due from the driver table
+  const getCurrentDueSql = "SELECT driver_payment_due FROM driver WHERE driver_nid = ? AND driver_status = 1";
+  const getCurrentDueValues = [driver_nid];
 
-  db.beginTransaction((err) => {
-    if (err) {
-      console.error("Transaction begin error: ", err);
+  db.query(getCurrentDueSql, getCurrentDueValues, (dueErr, dueData) => {
+    if (dueErr) {
+      console.error("Error fetching driver_payment_due: ", dueErr);
       return res.json("failed");
     }
 
-    db.query(insertPaymentSql, insertPaymentValues, (insertErr, insertData) => {
-      if (insertErr) {
-        db.rollback(() => {
-          console.error("Error inserting money information: ", insertErr);
-          return res.json("failed");
-        });
-      } else {
-        const paymentId = insertData.insertId; // Get the ID of the inserted payment
+    const currentDue = dueData[0].driver_payment_due;
 
-        const getDriverNidSql = "SELECT driver_nid FROM payment WHERE payment_id = ?";
-        const getDriverNidValues = [paymentId];
+    if (payment_amount > currentDue) {
+      // If payment_amount is greater than the current due, reject the payment
+      console.error("Payment amount is greater than the current due.");
+      return res.json({ status: "currentdueissmaller", currentDue: currentDue });
+    }
 
-        db.query(getDriverNidSql, getDriverNidValues, (getNidErr, getNidData) => {
-          if (getNidErr) {
-            db.rollback(() => {
-              console.error("Error getting driver_nid: ", getNidErr);
-              return res.json("failed");
-            });
-          } else {
-            const driverNid = getNidData[0].driver_nid;
+    const insertPaymentSql = "INSERT INTO payment (driver_nid, autorickshaw_number, payment_date, payment_amount) VALUES (?, ?, ?, ?)";
+    const insertPaymentValues = [driver_nid, autorickshaw_number, payment_date, payment_amount];
 
-            const updateDueSql = "UPDATE payment_due SET due_payment = due_payment - ? WHERE driver_nid = ?";
-            const updateDueValues = [payment_amount, driverNid];
-
-            db.query(updateDueSql, updateDueValues, (updateErr, updateData) => {
-              if (updateErr) {
-                db.rollback(() => {
-                  console.error("Error updating payment_due: ", updateErr);
-                  return res.json("failed");
-                });
-              } else {
-                db.commit((commitErr) => {
-                  if (commitErr) {
-                    db.rollback(() => {
-                      console.error("Transaction commit error: ", commitErr);
-                      return res.json("failed");
-                    });
-                  } else {
-                    console.log("Money information inserted and payment_due updated successfully");
-                    return res.json("success");
-                  }
-                });
-              }
-            });
-          }
-        });
+    db.beginTransaction((err) => {
+      if (err) {
+        console.error("Transaction begin error: ", err);
+        return res.json("failed");
       }
+
+      // Insert payment information into the payment table
+      db.query(insertPaymentSql, insertPaymentValues, (insertErr, insertData) => {
+        if (insertErr) {
+          // Rollback the transaction in case of an error
+          db.rollback(() => {
+            console.error("Error inserting payment information: ", insertErr);
+            return res.json("failed");
+          });
+        } else {
+          const paymentId = insertData.insertId; // Get the ID of the inserted payment
+
+          // Retrieve the driver_nid for the inserted payment
+          const getDriverNidSql = "SELECT driver_nid FROM payment WHERE payment_id = ?";
+          const getDriverNidValues = [paymentId];
+
+          db.query(getDriverNidSql, getDriverNidValues, (getNidErr, getNidData) => {
+            if (getNidErr) {
+              // Rollback the transaction in case of an error
+              db.rollback(() => {
+                console.error("Error getting driver_nid: ", getNidErr);
+                return res.json("failed");
+              });
+            } else {
+              const driverNid = getNidData[0].driver_nid;
+
+              // Update driver's payment_due in the driver table
+              const updateDueSql = "UPDATE driver SET driver_payment_due = driver_payment_due - ? WHERE driver_nid = ?";
+              const updateDueValues = [payment_amount, driverNid];
+
+              db.query(updateDueSql, updateDueValues, (updateErr, updateData) => {
+                if (updateErr) {
+                  // Rollback the transaction in case of an error
+                  db.rollback(() => {
+                    console.error("Error updating driver's payment_due: ", updateErr);
+                    return res.json("failed");
+                  });
+                } else {
+                  // Commit the transaction on success
+                  db.commit((commitErr) => {
+                    if (commitErr) {
+                      // Rollback the transaction in case of a commit error
+                      db.rollback(() => {
+                        console.error("Transaction commit error: ", commitErr);
+                        return res.json("failed");
+                      });
+                    } else {
+                      const updatedCurrentDue = currentDue - payment_amount;
+                      console.log("Money information inserted, and driver's payment_due updated successfully");
+                      return res.json({ status: "success", currentDue: updatedCurrentDue });
+                    }
+                  });
+                }
+              });
+            }
+          });
+        }
+      });
     });
   });
 });
+
+
 
 
 app.get("/api/permittedAutorickshaws", async (req, res) => {
@@ -1273,22 +1306,7 @@ app.get("/api/payment", async (req, res) => {
   });
 });
 
-app.delete("/deletePayment/:id", (req, res) => {
-  
-  const paymentId = req.params.id; // Change this variable name to paymentId
-  console.log("Payment ID to delete:", paymentId);
-  const deleteQuery = "DELETE FROM payment WHERE payment_id = ?";
-  
-  // Execute the SQL delete query
-  db.query(deleteQuery, [paymentId], (err, results) => {
-    if (err) {
-      console.error("Error deleting payment: ", err);
-      res.json("Error deleting payment");
-    } else {
-      res.json("success");
-    }
-  });
-});
+
 app.get("/api/autorickshawSchedule", async (req, res) => {
 // Execute a SQL query with a JOIN operation to retrieve all details
 const sqlQuery = `
@@ -1417,9 +1435,22 @@ app.post("/signup", (req, res) => {
     );
   });
 });
+
+
 app.get("/api/paymentdue", async (req, res) => {
-  // Execute the query
-  db.query("SELECT * FROM payment_due JOIN payment ON payment_due.payment_id = payment.payment_id", (queryErr, rows) => {
+  // Execute the query to select driver_nid, payment_due, and total payment from driver and payment tables
+  db.query(`
+  SELECT
+  driver.driver_nid,
+  driver.driver_payment_due,
+  SUM(payment.payment_amount) as total_payment,
+  autorickshaw.autorickshaw_number
+FROM driver
+LEFT JOIN payment ON driver.driver_nid = payment.driver_nid
+LEFT JOIN autorickshaw ON driver.driver_nid = autorickshaw.driver_nid
+WHERE driver.driver_status = 1 AND autorickshaw.autorickshaw_status = 1
+GROUP BY driver.driver_nid, driver.driver_payment_due, autorickshaw.autorickshaw_number;
+  `, (queryErr, rows) => {
     if (queryErr) {
       console.error("Error fetching payment data: ", queryErr);
       return res.json({ error: "Internal server error" });
@@ -1492,6 +1523,25 @@ app.post('/api/updatePassword/:id', (req, res) => {
         res.status(404).json({ error: 'User not found' });
       }
     }
+  });
+});
+app.get("/api/totalPayment", (req, res) => {
+  // SQL query to calculate the total payment amount
+  const sqlQuery = "SELECT SUM(payment_amount) as totalPayment FROM payment";
+
+  // Execute the SQL query
+  db.query(sqlQuery, (err, result) => {
+    if (err) {
+      console.error("Error executing SQL query: ", err);
+      res.status(500).json({ error: "Internal server error" });
+      return;
+    }
+
+    // Extract the total payment amount from the query result
+    const totalPayment = result[0].totalPayment;
+
+    // Send the total payment amount as a response
+    res.json({ totalPayment });
   });
 });
 

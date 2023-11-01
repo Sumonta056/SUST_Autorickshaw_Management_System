@@ -80,10 +80,10 @@ console.log("Selected Autorickshaw Number:", selectedAutorickshawNumber);
     if (!hasErrors) {
       try {
         const response = await axios.post("http://localhost:3001/insertmoney", formData);
-        if (response.data === "success") {
+        if (response.data.status === "success") {
           Modal.success({
             title: "Successful!",
-            content: "আপনি সফলভাবে পেমেন্ট করেছেন",
+            content: "আপনি সফলভাবে পেমেন্ট করেছেন, আপনার বর্তমান বকেয়া " + response.data.currentDue + " টাকা।",
             onOk: () => {
               setFormData({
                 payment_date: "",
@@ -94,7 +94,17 @@ console.log("Selected Autorickshaw Number:", selectedAutorickshawNumber);
               });
             },
           });
-        } else {
+        } else if (response.data.status === "currentdueissmaller") {
+          Modal.error({
+            title: "Error",
+            content: "পেমেন্ট ব্যর্থ হয়েছে, আপনার বর্তমান বকেয়া " + response.data.currentDue + " টাকা।",
+            onOk: () => {
+              // Handle error, e.g., allow the user to retry
+            },
+          });
+        }
+        
+        else {
           Modal.error({
             title: "Error",
             content: "পেমেন্ট ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন",
