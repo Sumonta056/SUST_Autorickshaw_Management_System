@@ -20,17 +20,18 @@ function Schedule() {
   const [autorickshaw, setDataSource3] = useState([]);
 
   function driverData() {
-    fetch("http://localhost:3001/api/totalDrivers")
+    fetch("http://localhost:3001/api/totalPayment")
       .then((response) => response.json())
       .then((data) => {
-        setDataSource23(data.totalDrivers);
-        console.log("Success fetching Schedule data: ", driver);
+        // Check if the total payment is 0 and replace it with "0"
+        const totalPayment = data.totalPayment === null ? "0" : data.totalPayment;
+        setDataSource23(totalPayment);
+        console.log("Success fetching total payment data: ");
       })
       .catch((error) => {
-        console.error("Error fetching Schedule data: ", error);
+        console.error("Error fetching total payment data: ", error);
       });
-  }
-
+  }  
   
 
   function autorickshawData() {
@@ -67,50 +68,70 @@ function Schedule() {
     ScheduleData();
   }, []);
 
-  useEffect(() => {
-    setLoading2(true);
-    fetch("http://localhost:3001/api/paymentdue")
-      .then((response) => response.json())
-      .then((data) => {
-        setDataSource2(data.payments);
-        console.log(data.payments);
-        setLoading2(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching payment due data: ", error);
-        setLoading2(false);
-      });
-  }, []);
-
-  const handleDelete = (record) => {
-    // Display a confirmation modal before deleting
-    Modal.confirm({
-      title: "Confirm Deletion",
-      content: "আপনি কি নিশ্চিত যে আপনি এই পেমেন্ট ইতিহাস মুছতে চান ?",
-      onOk: () => {
-        axios
-          .delete(`http://localhost:3001/deletePayment/${record.payment_id}`)
-          .then((res) => {
-            if (res.data === "success") {
-              Modal.success({
-                title: "Successful !",
-                content: "আপনি সফলভাবে একটি পেমেন্ট ইতিহাস মুছে ফেলেছেন",
-                onOk: () => {
-                  ScheduleData(); // Fetch updated data after deletion
-                },
-              });
-            } else {
-              alert("পেমেন্ট ডিলিট ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
-            }
-          })
-          .catch((err) => {
-            alert("পেমেন্ট ডিলিট ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
-          });
-      },
+  // Fetch and process the data on the client side
+useEffect(() => {
+  setLoading2(true);
+  fetch("http://localhost:3001/api/paymentdue")
+    .then((response) => response.json())
+    .then((data) => {
+      const summaryData = createSummaryData(data.payments);
+      setDataSource2(summaryData);
+      console.log(summaryData);
+      setLoading2(false);
+    })
+    .catch((error) => {
+      console.error("Error fetching payment due data: ", error);
+      setLoading2(false);
     });
-  };
-  
-  
+}, []);
+
+// Assuming "permission_start_date" is a valid date string in the format "YYYY-MM-DD"
+const formatDate = (dateString) => {
+  if (!dateString) {
+    return ''; // Handle cases where the date is missing
+  }
+
+  const date = new Date(dateString);
+  const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  return formattedDate;
+};
+
+const createSummaryData = (payments) => {
+  const summaryData = [];
+  const uniqueAutorickshawNumbers = new Set();
+
+  payments.forEach((payment) => {
+    if (!uniqueAutorickshawNumbers.has(payment.autorickshaw_number)) {
+      uniqueAutorickshawNumbers.add(payment.autorickshaw_number);
+
+      // Calculate the difference between "permission_start_date" and today
+      const permissionStartDate = new Date(payment.permission_start_date);
+      const today = new Date();
+      const dateDifferenceInDays = permissionStartDate ? Math.floor((today - permissionStartDate) / (1000 * 60 * 60 * 24)) : 0;
+
+      // Calculate the due amount based on the date difference
+      const dueAmount = (dateDifferenceInDays+1) * 25;
+
+      // Calculate total payment minus due amount
+      const totalPayment = parseInt(payment.total_payment, 10);
+      const totalPaymentMinusDue =  dueAmount-totalPayment;
+
+      // Format the last payment date, or display "Not paid yet" if it's missing
+      const lastPaymentDate = (payment.last_payment_date !== null) ? new Date(payment.last_payment_date) : 'Not paid yet';
+
+      summaryData.push({
+        autorickshaw_number: payment.autorickshaw_number,
+        total_payment: totalPayment,
+        driver_payment_due: dueAmount,
+        payment_date: (lastPaymentDate instanceof Date) ? formatDate(lastPaymentDate) : lastPaymentDate,
+        total_payment_minus_due: totalPaymentMinusDue, // Add the calculated total payment minus due
+      });
+    }
+  });
+  return summaryData;
+};
+
+
 
   const columns = [
     {
@@ -125,16 +146,7 @@ function Schedule() {
       title: "টাকার পরিমাণ",
       dataIndex: "payment_amount",
     },
-    {
-      title: "কার্যক্রম",
-      render: (text, record) => (
-        <div className="ScheduleButton">
-          <Button type="primary" danger onClick={() => handleDelete(record)}>
-            <span>মুছুন</span>
-          </Button>
-        </div>
-      ),
-    },
+    
   ];
 
   const columns2 = [
@@ -144,25 +156,18 @@ function Schedule() {
     },
     {
       title: "প্রদত্ত টাকার পরিমাণ",
-      dataIndex: "payment_total",
+      dataIndex: "total_payment",
     },
     {
       title: "বাকি টাকার পরিমাণ",
-      dataIndex: "payment_due",
+      dataIndex: "total_payment_minus_due",
     },
-
     {
-      title: "কার্যক্রম",
-      render: (text, record) => (
-        <div className="ScheduleButton">
-          <Button type="primary" onClick={() => handleDelete(record)}>
-            <span>আপডেট</span>
-          </Button>
-        </div>
-      ),
+      title: "সর্বশেষ পরিশোধের তারিখ",
+      dataIndex: "payment_date", // Use "permission_start_date" here
     },
   ];
-
+  
   return (
     <div className="App">
       <AppHeader />
@@ -219,7 +224,7 @@ function Schedule() {
                     }}
                   />
                 </div>
-                <h1 className="circularHeader">ড্রাইভারের সংখ্যা</h1>
+                <h1 className="circularHeader">মোট পরিশোধিত টাকা</h1>
               </div>
 
               <div className="dashboard-home">

@@ -80,7 +80,7 @@ console.log("Selected Autorickshaw Number:", selectedAutorickshawNumber);
     if (!hasErrors) {
       try {
         const response = await axios.post("http://localhost:3001/insertmoney", formData);
-        if (response.data === "success") {
+        if (response.data.status === "success") {
           Modal.success({
             title: "Successful!",
             content: "আপনি সফলভাবে পেমেন্ট করেছেন",
@@ -94,7 +94,9 @@ console.log("Selected Autorickshaw Number:", selectedAutorickshawNumber);
               });
             },
           });
-        } else {
+        }
+        
+        else {
           Modal.error({
             title: "Error",
             content: "পেমেন্ট ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন",
@@ -252,7 +254,7 @@ console.log("Selected Autorickshaw Number:", selectedAutorickshawNumber);
                 </p>
                 <input
                   className={styles.moneyInput}
-                  type="text"
+                  type="number"
                   id="payment_amount"
                   name="payment_amount"
                   placeholder="টাকার পরিমাণ দিন"
