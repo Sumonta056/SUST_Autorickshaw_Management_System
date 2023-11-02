@@ -83,7 +83,7 @@ console.log("Selected Autorickshaw Number:", selectedAutorickshawNumber);
         if (response.data.status === "success") {
           Modal.success({
             title: "Successful!",
-            content: "আপনি সফলভাবে পেমেন্ট করেছেন",
+            content: "আপনি সফলভাবে পেমেন্ট করেছেন, আপনার বকেয়া "+ response.data.difference + " টাকা",
             onOk: () => {
               setFormData({
                 payment_date: "",
@@ -95,7 +95,15 @@ console.log("Selected Autorickshaw Number:", selectedAutorickshawNumber);
             },
           });
         }
-        
+        else if (response.data.status === "currentdueissmaller") {
+          Modal.error({
+            title: "Error",
+            content: "পেমেন্ট ব্যর্থ হয়েছে, আপনার বকেয়া "+ response.data.difference + " টাকা",
+            onOk: () => {
+              // Handle error, e.g., allow the user to retry
+            },
+          });
+        }
         else {
           Modal.error({
             title: "Error",
