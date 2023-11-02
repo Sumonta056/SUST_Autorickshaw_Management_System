@@ -83,7 +83,7 @@ console.log("Selected Autorickshaw Number:", selectedAutorickshawNumber);
         if (response.data.status === "success") {
           Modal.success({
             title: "Successful!",
-            content: "আপনি সফলভাবে পেমেন্ট করেছেন, আপনার বর্তমান বকেয়া " + response.data.currentDue + " টাকা।",
+            content: "আপনি সফলভাবে পেমেন্ট করেছেন",
             onOk: () => {
               setFormData({
                 payment_date: "",
@@ -92,14 +92,6 @@ console.log("Selected Autorickshaw Number:", selectedAutorickshawNumber);
                 driver_nid: "",
                 payment_amount: "",
               });
-            },
-          });
-        } else if (response.data.status === "currentdueissmaller") {
-          Modal.error({
-            title: "Error",
-            content: "পেমেন্ট ব্যর্থ হয়েছে, আপনার বর্তমান বকেয়া " + response.data.currentDue + " টাকা।",
-            onOk: () => {
-              // Handle error, e.g., allow the user to retry
             },
           });
         }
@@ -262,7 +254,7 @@ console.log("Selected Autorickshaw Number:", selectedAutorickshawNumber);
                 </p>
                 <input
                   className={styles.moneyInput}
-                  type="text"
+                  type="number"
                   id="payment_amount"
                   name="payment_amount"
                   placeholder="টাকার পরিমাণ দিন"

@@ -1071,29 +1071,33 @@ app.get("/api/totalautorickshaws", (req, res) => {
 });
 
 
-
 app.put("/PermitDriver/:id", (req, res) => {
   const id = req.params.id;
   console.log("Received PUT request for driver with ID: " + id);
 
-  // Set autorickshaw_status to 1
-  const sql = "UPDATE driver SET `driver_status` = 1, `driver_payment_due` = `driver_payment_due` + 25 WHERE `id` = ?";
+  // Get today's date
+  const currentDate = new Date().toISOString().slice(0, 10); // Format: "YYYY-MM-DD"
 
-  const values = [id];
+  // Set driver_status to 1 and driver_permission_start_date to today's date
+  const sql = "UPDATE driver SET `driver_status` = 1, `driver_permission_start_date` = ? WHERE `id` = ?";
+
+  const values = [currentDate, id];
 
   console.log(values);
   console.log("SQL Query:", sql);
   console.log("Values:", values);
+
   db.query(sql, values, (err, data) => {
     if (err) {
-      console.error("Error updating driver status and payment_due: ", err);
+      console.error("Error updating driver status and permission start date: ", err);
       return res.json("failed");
     }
 
-    console.log("Driver status updated to 1 successfully, and 25 taka added to payment_due");
+    console.log("Driver status updated to 1, and permission start date set to today's date");
     return res.json("permit_success");
   });
 });
+
 
 app.put("/PermitOwner/:id", (req, res) => {
   const id = req.params.id;
@@ -1181,105 +1185,36 @@ app.get("/api/driverInfoForAutorickshaw/:autorickshawNID", (req, res) => {
     }
   });
 });
-
 app.post("/insertmoney", (req, res) => {
-  const {
-    driver_nid,
-    autorickshaw_number,
-    payment_date,
-    payment_amount,
-  } = req.body;
+  const { payment_date, driver_nid, payment_amount, autorickshaw_number } = req.body;
 
-  // Retrieve the current driver_payment_due from the driver table
-  const getCurrentDueSql = "SELECT driver_payment_due FROM driver WHERE driver_nid = ? AND driver_status = 1";
-  const getCurrentDueValues = [driver_nid];
+  // Parse payment_amount as a float
+  const paymentAmountFloat = parseFloat(payment_amount);
 
-  db.query(getCurrentDueSql, getCurrentDueValues, (dueErr, dueData) => {
-    if (dueErr) {
-      console.error("Error fetching driver_payment_due: ", dueErr);
+  // Check if paymentAmountFloat is a valid number
+  if (isNaN(paymentAmountFloat)) {
+    // Handle the case where payment_amount is not a valid number
+    console.error("Invalid payment_amount format");
+    return res.json("failed");
+  }
+
+  // Insert payment information into the payment table
+  const insertPaymentSql =
+    "INSERT INTO payment (payment_date, driver_nid, payment_amount, autorickshaw_number) VALUES (?, ?, ?, ?)";
+  const insertPaymentValues = [payment_date, driver_nid, paymentAmountFloat, autorickshaw_number];
+
+  db.query(insertPaymentSql, insertPaymentValues, (insertErr, insertData) => {
+    if (insertErr) {
+      console.error("Error inserting payment information: ", insertErr);
       return res.json("failed");
     }
 
-    const currentDue = dueData[0].driver_payment_due;
+    // Payment inserted successfully
+    console.log("Payment information inserted successfully");
 
-    if (payment_amount > currentDue) {
-      // If payment_amount is greater than the current due, reject the payment
-      console.error("Payment amount is greater than the current due.");
-      return res.json({ status: "currentdueissmaller", currentDue: currentDue });
-    }
-
-    const insertPaymentSql = "INSERT INTO payment (driver_nid, autorickshaw_number, payment_date, payment_amount) VALUES (?, ?, ?, ?)";
-    const insertPaymentValues = [driver_nid, autorickshaw_number, payment_date, payment_amount];
-
-    db.beginTransaction((err) => {
-      if (err) {
-        console.error("Transaction begin error: ", err);
-        return res.json("failed");
-      }
-
-      // Insert payment information into the payment table
-      db.query(insertPaymentSql, insertPaymentValues, (insertErr, insertData) => {
-        if (insertErr) {
-          // Rollback the transaction in case of an error
-          db.rollback(() => {
-            console.error("Error inserting payment information: ", insertErr);
-            return res.json("failed");
-          });
-        } else {
-          const paymentId = insertData.insertId; // Get the ID of the inserted payment
-
-          // Retrieve the driver_nid for the inserted payment
-          const getDriverNidSql = "SELECT driver_nid FROM payment WHERE payment_id = ?";
-          const getDriverNidValues = [paymentId];
-
-          db.query(getDriverNidSql, getDriverNidValues, (getNidErr, getNidData) => {
-            if (getNidErr) {
-              // Rollback the transaction in case of an error
-              db.rollback(() => {
-                console.error("Error getting driver_nid: ", getNidErr);
-                return res.json("failed");
-              });
-            } else {
-              const driverNid = getNidData[0].driver_nid;
-
-              // Update driver's payment_due in the driver table
-              const updateDueSql = "UPDATE driver SET driver_payment_due = driver_payment_due - ? WHERE driver_nid = ?";
-              const updateDueValues = [payment_amount, driverNid];
-
-              db.query(updateDueSql, updateDueValues, (updateErr, updateData) => {
-                if (updateErr) {
-                  // Rollback the transaction in case of an error
-                  db.rollback(() => {
-                    console.error("Error updating driver's payment_due: ", updateErr);
-                    return res.json("failed");
-                  });
-                } else {
-                  // Commit the transaction on success
-                  db.commit((commitErr) => {
-                    if (commitErr) {
-                      // Rollback the transaction in case of a commit error
-                      db.rollback(() => {
-                        console.error("Transaction commit error: ", commitErr);
-                        return res.json("failed");
-                      });
-                    } else {
-                      const updatedCurrentDue = currentDue - payment_amount;
-                      console.log("Money information inserted, and driver's payment_due updated successfully");
-                      return res.json({ status: "success", currentDue: updatedCurrentDue });
-                    }
-                  });
-                }
-              });
-            }
-          });
-        }
-      });
-    });
+    return res.json({ status: "success" });
   });
 });
-
-
-
 
 app.get("/api/permittedAutorickshaws", async (req, res) => {
   // Execute the query with a WHERE clause to filter by status
@@ -1442,14 +1377,15 @@ app.get("/api/paymentdue", async (req, res) => {
   db.query(`
   SELECT
   driver.driver_nid,
-  driver.driver_payment_due,
-  SUM(payment.payment_amount) as total_payment,
-  autorickshaw.autorickshaw_number
+  COALESCE(SUM(payment.payment_amount), 0) as total_payment,
+  autorickshaw.autorickshaw_number,
+  driver.driver_permission_start_date as permission_start_date,
+  MAX(payment.payment_date) as last_payment_date
 FROM driver
 LEFT JOIN payment ON driver.driver_nid = payment.driver_nid
 LEFT JOIN autorickshaw ON driver.driver_nid = autorickshaw.driver_nid
 WHERE driver.driver_status = 1 AND autorickshaw.autorickshaw_status = 1
-GROUP BY driver.driver_nid, driver.driver_payment_due, autorickshaw.autorickshaw_number;
+GROUP BY driver.driver_nid, autorickshaw.autorickshaw_number;
   `, (queryErr, rows) => {
     if (queryErr) {
       console.error("Error fetching payment data: ", queryErr);
@@ -1544,6 +1480,7 @@ app.get("/api/totalPayment", (req, res) => {
     res.json({ totalPayment });
   });
 });
+
 
 const PORT = 3001;
 

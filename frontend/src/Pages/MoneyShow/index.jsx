@@ -85,7 +85,17 @@ useEffect(() => {
     });
 }, []);
 
-// Function to create summary data with only one row per autorickshaw_number
+// Assuming "permission_start_date" is a valid date string in the format "YYYY-MM-DD"
+const formatDate = (dateString) => {
+  if (!dateString) {
+    return ''; // Handle cases where the date is missing
+  }
+
+  const date = new Date(dateString);
+  const formattedDate = date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+  return formattedDate;
+};
+
 const createSummaryData = (payments) => {
   const summaryData = [];
   const uniqueAutorickshawNumbers = new Set();
@@ -93,18 +103,35 @@ const createSummaryData = (payments) => {
   payments.forEach((payment) => {
     if (!uniqueAutorickshawNumbers.has(payment.autorickshaw_number)) {
       uniqueAutorickshawNumbers.add(payment.autorickshaw_number);
+
+      // Calculate the difference between "permission_start_date" and today
+      const permissionStartDate = new Date(payment.permission_start_date);
+      const today = new Date();
+      const dateDifferenceInDays = permissionStartDate ? Math.floor((today - permissionStartDate) / (1000 * 60 * 60 * 24)) : 0;
+
+      // Calculate the due amount based on the date difference
+      const dueAmount = (dateDifferenceInDays+1) * 25;
+
+      // Calculate total payment minus due amount
+      const totalPayment = parseInt(payment.total_payment, 10);
+      const totalPaymentMinusDue =  dueAmount-totalPayment;
+
+      // Format the last payment date, or display "Not paid yet" if it's missing
+      const lastPaymentDate = (payment.last_payment_date !== null) ? new Date(payment.last_payment_date) : 'Not paid yet';
+
       summaryData.push({
         autorickshaw_number: payment.autorickshaw_number,
-        total_payment: payment.total_payment || 0, // Set to 0 if total_payment is null
-        driver_payment_due: payment.driver_payment_due,
+        total_payment: totalPayment,
+        driver_payment_due: dueAmount,
+        payment_date: (lastPaymentDate instanceof Date) ? formatDate(lastPaymentDate) : lastPaymentDate,
+        total_payment_minus_due: totalPaymentMinusDue, // Add the calculated total payment minus due
       });
     }
   });
-
   return summaryData;
 };
-  
-  
+
+
 
   const columns = [
     {
@@ -133,11 +160,14 @@ const createSummaryData = (payments) => {
     },
     {
       title: "বাকি টাকার পরিমাণ",
-      dataIndex: "driver_payment_due",
+      dataIndex: "total_payment_minus_due",
     },
-
+    {
+      title: "সর্বশেষ পরিশোধের তারিখ",
+      dataIndex: "payment_date", // Use "permission_start_date" here
+    },
   ];
-
+  
   return (
     <div className="App">
       <AppHeader />
