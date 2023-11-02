@@ -1198,23 +1198,88 @@ app.post("/insertmoney", (req, res) => {
     return res.json("failed");
   }
 
-  // Insert payment information into the payment table
-  const insertPaymentSql =
-    "INSERT INTO payment (payment_date, driver_nid, payment_amount, autorickshaw_number) VALUES (?, ?, ?, ?)";
-  const insertPaymentValues = [payment_date, driver_nid, paymentAmountFloat, autorickshaw_number];
-
-  db.query(insertPaymentSql, insertPaymentValues, (insertErr, insertData) => {
-    if (insertErr) {
-      console.error("Error inserting payment information: ", insertErr);
+  // Fetch the driver's permission start date
+  const fetchDriverPermissionStartDateSql = "SELECT driver_permission_start_date FROM driver WHERE driver_nid = ?";
+  db.query(fetchDriverPermissionStartDateSql, [driver_nid], (fetchErr, fetchData) => {
+    if (fetchErr) {
+      console.error("Error fetching driver_permission_start_date: ", fetchErr);
       return res.json("failed");
     }
 
-    // Payment inserted successfully
-    console.log("Payment information inserted successfully");
+    if (fetchData.length === 0) {
+      console.error("Driver not found with driver_nid: ", driver_nid);
+      return res.json("failed");
+    }
 
-    return res.json({ status: "success" });
+    const driverPermissionStartDate = fetchData[0].driver_permission_start_date;
+
+    // Calculate the number of days between today and driver_permission_start_date
+    const currentDate = new Date();
+    const permissionStartDate = new Date(driverPermissionStartDate);
+    const daysDifference = Math.floor((currentDate - permissionStartDate) / (1000 * 60 * 60 * 24)) + 1;
+    // Calculate the difference based on the new logic
+    const difference = daysDifference * 25;
+
+    if (difference < paymentAmountFloat) {
+      console.error("Driver's payment due is less than the payment amount");
+      return res.json({ status: "currentdueissmaller", difference });
+    }
+
+    // Insert payment information into the payment table
+    const insertPaymentSql =
+      "INSERT INTO payment (payment_date, driver_nid, payment_amount, autorickshaw_number) VALUES (?, ?, ?, ?)";
+    const insertPaymentValues = [payment_date, driver_nid, paymentAmountFloat, autorickshaw_number];
+
+    db.beginTransaction((err) => {
+      if (err) {
+        console.error("Transaction begin error: ", err);
+        return res.json("failed");
+      }
+
+      db.query(insertPaymentSql, insertPaymentValues, (insertErr, insertData) => {
+        if (insertErr) {
+          // Rollback the transaction in case of an error
+          db.rollback(() => {
+            console.error("Error inserting payment information: ", insertErr);
+            return res.json("failed");
+          });
+        } else {
+          // Commit the transaction on success
+          db.commit((commitErr) => {
+            if (commitErr) {
+              // Rollback the transaction in case of a commit error
+              db.rollback(() => {
+                console.error("Transaction commit error: ", commitErr);
+                return res.json("failed");
+              });
+            } else {
+              // Recalculate the difference
+              const calculateTotalPaymentSql =
+                "SELECT SUM(payment.payment_amount) AS totalPayment " +
+                "FROM payment " +
+                "WHERE payment.driver_nid = ?";
+
+              db.query(calculateTotalPaymentSql, [driver_nid], (calculationErr, calculationData) => {
+                if (calculationErr) {
+                  console.error("Error calculating total payment: ", calculationErr);
+                  return res.json("failed");
+                }
+
+                const totalPayment = calculationData[0].totalPayment;
+                const updatedDifference = difference - totalPayment;
+
+
+                console.log("Payment information inserted successfully", updatedDifference, totalPayment);
+                return res.json({ status: "success", difference: updatedDifference }); // Send the JSON response here
+              });
+            }
+          });
+        }
+      });
+    });
   });
 });
+
 
 app.get("/api/permittedAutorickshaws", async (req, res) => {
   // Execute the query with a WHERE clause to filter by status
