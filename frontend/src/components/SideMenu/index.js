@@ -70,7 +70,7 @@ function DriverMenu() {
         <CaretRightOutlined className="icons" />
         ড্যাশবোর্ড
       </div>
-      <div
+      <button
         className={`DriverMenuItem ${
           selectedKey === "/dashboard" ? "DriverMenuItemSelected" : ""
         }`}
@@ -78,13 +78,13 @@ function DriverMenu() {
       >
         <AppstoreOutlined className="icon" />{" "}
         <span className="CustomLabel">হোম</span>
-      </div>
+      </button>
       <div className="unauthorized">
         {" "}
         <CaretRightOutlined className="icons" />
         অনুমোদনপ্রাপ্ত
       </div>
-      <div
+      <button
         className={`OwnerMenuItem ${
           selectedKey === "/owner" ? "OwnerMenuItemSelected" : ""
         }`}
@@ -92,8 +92,8 @@ function DriverMenu() {
       >
         <UsergroupAddOutlined className="icon" />{" "}
         <span className="CustomLabel">মালিকের তালিকা</span>
-      </div>
-      <div
+      </button>
+      <button
         className={`OwnerMenuItem ${
           selectedKey === "/owner" ? "OwnerMenuItemSelected" : ""
         }`}
@@ -101,8 +101,8 @@ function DriverMenu() {
       >
         <CarOutlined className="icon" />{" "}
         <span className="CustomLabel">অটোরিকশার তালিকা</span>
-      </div>
-      <div
+      </button>
+      <button
         className={`DriverMenuItem ${
           selectedKey === "/driver" ? "DriverMenuItemSelected" : ""
         }`}
@@ -110,8 +110,8 @@ function DriverMenu() {
       >
         <UsergroupAddOutlined className="icon" />{" "}
         <span className="CustomLabel">ড্রাইভারের তালিকা</span>
-      </div>
-      <div
+      </button>
+      <button
         className={`ManagerMenuItem ${
           selectedKey === "/manager" ? "ManagerMenuItemSelected" : ""
         }`}
@@ -119,53 +119,7 @@ function DriverMenu() {
       >
         <UserSwitchOutlined className="icon" />{" "}
         <span className="CustomLabel">ম্যানেজার তালিকা</span>
-      </div>
-
-      {/* <div className="unauthorized">
-        <CaretRightOutlined className="icons" />
-        অননুমোদিত
-      </div>
-      <div
-        className={`OwnerMenuItem ${
-          selectedKey === "/inventory" ? "OwnerMenuItemSelected" : ""
-        }`}
-        onClick={() => navigate("/UnauthorizedOwner")}
-      >
-        <UserOutlined className="icon" />{" "}
-        <span className="CustomLabel">মালিকের তালিকা</span>
-      </div>
-     
-      <div
-        className={`AutorickshawMenuItem ${
-          selectedKey === "/UnauthorizedAutorickshaw"
-            ? "AutorickshawMenuItemSelected"
-            : ""
-        }`}
-        onClick={() => navigate("/UnauthorizedAutorickshaw")}
-      >
-        <CarOutlined className="icon" />{" "}
-        <span className="CustomLabel">অটোরিকশার তালিকা</span>
-      </div>
-      <div
-        className={`DriverMenuItem ${
-          selectedKey === "/UnauthorizedDriver" ? "DriverMenuItemSelected" : ""
-        }`}
-        onClick={() => navigate("/UnauthorizedDriver")}
-      >
-        <UsergroupAddOutlined className="icon" />{" "}
-        <span className="CustomLabel">ড্রাইভারের তালিকা</span>
-      </div>
-      <div
-        className={`ManagerMenuItem ${
-          selectedKey === "/UnauthorizedManager"
-            ? "ManagerMenuItemSelected"
-            : ""
-        }`}
-        onClick={() => navigate("/UnauthorizedManager")}
-      >
-        <UserSwitchOutlined className="icon" />{" "}
-        <span className="CustomLabel">ম্যানেজার তালিকা</span>
-      </div> */}
+      </button>
 
       {status && (
         <div className="unauthorized">
@@ -175,7 +129,7 @@ function DriverMenu() {
       )}
 
       {status && (
-        <div
+        <button
           className={`OwnerMenuItem ${
             selectedKey === "/inventory" ? "OwnerMenuItemSelected" : ""
           }`}
@@ -183,11 +137,11 @@ function DriverMenu() {
         >
           <UserOutlined className="icon" />
           <span className="CustomLabel">মালিকের তালিকা</span>
-        </div>
+        </button>
       )}
 
       {status && (
-        <div
+        <button
           className={`AutorickshawMenuItem ${
             selectedKey === "/UnauthorizedAutorickshaw"
               ? "AutorickshawMenuItemSelected"
@@ -197,11 +151,11 @@ function DriverMenu() {
         >
           <CarOutlined className="icon" />
           <span className="CustomLabel">অটোরিকশার তালিকা</span>
-        </div>
+        </button>
       )}
 
       {status && (
-        <div
+        <button
           className={`DriverMenuItem ${
             selectedKey === "/UnauthorizedDriver"
               ? "DriverMenuItemSelected"
@@ -211,11 +165,11 @@ function DriverMenu() {
         >
           <UsergroupAddOutlined className="icon" />
           <span className="CustomLabel">ড্রাইভারের তালিকা</span>
-        </div>
+        </button>
       )}
 
       {status && (
-        <div
+        <button
           className={`ManagerMenuItem ${
             selectedKey === "/UnauthorizedManager"
               ? "ManagerMenuItemSelected"
@@ -225,14 +179,14 @@ function DriverMenu() {
         >
           <UserSwitchOutlined className="icon" />
           <span className="CustomLabel">ম্যানেজার তালিকা</span>
-        </div>
+        </button>
       )}
 
       <div className="unauthorized">
         <CaretRightOutlined className="icons" />
         শিডিউল
       </div>
-      <div
+      <button
         className={`DriverMenuItem ${
           selectedKey === "/inventory" ? "DriverMenuItemSelected" : ""
         }`}
@@ -240,8 +194,9 @@ function DriverMenu() {
       >
         <EditOutlined className="icon" />{" "}
         <span className="CustomLabel">শিডিউল তৈরি করুন</span>
-      </div>
-      <div
+      </button>
+
+      <button
         className={`DriverMenuItem ${
           selectedKey === "/inventory" ? "DriverMenuItemSelected" : ""
         }`}
@@ -249,21 +204,13 @@ function DriverMenu() {
       >
         <EditOutlined className="icon" />{" "}
         <span className="CustomLabel">শিডিউল দেখুন</span>
-      </div>
-      {/* <div
-        className={`DriverMenuItem ${
-          selectedKey === "/orders" ? "DriverMenuItemSelected" : ""
-        }`}
-        onClick={() => navigate("/scheduleCreate")}
-      >
-        <EyeOutlined className="icon" />{" "}
-        <span className="CustomLabel">শিডিউল দেখুন</span>
-      </div> */}
+      </button>
+
       <div className="unauthorized">
         <CaretRightOutlined className="icons" />
         অর্থ ব্যবস্থাপনা
       </div>
-      <div
+      <button
         className={`DriverMenuItem ${
           selectedKey === "/inventory" ? "DriverMenuItemSelected" : ""
         }`}
@@ -271,9 +218,9 @@ function DriverMenu() {
       >
         <MoneyCollectOutlined className="icon" />{" "}
         <span className="CustomLabel">পেমেন্ট ফর্ম</span>
-      </div>
+      </button>
 
-      <div
+      <button
         className={`DriverMenuItem ${
           selectedKey === "/inventory" ? "DriverMenuItemSelected" : ""
         }`}
@@ -281,14 +228,14 @@ function DriverMenu() {
       >
         <HistoryOutlined className="icon" />{" "}
         <span className="CustomLabel">হিসাব নিকাশ তথ্য</span>
-      </div>
+      </button>
 
       <div className="unauthorized">
         <CaretRightOutlined className="icons" />
         সেটিংস
       </div>
       {status && (
-        <div
+        <button
           className={`DriverMenuItem ${
             selectedKey === "/inventory" ? "DriverMenuItemSelected" : ""
           }`}
@@ -296,9 +243,9 @@ function DriverMenu() {
         >
           <SecurityScanOutlined className="icon" />{" "}
           <span className="CustomLabel">প্রবেশাধিকার প্রদান</span>
-        </div>
+        </button>
       )}
-      <div
+      <button
         className={`DriverMenuItem ${
           selectedKey === "/inventory" ? "DriverMenuItemSelected" : ""
         }`}
@@ -306,8 +253,8 @@ function DriverMenu() {
       >
         <ProfileOutlined className="icon" />{" "}
         <span className="CustomLabel">প্রোফাইল</span>
-      </div>
-      <div
+      </button>
+      <button
         className={`DriverMenuItem ${
           selectedKey === "/inventory" ? "DriverMenuItemSelected" : ""
         }`}
@@ -315,7 +262,7 @@ function DriverMenu() {
       >
         <SettingOutlined className="icon" />{" "}
         <span className="CustomLabel">লগ আউট</span>
-      </div>
+      </button>
     </div>
   );
 }

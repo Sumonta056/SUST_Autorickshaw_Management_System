@@ -34,6 +34,12 @@
 
 }
 
+.setPage{
+
+  width: 100%;
+  height: 100%;
+}
+
 
 
 
@@ -80,4 +86,9 @@
   font-weight: 500;
   letter-spacing: .01cm;
   color: rgba(0, 0, 0, 0.658);
+}
+
+.PageContent{
+
+  padding-top: 16px;
 }

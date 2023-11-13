@@ -13,11 +13,11 @@ function DriverRegistration() {
   const { id } = useParams();
 
   // Declare a state variable to control the button's visibility
-  const [showButton, setShowButton] = useState(false);
+  const [showButton, setShowButton] = useState(true);
 
   // Function to toggle the button's visibility
   const toggleButton = () => {
-    setShowButton(true);
+    setShowButton(false);
   };
 
   const [formData, setFormData] = useState({
@@ -243,7 +243,6 @@ function DriverRegistration() {
               </div>
 
               <div className={styles.driverInfield}>
-                
                 <div className={styles.driverPair}>
                   <p className={styles.driverParagraph}>পোস্টাল কোড</p>
                   <input
@@ -273,13 +272,23 @@ function DriverRegistration() {
             </div>
 
             <div className={styles.permitButtonContainer}>
-              <button
-                type="submit"
-                className={styles.permitDriverButton}
-                onClick={handleSubmit}
-              >
-                অনুমোদন দিন
-              </button>
+              {showButton && (
+                // <button
+                //   type="button"
+                //   className={styles.printDriverButton}
+                //   onClick={handleCaptureAndConvert}
+                // >
+                //   প্রিন্ট করুন
+                // </button>
+                <button
+                  type="submit"
+                  className={styles.permitDriverButton}
+                  onClick={handleSubmit}
+                >
+                  অনুমোদন দিন
+                </button>
+              )}
+
               <button
                 type="submit"
                 className={styles.notpermitDriverButton}
@@ -287,15 +296,6 @@ function DriverRegistration() {
               >
                 এড়িয়ে যান
               </button>
-              {showButton && (
-                <button
-                  type="button"
-                  className={styles.printDriverButton}
-                  onClick={handleCaptureAndConvert}
-                >
-                  প্রিন্ট করুন
-                </button>
-              )}
             </div>
           </form>
         </div>

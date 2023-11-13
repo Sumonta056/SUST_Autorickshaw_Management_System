@@ -4,11 +4,15 @@ import SideMenu from "../../components/SideMenu";
 import "./index.css";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
+import { Table, Button } from "antd";
+import { UserOutlined } from "@ant-design/icons";
 
 function Dashboard() {
   const [driver, setDataSource] = useState([]);
   const [owner, setDataSource2] = useState([]);
   const [autorickshaw, setDataSource3] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [dataSource, setDataSourcee] = useState([]);
 
   function driverData() {
     fetch("http://localhost:3001/api/totalDrivers")
@@ -50,11 +54,41 @@ function Dashboard() {
     autorickshawData();
   });
 
+
+  const columns = [
+    {
+      title: "অটোরিকশা নাম্বার",
+      dataIndex: "autorickshaw_number",
+    },
+    {
+      title: "ড্রাইভারের নাম",
+      dataIndex: "driver_name",
+    },
+    {
+      title: "মালিকের নাম",
+      dataIndex: "owner_name",
+    },
+    {
+      title: "কর্তৃপক্ষের নাম",
+      dataIndex: "authority_name",
+    },
+    {
+      title: "অনুমতি প্রদানের তারিখ",
+      dataIndex: "permit_startDate",
+    },
+    {
+      title: "মেয়াদ উত্তীর্ণের তারিখ",
+      dataIndex: "permit_endDate",
+    },
+    
+  ];
+
   return (
     <div className="App">
       <AppHeader />
       <div className="SideMenuAndPageContent">
         <SideMenu></SideMenu>
+        <div className="setPage">
         <div className="PageContentDash">
           <div className="dashboard-home">
             <div style={{ width: 150, height: 150 }}>
@@ -195,6 +229,22 @@ function Dashboard() {
             </div>
             <h1 className="circularHeader">মালিকের সংখ্যা</h1>
           </div>
+        </div>
+        <div className="PageContent">
+          <h1 className="PageHeader">
+            <UserOutlined className="icon" />
+            অনুমোদন তালিকা
+          </h1>
+          <Table
+            className="TableDriver"
+            loading={loading}
+            columns={columns}
+            dataSource={dataSource}
+            pagination={{
+              pageSize: 7,
+            }}
+          ></Table>
+        </div>
         </div>
       </div>
     </div>

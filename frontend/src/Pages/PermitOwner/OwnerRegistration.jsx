@@ -12,11 +12,11 @@ function OwnerRegistration() {
   const navigate = useNavigate();
   const { id } = useParams();
   // Declare a state variable to control the button's visibility
-  const [showButton, setShowButton] = useState(false);
+  const [showButton, setShowButton] = useState(true);
 
   // Function to toggle the button's visibility
   const toggleButton = () => {
-    setShowButton(true);
+    setShowButton(false);
   };
 
   const [formData, setFormData] = useState({
@@ -140,6 +140,33 @@ function OwnerRegistration() {
       },
     });
   };
+
+  useEffect(() => {
+    // Fetch the user ID
+    axios
+      .get("http://localhost:3001/api/profile", { withCredentials: true })
+      .then((res) => {
+        if (res.data.statusbar === "success") {
+          console.log(res.data.id);
+          const fetchedUserId = res.data.id;
+          axios
+            .get(`http://localhost:3001/api/authority/${fetchedUserId}`)
+            .then((authorityRes) => {
+              if (authorityRes.data.status === "success") {
+                console.log(authorityRes.data.authority);
+              } else {
+                console.log("Error fetching authority information");
+              }
+            })
+            .catch((authorityErr) => {
+              console.log("Error fetching authority information");
+            });
+        } else {
+          console.log("error");
+        }
+      });
+  }, []);
+
   return (
     <div className={styles.RegistrationScreenP}>
       <div className={styles.ownerContainer} id="ownerContainer">
@@ -277,13 +304,23 @@ function OwnerRegistration() {
             </div>
 
             <div className={styles.permitButtonContainer}>
-              <button
-                type="submit"
-                className={styles.permitOwnerButton}
-                onClick={handleSubmit}
-              >
-                অনুমোদন দিন
-              </button>
+              {showButton && (
+                // <button
+                //   type="button"
+                //   className={styles.printOwnerButton}
+                //   onClick={handleCaptureAndConvert}
+                // >
+                //   প্রিন্ট করুন
+                // </button>
+                <button
+                  type="submit"
+                  className={styles.permitOwnerButton}
+                  onClick={handleSubmit}
+                >
+                  অনুমোদন দিন
+                </button>
+              )}
+
               <button
                 type="submit"
                 className={styles.notpermitOwnerButton}
@@ -291,13 +328,6 @@ function OwnerRegistration() {
               >
                 এড়িয়ে যান
               </button>
-              {showButton && (
-                <button
-                  type="button"
-                  className={styles.printOwnerButton}
-                  onClick={handleCaptureAndConvert}
-                ></button>
-              )}
             </div>
           </form>
         </div>

@@ -1,4 +1,4 @@
-import { Table, Button, Modal } from "antd"; // Import Button from Ant Design
+import { Table} from "antd"; // Import Button from Ant Design
 import { useEffect, useState } from "react";
 import AppHeader from "../../components/AppHeader";
 import SideMenu from "../../components/SideMenu";
@@ -6,7 +6,7 @@ import "./index.css";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
 // import { useNavigate } from "react-router-dom";
-import axios from "axios";
+// import axios from "axios";
 
 import { EditOutlined, EyeOutlined } from "@ant-design/icons";
 
@@ -31,8 +31,7 @@ function Schedule() {
       .catch((error) => {
         console.error("Error fetching total payment data: ", error);
       });
-  }  
-  
+  }
 
   function autorickshawData() {
     fetch("http://localhost:3001/api/totalautorickshaws")

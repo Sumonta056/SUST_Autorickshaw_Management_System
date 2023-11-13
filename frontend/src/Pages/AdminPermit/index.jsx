@@ -20,7 +20,7 @@ function AdminPermit() {
   const [type, setType] = useState([]);
   const [adminNIDs, setadminNIDs] = useState([]);
   const [authorityData, setAuthorityData] = useState([]);
-
+  const [check, setCheck] = useState(true);
   const [loading, setLoading] = useState(false);
   const [dataSource, setDataSource] = useState([]);
 
@@ -63,6 +63,7 @@ function AdminPermit() {
     });
 
     if (value === "কর্তৃপক্ষ") {
+      setCheck(true);
       setType("authority");
       console.log(adminType);
       try {
@@ -74,11 +75,11 @@ function AdminPermit() {
         setAuthorityData(response.data);
 
         const nidNumbers = authorityData.map(
-          (authority) => authority.authority_nid
+          (authority) => authority.authority_email
         );
         console.log(nidNumbers);
 
-        console.log(authorityData.authority_nid);
+        console.log(authorityData.authority_email);
         setadminNIDs(nidNumbers);
 
         console.log(adminNIDs);
@@ -87,6 +88,7 @@ function AdminPermit() {
       }
     } else {
       setType("manager");
+      setCheck(false);
       console.log(adminType);
       try {
         const response = await axios.get(
@@ -152,7 +154,7 @@ function AdminPermit() {
     if (type === "authority") {
       // Find the authority data based on the selected NID
       const selectedAuthority = authorityData.find(
-        (authority) => authority.authority_nid === value
+        (authority) => authority.authority_email === value
       );
 
       const name = findLongestWord(selectedAuthority.authority_name);
@@ -210,6 +212,14 @@ function AdminPermit() {
             fetch("http://localhost:3001/api/admins")
               .then((response) => response.json())
               .then((data) => {
+                setFormData({
+                  ...formData,
+                  authority_adminType: "",
+                  admin_NID: "",
+                  admin_name: "",
+                  admin_username: "",
+                  admin_password: "",
+                });
                 setDataSource(data);
                 setLoading(false);
               })
@@ -251,25 +261,14 @@ function AdminPermit() {
       title: "অ্যাডমিন টাইপ",
       dataIndex: "authority_adminType",
     },
-    {
-      title: "জাতীয় পরিচয়পত্র নম্বর",
-      dataIndex: "admin_NID",
-    },
+    // {
+    //   title: "জাতীয় পরিচয়পত্র নম্বর",
+    //   dataIndex: "admin_NID",
+    // },
     {
       title: "অ্যাডমিনের নাম",
       dataIndex: "name",
     },
-
-    // {
-    //   title: "কার্যক্রম",
-    //   render: (text, record) => (
-    //     <div className="driverButton">
-    //       <Button type="primary" danger>
-    //         <span>মুছুন</span>
-    //       </Button>
-    //     </div>
-    //   ),
-    // },
   ];
   return (
     <div className="App">
@@ -308,20 +307,26 @@ function AdminPermit() {
               <div className={styles.AdminPermitInfield}>
                 <p className={styles.AdminPermitParagraph}>
                   <IdcardOutlined className={styles.iconShow} />
-                  অ্যাডমিনের জাতীয় পরিচয়পত্র নম্বর
+                  {check
+                    ? "অ্যাডমিনের ইমেইল এড্রেস"
+                    : "অ্যাডমিনের জাতীয় পরিচয়পত্র নম্বর"}
                 </p>
                 <select
                   className={styles.AdminPermitSelect}
                   type="text"
                   id="admin_NID"
                   name="admin_NID"
-                  placeholder="অ্যাডমিনের জাতীয় পরিচয়পত্র নম্বর নির্বাচন করুন"
+                  placeholder={`অ্যাডমিনের ${
+                    check ? "ইমেইল এড্রেস" : "ইমেইল এড্রেস"
+                  } নির্বাচন করুন`}
                   value={formData.admin_NID}
                   onChange={handleNIDChange}
                 >
                   <option value="">
                     <span className={styles.first}>
-                      অ্যাডমিনের জাতীয় পরিচয়পত্র নম্বর নির্বাচন করুন
+                      {`অ্যাডমিনের ${
+                        check ? "ইমেইল এড্রেস" : "জাতীয় পরিচয়পত্র নম্বর"
+                      } নির্বাচন করুন`}
                     </span>
                   </option>
 
@@ -329,17 +334,17 @@ function AdminPermit() {
                     <option
                       key={
                         type === "authority"
-                          ? authority.authority_nid
+                          ? authority.authority_email
                           : authority.manager_nid
                       }
                       value={
                         type === "authority"
-                          ? authority.authority_nid
+                          ? authority.authority_email
                           : authority.manager_nid
                       }
                     >
                       {type === "authority"
-                        ? authority.authority_nid
+                        ? authority.authority_email
                         : authority.manager_nid}
                     </option>
                   ))}
