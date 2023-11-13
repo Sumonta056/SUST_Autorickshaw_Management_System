@@ -21,8 +21,10 @@ import {
 function Schedule() {
   const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
+  const [loading3, setLoading3] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const [dataSource2, setDataSource2] = useState([]);
+  const [dataSource3, setDataSource3] = useState([]);
   const [autorickshaws, setAutorickshaws] = useState([]);
   // const [selectedSchedule, setSelectedSchedule] = useState(null);
 
@@ -89,8 +91,7 @@ function Schedule() {
       validationErrors.schedule_date === "" &&
       validationErrors.schedule_round === "" &&
       validationErrors.schedule_place === "" &&
-      validationErrors.schedule_time === "" &&
-      validationErrors.autorickshaw_number === ""
+      validationErrors.schedule_time === "" 
     ) {
       try {
         console.log("here");
@@ -104,6 +105,7 @@ function Schedule() {
               content: "আপনি সফলভাবে একটি শিডিউল তৈরি করেছেন",
               onOk: () => {
                 ScheduleData();
+                window.location.reload();
               },
             });
           } else {
@@ -135,13 +137,12 @@ function Schedule() {
 
   useEffect(() => {
     setLoading2(true);
-    fetch("http://localhost:3001/api/permittedAutorickshaws")
+    fetch("http://localhost:3001/api/permittedAutorickshawsForSchedule")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data);
-        setDataSource2(data.autorickshaws);
-        setAutorickshaws(data.autorickshaws);
-        console.log(data.autorickshaws);
+        console.log(data); 
+        setDataSource2(data.availableAutorickshaws); 
+        setAutorickshaws(data.availableAutorickshaws); 
         setLoading2(false);
       })
       .catch((error) => {
@@ -150,7 +151,21 @@ function Schedule() {
       });
   }, []);
   
-  
+  useEffect(() => {
+    setLoading3(true);
+    fetch("http://localhost:3001/api/latestSchedule")
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data); 
+        setDataSource3(data.schedule); 
+        setAutorickshaws(data.schedule); 
+        setLoading3(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching Schedule data: ", error);
+        setLoading3(false);
+      });
+  }, []);
 
   const handleDelete = (record) => {
     // Display a confirmation modal before deleting
@@ -221,32 +236,77 @@ function Schedule() {
       render: (text, record, index) => {
         if (index === 0) {
           return (
-            <Button type="primary" onClick={() => handleViewAutorickshaws(record)}>
-              দেখুন অটোরিক্শা
-            </Button>
+            <div>
+              <Button type="primary" onClick={() => handleViewAutorickshaws(record)} style={{ marginRight: '8px' }} >
+                দেখুন                </Button>
+              <Button type="primary" danger onClick={() => handleDelete(record)}>
+                মুছুন
+              </Button>
+            </div>
           );
         }
         return null;
       },
     },
-    {
-      title: "কার্যক্রম",
-      render: (text, record, index) => {
-        if (index === 0) {
-          return (
-            <Button type="primary" danger onClick={() => handleDelete(record)}>
-              মুছুন
-            </Button>
-          );
-        }
-        return null;
-      },
-    },
+    
+    
   ];
   
+
+
+  const handleAddToLatestSchedule = (record) => {
+    const autorickshawNumber = record.autorickshaw_number;
   
+    axios.post('http://localhost:3001/associateAutorickshawToLatestSchedule', { autorickshaw_number: autorickshawNumber })
+      .then(response => {
+        if (response.data.status === 'success') {
+          // Handle success
+          Modal.success({
+            title: 'Success',
+            content:<div>
+            <p>{autorickshawNumber} নং অটোরিকশাটি {response.data.latestScheduleDetails.schedule_round} নং রাউন্ডে যুক্ত করা হয়েছে </p>
+            <p>তারিখ: {response.data.latestScheduleDetails.schedule_date}</p>
+            <p>সময়: {response.data.latestScheduleDetails.schedule_time}</p>
+            <p>গন্তব্য: {response.data.latestScheduleDetails.schedule_place}</p>
+          </div>,
+            onOk: () => {
+              console.log('Autorickshaw added to latest schedule!');
+              window.location.reload();
+            },
+          });
+        } else if (response.data.error === 'Duplicate autorickshaw schedule entry.') {
+          // Handle duplicate entry error
+          Modal.error({
+            title: 'Error',
+            content: 'Duplicate entry: Autorickshaw already added to this schedule.',
+            onOk: () => {
+              console.error('Duplicate entry: Autorickshaw already added to this schedule.');
+            },
+          });
+        } else {
+          // Handle other errors
+          Modal.error({
+            title: 'Error',
+            content: 'Failed to add autorickshaw to the latest schedule.',
+            onOk: () => {
+              console.error('Failed to add autorickshaw to the latest schedule.');
+            },
+          });
+        }
+      })
+      .catch(error => {
+        // Handle API call error
+        Modal.error({
+          title: 'Error',
+          content: 'An error occurred while adding autorickshaw to the latest schedule.',
+          onOk: () => {
+            console.error('Error:', error);
+          },
+        });
+      });
+  };
   
-  // Define a state variable to track the currently open schedule ID
+    // Define a state variable to track the currently open schedule ID
 const [openScheduleID, setOpenScheduleID] = useState(null);
 
 const handleViewAutorickshaws = (schedule) => {
@@ -318,7 +378,7 @@ const handleViewAutorickshaws = (schedule) => {
       />
     );
   };
-  
+
   const columns2 = [
     {
       title: "অটোরিকশা নাম্বার",
@@ -328,14 +388,37 @@ const handleViewAutorickshaws = (schedule) => {
       title: "কার্যক্রম",
       render: (text, record) => (
         <div className="ScheduleButton">
-         
-          <Button type="primary" danger>
+         <Button type="primary" onClick={() => handleAddToLatestSchedule(record)}>
+  <span>এড করুন</span>
+</Button>
+         <Button type="primary" danger >
             <span>অনুপস্থিত</span>
           </Button>
         </div>
       ),
     },
   ];
+
+  const columns3 = [
+    {
+      title: "তারিখ",
+      dataIndex: "schedule_date",
+     
+    },
+    {
+      title: "রাউন্ড",
+      dataIndex: "schedule_round",
+    },
+    {
+      title: "গন্তব্য",
+      dataIndex: "schedule_place",
+    },
+    {
+      title: "সময়",
+      dataIndex: "schedule_time",
+      },
+  ];
+  
 
   return (
     <div className="App">
@@ -358,7 +441,7 @@ const handleViewAutorickshaws = (schedule) => {
                   className={styles.scheduleInput}
                   type="text"
                   id="schedule_date"
-                  name="schedule_date"
+                  name="schedule_date" 
                   placeholder="তারিখ প্রদান করুন"
                   onFocus={(e) => (e.target.type = "date")}
                   onBlur={(e) => (e.target.type = "text")}
@@ -437,38 +520,6 @@ const handleViewAutorickshaws = (schedule) => {
                   </span>
                 )}
               </div>
-              <div className={styles.scheduleInfield}>
-  <p className={styles.scheduleParagraph}>
-    <CarOutlined className={styles.iconShow} />
-    অটোরিক্শা নাম্বার
-  </p>
-  <select
-  className={styles.scheduleSelect}
-  id="autorickshaw_number"
-  name="autorickshaw_number"
-  placeholder="অটোরিক্শা নাম্বার নির্বাচন করুন"
-  value={formData.autorickshaw_number}
-  onChange={handleInputChange}
->
-  <option key="default" value="">
-    অটোরিক্শা নির্বাচন করুন
-  </option>
-  {autorickshaws &&
-    autorickshaws.map((autorickshaw, index) => (
-      <option key={index} value={autorickshaw.autorickshaw_number}>
-        {autorickshaw.autorickshaw_number}
-      </option>
-    ))}
-</select>
-
-
-  {errors.autorickshaw_number && ( // Corrected the error check here
-    <span className={styles.scheduleError}>
-      {errors.autorickshaw_number} 
-    </span>
-  )}
-</div>
-
               <button type="submit" className={styles.scheduleButton}>
                 ADD
               </button>
@@ -478,17 +529,15 @@ const handleViewAutorickshaws = (schedule) => {
             <div className="Pagecenter">
               <h1 className="PageHeader">
                 <EyeOutlined className="icon" />
-                শিডিউল দেখুন
+               সর্বশেষ শিডিউল 
               </h1>
             
               <Table
                 className="TableSchedule"
-                loading={loading}
-                columns={columns} // Use the modified columns configuration
-                dataSource={dataSource}
-                pagination={{
-                  pageSize: 4,
-                }}
+                loading={loading3}
+                columns={columns3} // Use the modified columns configuration
+                dataSource={dataSource3}
+                pagination={false} 
               ></Table>
             </div>
 

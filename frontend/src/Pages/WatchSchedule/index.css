@@ -49,7 +49,7 @@
 }
 
 .PageFooter {
-  width: 57%;
+  width: 37%;
   height: 100%;
 }
 
@@ -175,7 +175,7 @@
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 90%;
+  width: 100%;
 }
 
 

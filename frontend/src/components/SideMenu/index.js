@@ -241,6 +241,15 @@ function DriverMenu() {
         <EditOutlined className="icon" />{" "}
         <span className="CustomLabel">শিডিউল তৈরি করুন</span>
       </div>
+      <div
+        className={`DriverMenuItem ${
+          selectedKey === "/inventory" ? "DriverMenuItemSelected" : ""
+        }`}
+        onClick={() => navigate("/scheduleWatch")}
+      >
+        <EditOutlined className="icon" />{" "}
+        <span className="CustomLabel">শিডিউল দেখুন</span>
+      </div>
       {/* <div
         className={`DriverMenuItem ${
           selectedKey === "/orders" ? "DriverMenuItemSelected" : ""

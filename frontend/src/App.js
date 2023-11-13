@@ -29,6 +29,7 @@ import Manager from "./Pages/Manager/index";
 import UnauthorizedManager from "./Pages/UnauthorizedManager/index";
 import ManagerUpdate from "./Pages/UpdateManager/UpdateManagerInfo";
 import CreateSchedule from "./Pages/Schedule/index";
+import WatchSchedule from "./Pages/WatchSchedule/index";
 import Money from "./Pages/Money/index";
 import MoneyShow from "./Pages/MoneyShow/index";
 import Authority from "./components/AuthorityRegistration/AuthorityRegistration";
@@ -91,6 +92,7 @@ function App() {
         <Route path="/editManager/:id" element={<ManagerUpdate />} />
 
         <Route path="/scheduleCreate" element={<CreateSchedule />} />
+        <Route path="/scheduleWatch" element={<WatchSchedule />} />
         <Route path="/money" element={<Money />} />
         <Route path="/moneyShow" element={<MoneyShow />} />
 
