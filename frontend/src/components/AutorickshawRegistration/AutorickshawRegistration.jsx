@@ -252,12 +252,6 @@ function AutorickshawRegistration() {
             <button type="submit" className={styles.autorickshawButton}>
               নিবন্ধন
             </button>
-            <span className={styles.autorickshawPrevReg}>
-              পূর্বে রেজিস্ট্রেশন করেছেন?{" "}
-              <a href="#d" className={styles.autorickshawRegIgnore}>
-                এড়িয়ে যান
-              </a>
-            </span>
           </form>
         </div>
         <div

@@ -274,7 +274,7 @@ function ManagerRegistration() {
                   className={styles.printManagerButton}
                   onClick={handleCaptureAndConvert}
                 >
-                  অনুমোদন দিন
+                  প্রিন্ট করুন
                 </button>
               )}
             </div>

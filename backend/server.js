@@ -3,7 +3,7 @@ const mysql = require("mysql");
 const cors = require("cors");
 const cookieParser = require("cookie-parser");
 const jwt = require("jsonwebtoken");
-const cron = require('node-cron');
+const cron = require("node-cron");
 
 const app = express();
 
@@ -899,93 +899,145 @@ app.post("/updateschedule", (req, res) => {
     // Check if the data already exists in the "schedule" table
     const checkScheduleSql =
       "SELECT id FROM schedule WHERE schedule_date = ? AND schedule_round = ? AND schedule_place = ? AND schedule_time = ?";
-    const checkScheduleValues = [schedule_date, schedule_round, schedule_place, schedule_time];
+    const checkScheduleValues = [
+      schedule_date,
+      schedule_round,
+      schedule_place,
+      schedule_time,
+    ];
 
-    db.query(checkScheduleSql, checkScheduleValues, (checkErr, checkResults) => {
-      if (checkErr) {
-        console.error(checkErr);
-        return db.rollback(() => res.json({ error: "Failed to update schedule." }));
-      }
+    db.query(
+      checkScheduleSql,
+      checkScheduleValues,
+      (checkErr, checkResults) => {
+        if (checkErr) {
+          console.error(checkErr);
+          return db.rollback(() =>
+            res.json({ error: "Failed to update schedule." })
+          );
+        }
 
-      if (checkResults.length > 0) {
-        const id = checkResults[0].id;
+        if (checkResults.length > 0) {
+          const id = checkResults[0].id;
 
-        // Check if the autorickshaw_schedule entry already exists for this combination
-        const checkAutorickshawScheduleSql =
-          "SELECT * FROM autorickshaw_schedule WHERE schedule_id = ? AND autorickshaw_number = ?";
-        const checkAutorickshawScheduleValues = [id, autorickshaw_number];
+          // Check if the autorickshaw_schedule entry already exists for this combination
+          const checkAutorickshawScheduleSql =
+            "SELECT * FROM autorickshaw_schedule WHERE schedule_id = ? AND autorickshaw_number = ?";
+          const checkAutorickshawScheduleValues = [id, autorickshaw_number];
 
-        db.query(checkAutorickshawScheduleSql, checkAutorickshawScheduleValues, (autorickshawCheckErr, autorickshawCheckResults) => {
-          if (autorickshawCheckErr) {
-            console.error(autorickshawCheckErr);
-            return db.rollback(() => res.json({ error: "Failed to update schedule." }));
-          }
-
-          if (autorickshawCheckResults.length > 0) {
-            // Entry already exists, return an error
-            db.rollback(() => res.json({ error: "Duplicate autorickshaw schedule entry." }));
-          } else {
-            // Entry doesn't exist, insert it into "autorickshaw_schedule"
-            const autorickshawScheduleSql =
-              "INSERT INTO autorickshaw_schedule (schedule_id, autorickshaw_number) VALUES (?, ?)";
-            const autorickshawScheduleValues = [id, autorickshaw_number];
-
-            db.query(autorickshawScheduleSql, autorickshawScheduleValues, (autorickshawInsertErr) => {
-              if (autorickshawInsertErr) {
-                console.error(autorickshawInsertErr);
-                return db.rollback(() => res.json({ error: "Failed to update autorickshaw_schedule." }));
+          db.query(
+            checkAutorickshawScheduleSql,
+            checkAutorickshawScheduleValues,
+            (autorickshawCheckErr, autorickshawCheckResults) => {
+              if (autorickshawCheckErr) {
+                console.error(autorickshawCheckErr);
+                return db.rollback(() =>
+                  res.json({ error: "Failed to update schedule." })
+                );
               }
 
-              db.commit((commitErr) => {
-                if (commitErr) {
-                  console.error(commitErr);
-                  return db.rollback(() => res.json({ error: "Failed to update schedule." }));
-                }
+              if (autorickshawCheckResults.length > 0) {
+                // Entry already exists, return an error
+                db.rollback(() =>
+                  res.json({ error: "Duplicate autorickshaw schedule entry." })
+                );
+              } else {
+                // Entry doesn't exist, insert it into "autorickshaw_schedule"
+                const autorickshawScheduleSql =
+                  "INSERT INTO autorickshaw_schedule (schedule_id, autorickshaw_number) VALUES (?, ?)";
+                const autorickshawScheduleValues = [id, autorickshaw_number];
 
-                return res.json("success");
-              });
-            });
-          }
-        });
-      } else {
-        // Data does not exist in the "schedule" table, so insert it into both tables
-        const insertScheduleSql =
-          "INSERT INTO schedule (schedule_date, schedule_round, schedule_place, schedule_time) VALUES (?, ?, ?, ?)";
-        const insertScheduleValues = [schedule_date, schedule_round, schedule_place, schedule_time];
+                db.query(
+                  autorickshawScheduleSql,
+                  autorickshawScheduleValues,
+                  (autorickshawInsertErr) => {
+                    if (autorickshawInsertErr) {
+                      console.error(autorickshawInsertErr);
+                      return db.rollback(() =>
+                        res.json({
+                          error: "Failed to update autorickshaw_schedule.",
+                        })
+                      );
+                    }
 
-        db.query(insertScheduleSql, insertScheduleValues, (insertErr, insertData) => {
-          if (insertErr) {
-            console.error(insertErr);
-            return db.rollback(() => res.json({ error: "Failed to update schedule." }));
-          }
+                    db.commit((commitErr) => {
+                      if (commitErr) {
+                        console.error(commitErr);
+                        return db.rollback(() =>
+                          res.json({ error: "Failed to update schedule." })
+                        );
+                      }
 
-          const schedule_id = insertData.insertId;
-
-          const autorickshawScheduleSql =
-            "INSERT INTO autorickshaw_schedule (schedule_id, autorickshaw_number) VALUES (?, ?)";
-          const autorickshawScheduleValues = [schedule_id, autorickshaw_number];
-
-          db.query(autorickshawScheduleSql, autorickshawScheduleValues, (autorickshawInsertErr) => {
-            if (autorickshawInsertErr) {
-              console.error(autorickshawInsertErr);
-              return db.rollback(() => res.json({ error: "Failed to update autorickshaw_schedule." }));
+                      return res.json("success");
+                    });
+                  }
+                );
+              }
             }
+          );
+        } else {
+          // Data does not exist in the "schedule" table, so insert it into both tables
+          const insertScheduleSql =
+            "INSERT INTO schedule (schedule_date, schedule_round, schedule_place, schedule_time) VALUES (?, ?, ?, ?)";
+          const insertScheduleValues = [
+            schedule_date,
+            schedule_round,
+            schedule_place,
+            schedule_time,
+          ];
 
-            db.commit((commitErr) => {
-              if (commitErr) {
-                console.error(commitErr);
-                return db.rollback(() => res.json({ error: "Failed to update schedule." }));
+          db.query(
+            insertScheduleSql,
+            insertScheduleValues,
+            (insertErr, insertData) => {
+              if (insertErr) {
+                console.error(insertErr);
+                return db.rollback(() =>
+                  res.json({ error: "Failed to update schedule." })
+                );
               }
 
-              return res.json("success");
-            });
-          });
-        });
+              const schedule_id = insertData.insertId;
+
+              const autorickshawScheduleSql =
+                "INSERT INTO autorickshaw_schedule (schedule_id, autorickshaw_number) VALUES (?, ?)";
+              const autorickshawScheduleValues = [
+                schedule_id,
+                autorickshaw_number,
+              ];
+
+              db.query(
+                autorickshawScheduleSql,
+                autorickshawScheduleValues,
+                (autorickshawInsertErr) => {
+                  if (autorickshawInsertErr) {
+                    console.error(autorickshawInsertErr);
+                    return db.rollback(() =>
+                      res.json({
+                        error: "Failed to update autorickshaw_schedule.",
+                      })
+                    );
+                  }
+
+                  db.commit((commitErr) => {
+                    if (commitErr) {
+                      console.error(commitErr);
+                      return db.rollback(() =>
+                        res.json({ error: "Failed to update schedule." })
+                      );
+                    }
+
+                    return res.json("success");
+                  });
+                }
+              );
+            }
+          );
+        }
       }
-    });
+    );
   });
 });
-
 
 /// Define a route to handle schedule deletion
 app.delete("/deleteschedule/:id", (req, res) => {
@@ -1012,22 +1064,50 @@ app.put("/PermitAutorickshaw/:id", (req, res) => {
   console.log("Received PUT request for autorickshaw with ID: " + id);
 
   // Set autorickshaw_status to 1
-  const sql =
+  const updateAutorickshawStatusSql =
     "UPDATE autorickshaw SET `autorickshaw_status` = 1 WHERE `id` = ?";
 
-  const values = [id];
+  const updateAutorickshawStatusValues = [id];
 
-  console.log(values);
-  console.log("SQL Query:", sql);
-  console.log("Values:", values);
-  db.query(sql, values, (err, data) => {
+  console.log("Updating autorickshaw status - SQL Query:", updateAutorickshawStatusSql);
+  console.log("Updating autorickshaw status - Values:", updateAutorickshawStatusValues);
+
+  // Execute the update query
+  db.query(updateAutorickshawStatusSql, updateAutorickshawStatusValues, (err, data) => {
     if (err) {
       console.error("Error updating autorickshaw status: ", err);
       return res.json("failed");
     }
 
     console.log("Autorickshaw status updated to 1 successfully");
-    return res.json("permit_success");
+
+    // Now, insert data into the permit table
+    const permitData = {
+      authority_name: req.body.authority_name,
+      authority_position: req.body.authority_position,
+      autorickshaw_number: req.body.autorickshaw_number,
+      driver_name: req.body.driver_name,
+      driver_nid: req.body.driver_nid,
+      owner_name: req.body.owner_name,
+      permit_endDate: req.body.permit_endDate,
+      permit_startDate: req.body.permit_startDate,
+    };
+
+    const insertPermitSql = "INSERT INTO permit SET ?";
+
+    console.log("Inserting data into permit table - SQL Query:", insertPermitSql);
+    console.log("Inserting data into permit table - Values:", permitData);
+
+    // Execute the insert query
+    db.query(insertPermitSql, permitData, (insertErr, insertData) => {
+      if (insertErr) {
+        console.error("Error inserting data into the permit table: ", insertErr);
+        return res.json("failed");
+      }
+
+      console.log("Data inserted into the permit table successfully:", insertData);
+      return res.json("permit_success");
+    });
   });
 });
 
@@ -1070,7 +1150,6 @@ app.get("/api/totalautorickshaws", (req, res) => {
   });
 });
 
-
 app.put("/PermitDriver/:id", (req, res) => {
   const id = req.params.id;
   console.log("Received PUT request for driver with ID: " + id);
@@ -1079,7 +1158,8 @@ app.put("/PermitDriver/:id", (req, res) => {
   const currentDate = new Date().toISOString().slice(0, 10); // Format: "YYYY-MM-DD"
 
   // Set driver_status to 1 and driver_permission_start_date to today's date
-  const sql = "UPDATE driver SET `driver_status` = 1, `driver_permission_start_date` = ? WHERE `id` = ?";
+  const sql =
+    "UPDATE driver SET `driver_status` = 1, `driver_permission_start_date` = ? WHERE `id` = ?";
 
   const values = [currentDate, id];
 
@@ -1089,15 +1169,19 @@ app.put("/PermitDriver/:id", (req, res) => {
 
   db.query(sql, values, (err, data) => {
     if (err) {
-      console.error("Error updating driver status and permission start date: ", err);
+      console.error(
+        "Error updating driver status and permission start date: ",
+        err
+      );
       return res.json("failed");
     }
 
-    console.log("Driver status updated to 1, and permission start date set to today's date");
+    console.log(
+      "Driver status updated to 1, and permission start date set to today's date"
+    );
     return res.json("permit_success");
   });
 });
-
 
 app.put("/PermitOwner/:id", (req, res) => {
   const id = req.params.id;
@@ -1186,7 +1270,8 @@ app.get("/api/driverInfoForAutorickshaw/:autorickshawNID", (req, res) => {
   });
 });
 app.post("/insertmoney", (req, res) => {
-  const { payment_date, driver_nid, payment_amount, autorickshaw_number } = req.body;
+  const { payment_date, driver_nid, payment_amount, autorickshaw_number } =
+    req.body;
 
   // Parse payment_amount as a float
   const paymentAmountFloat = parseFloat(payment_amount);
@@ -1199,98 +1284,137 @@ app.post("/insertmoney", (req, res) => {
   }
 
   // Fetch the driver's permission start date
-  const fetchDriverPermissionStartDateSql = "SELECT driver_permission_start_date FROM driver WHERE driver_nid = ?";
-  db.query(fetchDriverPermissionStartDateSql, [driver_nid], (fetchErr, fetchData) => {
-    if (fetchErr) {
-      console.error("Error fetching driver_permission_start_date: ", fetchErr);
-      return res.json("failed");
-    }
-
-    if (fetchData.length === 0) {
-      console.error("Driver not found with driver_nid: ", driver_nid);
-      return res.json("failed");
-    }
-
-    const driverPermissionStartDate = fetchData[0].driver_permission_start_date;
-
-    // Calculate the number of days between today and driver_permission_start_date
-    const currentDate = new Date();
-    const permissionStartDate = new Date(driverPermissionStartDate);
-    const daysDifference = Math.floor((currentDate - permissionStartDate) / (1000 * 60 * 60 * 24)) + 1;
-    // Calculate the difference based on the new logic
-    const difference = daysDifference * 25;
-
-    if (difference < paymentAmountFloat) {
-      console.error("Driver's payment due is less than the payment amount");
-      return res.json({ status: "currentdueissmaller", difference });
-    }
-
-    // Insert payment information into the payment table
-    const insertPaymentSql =
-      "INSERT INTO payment (payment_date, driver_nid, payment_amount, autorickshaw_number) VALUES (?, ?, ?, ?)";
-    const insertPaymentValues = [payment_date, driver_nid, paymentAmountFloat, autorickshaw_number];
-
-    db.beginTransaction((err) => {
-      if (err) {
-        console.error("Transaction begin error: ", err);
+  const fetchDriverPermissionStartDateSql =
+    "SELECT driver_permission_start_date FROM driver WHERE driver_nid = ?";
+  db.query(
+    fetchDriverPermissionStartDateSql,
+    [driver_nid],
+    (fetchErr, fetchData) => {
+      if (fetchErr) {
+        console.error(
+          "Error fetching driver_permission_start_date: ",
+          fetchErr
+        );
         return res.json("failed");
       }
 
-      db.query(insertPaymentSql, insertPaymentValues, (insertErr, insertData) => {
-        if (insertErr) {
-          // Rollback the transaction in case of an error
-          db.rollback(() => {
-            console.error("Error inserting payment information: ", insertErr);
-            return res.json("failed");
-          });
-        } else {
-          // Commit the transaction on success
-          db.commit((commitErr) => {
-            if (commitErr) {
-              // Rollback the transaction in case of a commit error
+      if (fetchData.length === 0) {
+        console.error("Driver not found with driver_nid: ", driver_nid);
+        return res.json("failed");
+      }
+
+      const driverPermissionStartDate =
+        fetchData[0].driver_permission_start_date;
+
+      // Calculate the number of days between today and driver_permission_start_date
+      const currentDate = new Date();
+      const permissionStartDate = new Date(driverPermissionStartDate);
+      const daysDifference =
+        Math.floor(
+          (currentDate - permissionStartDate) / (1000 * 60 * 60 * 24)
+        ) + 1;
+      // Calculate the difference based on the new logic
+      const difference = daysDifference * 25;
+
+      if (difference < paymentAmountFloat) {
+        console.error("Driver's payment due is less than the payment amount");
+        return res.json({ status: "currentdueissmaller", difference });
+      }
+
+      // Insert payment information into the payment table
+      const insertPaymentSql =
+        "INSERT INTO payment (payment_date, driver_nid, payment_amount, autorickshaw_number) VALUES (?, ?, ?, ?)";
+      const insertPaymentValues = [
+        payment_date,
+        driver_nid,
+        paymentAmountFloat,
+        autorickshaw_number,
+      ];
+
+      db.beginTransaction((err) => {
+        if (err) {
+          console.error("Transaction begin error: ", err);
+          return res.json("failed");
+        }
+
+        db.query(
+          insertPaymentSql,
+          insertPaymentValues,
+          (insertErr, insertData) => {
+            if (insertErr) {
+              // Rollback the transaction in case of an error
               db.rollback(() => {
-                console.error("Transaction commit error: ", commitErr);
+                console.error(
+                  "Error inserting payment information: ",
+                  insertErr
+                );
                 return res.json("failed");
               });
             } else {
-              // Recalculate the difference
-              const calculateTotalPaymentSql =
-                "SELECT SUM(payment.payment_amount) AS totalPayment " +
-                "FROM payment " +
-                "WHERE payment.driver_nid = ?";
+              // Commit the transaction on success
+              db.commit((commitErr) => {
+                if (commitErr) {
+                  // Rollback the transaction in case of a commit error
+                  db.rollback(() => {
+                    console.error("Transaction commit error: ", commitErr);
+                    return res.json("failed");
+                  });
+                } else {
+                  // Recalculate the difference
+                  const calculateTotalPaymentSql =
+                    "SELECT SUM(payment.payment_amount) AS totalPayment " +
+                    "FROM payment " +
+                    "WHERE payment.driver_nid = ?";
 
-              db.query(calculateTotalPaymentSql, [driver_nid], (calculationErr, calculationData) => {
-                if (calculationErr) {
-                  console.error("Error calculating total payment: ", calculationErr);
-                  return res.json("failed");
+                  db.query(
+                    calculateTotalPaymentSql,
+                    [driver_nid],
+                    (calculationErr, calculationData) => {
+                      if (calculationErr) {
+                        console.error(
+                          "Error calculating total payment: ",
+                          calculationErr
+                        );
+                        return res.json("failed");
+                      }
+
+                      const totalPayment = calculationData[0].totalPayment;
+                      const updatedDifference = difference - totalPayment;
+
+                      console.log(
+                        "Payment information inserted successfully",
+                        updatedDifference,
+                        totalPayment
+                      );
+                      return res.json({
+                        status: "success",
+                        difference: updatedDifference,
+                      }); // Send the JSON response here
+                    }
+                  );
                 }
-
-                const totalPayment = calculationData[0].totalPayment;
-                const updatedDifference = difference - totalPayment;
-
-
-                console.log("Payment information inserted successfully", updatedDifference, totalPayment);
-                return res.json({ status: "success", difference: updatedDifference }); // Send the JSON response here
               });
             }
-          });
-        }
+          }
+        );
       });
-    });
-  });
+    }
+  );
 });
-
 
 app.get("/api/permittedAutorickshaws", async (req, res) => {
   // Execute the query with a WHERE clause to filter by status
-  db.query("SELECT * FROM autorickshaw WHERE autorickshaw_status = 1", (queryErr, rows) => {
-    if (queryErr) {
-      console.error("Error fetching permitted autorickshaw data: ", queryErr);
-      return res.json({ error: "Internal server error" });
-    }
+  db.query(
+    "SELECT * FROM autorickshaw WHERE autorickshaw_status = 1",
+    (queryErr, rows) => {
+      if (queryErr) {
+        console.error("Error fetching permitted autorickshaw data: ", queryErr);
+        return res.json({ error: "Internal server error" });
+      }
 
-    res.json({ autorickshaws: rows });
-  });
+      res.json({ autorickshaws: rows });
+    }
+  );
 });
 
 // Getting Owner Database
@@ -1306,10 +1430,9 @@ app.get("/api/payment", async (req, res) => {
   });
 });
 
-
 app.get("/api/autorickshawSchedule", async (req, res) => {
-// Execute a SQL query with a JOIN operation to retrieve all details
-const sqlQuery = `
+  // Execute a SQL query with a JOIN operation to retrieve all details
+  const sqlQuery = `
   SELECT
     sch.*,
     asch.autorickshaw_number
@@ -1317,21 +1440,21 @@ const sqlQuery = `
   INNER JOIN schedule as sch ON asch.schedule_id = sch.id
 `;
 
-db.query(sqlQuery, (queryErr, rows) => {
-  if (queryErr) {
-    console.error("Error fetching schedule data: ", queryErr);
-    return res.json({ error: "Internal server error" });
-  }
+  db.query(sqlQuery, (queryErr, rows) => {
+    if (queryErr) {
+      console.error("Error fetching schedule data: ", queryErr);
+      return res.json({ error: "Internal server error" });
+    }
 
-  res.json({ users: rows });
-});
+    res.json({ users: rows });
+  });
 });
 
 app.get("/api/autorickshawSchedule/:id", async (req, res) => {
-const scheduleId = req.params.id;
+  const scheduleId = req.params.id;
 
-// Execute a SQL query with a JOIN operation to retrieve details for the specific schedule.id
-const sqlQuery = `
+  // Execute a SQL query with a JOIN operation to retrieve details for the specific schedule.id
+  const sqlQuery = `
   SELECT
     sch.*,
     asch.autorickshaw_number
@@ -1340,14 +1463,14 @@ const sqlQuery = `
   WHERE sch.id = ?
 `;
 
-db.query(sqlQuery, [scheduleId], (queryErr, rows) => {
-  if (queryErr) {
-    console.error("Error fetching schedule data: ", queryErr);
-    return res.json({ error: "Internal server error" });
-  }
+  db.query(sqlQuery, [scheduleId], (queryErr, rows) => {
+    if (queryErr) {
+      console.error("Error fetching schedule data: ", queryErr);
+      return res.json({ error: "Internal server error" });
+    }
 
-  res.json({ data: rows });
-});
+    res.json({ data: rows });
+  });
 });
 // Create a GET endpoint to retrieve all authority information
 app.get("/api/authorityNID", (req, res) => {
@@ -1364,7 +1487,6 @@ app.get("/api/authorityNID", (req, res) => {
   });
 });
 
-
 // Create a GET endpoint to retrieve all authority information
 app.get("/api/ManagerNID", (req, res) => {
   const query = "SELECT * FROM manager";
@@ -1379,7 +1501,6 @@ app.get("/api/ManagerNID", (req, res) => {
     }
   });
 });
-
 
 app.get("/api/admins", (req, res) => {
   const query = "SELECT * FROM user";
@@ -1399,7 +1520,7 @@ app.post("/signup", (req, res) => {
   const adminNIDToCheck = req.body.admin_NID;
 
   // First, check if the NID already exists in the database
-  const nidCheckSql = "SELECT * FROM user WHERE admin_NID = ?";
+  const nidCheckSql = "SELECT * FROM user WHERE admin_info = ?";
   db.query(nidCheckSql, [adminNIDToCheck], (nidCheckErr, nidCheckData) => {
     if (nidCheckErr) {
       console.error("NID check error:", nidCheckErr);
@@ -1429,7 +1550,7 @@ app.post("/signup", (req, res) => {
         }
 
         const sql =
-          "INSERT INTO user (`authority_adminType`, `admin_NID`, `name`, `username`, `password`) VALUES (?, ?, ?, ?, ?)";
+          "INSERT INTO user (`authority_adminType`, `admin_info`, `name`, `username`, `password`) VALUES (?, ?, ?, ?, ?)";
         const values = [
           req.body.authority_adminType,
           req.body.admin_NID,
@@ -1451,10 +1572,10 @@ app.post("/signup", (req, res) => {
   });
 });
 
-
 app.get("/api/paymentdue", async (req, res) => {
   // Execute the query to select driver_nid, payment_due, and total payment from driver and payment tables
-  db.query(`
+  db.query(
+    `
   SELECT
   driver.driver_nid,
   COALESCE(SUM(payment.payment_amount), 0) as total_payment,
@@ -1466,14 +1587,16 @@ LEFT JOIN payment ON driver.driver_nid = payment.driver_nid
 LEFT JOIN autorickshaw ON driver.driver_nid = autorickshaw.driver_nid
 WHERE driver.driver_status = 1 AND autorickshaw.autorickshaw_status = 1
 GROUP BY driver.driver_nid, autorickshaw.autorickshaw_number;
-  `, (queryErr, rows) => {
-    if (queryErr) {
-      console.error("Error fetching payment data: ", queryErr);
-      return res.json({ error: "Internal server error" });
-    }
+  `,
+    (queryErr, rows) => {
+      if (queryErr) {
+        console.error("Error fetching payment data: ", queryErr);
+        return res.json({ error: "Internal server error" });
+      }
 
-    res.json({ payments: rows });
-  });
+      res.json({ payments: rows });
+    }
+  );
 });
 
 const verifyUser = (req, res, next) => {
@@ -1517,26 +1640,25 @@ app.get("/api/profileInfo/:id", (req, res) => {
   });
 });
 
-
 // Create an API endpoint to update the user's password
-app.post('/api/updatePassword/:id', (req, res) => {
+app.post("/api/updatePassword/:id", (req, res) => {
   const { id } = req.params;
   const { password } = req.body;
 
   // Update the user's password in the database
-  const query = 'UPDATE user SET password = ? WHERE id = ?';
+  const query = "UPDATE user SET password = ? WHERE id = ?";
 
   db.query(query, [password, id], (err, result) => {
     if (err) {
-      console.error('Error updating password: ' + err.message);
-      res.status(500).json({ error: 'Internal Server Error' });
+      console.error("Error updating password: " + err.message);
+      res.status(500).json({ error: "Internal Server Error" });
     } else {
       if (result.affectedRows === 1) {
         // Password updated successfully
-        res.json('success');
+        res.json("success");
       } else {
         // No user with the provided ID found
-        res.status(404).json({ error: 'User not found' });
+        res.status(404).json({ error: "User not found" });
       }
     }
   });
@@ -1561,6 +1683,125 @@ app.get("/api/totalPayment", (req, res) => {
   });
 });
 
+app.get("/api/authority/:userId", (req, res) => {
+  const userId = req.params.userId;
+
+  console.log(userId);
+
+  // Fetch the nid from the user table using the provided user ID
+  const getUserNidQuery = "SELECT admin_info FROM user WHERE id = ?";
+
+  db.query(getUserNidQuery, [userId], (getUserNidErr, userNidResults) => {
+    if (getUserNidErr) {
+      console.log("Error fetching user Nid: " + getUserNidErr.message);
+      res
+        .status(500)
+        .json({ status: "error", message: "Internal Server Error" });
+      return;
+    }
+
+    if (userNidResults.length === 0) {
+      res.status(404).json({ status: "error", message: "User not found" });
+      return;
+    }
+
+    const userNid = userNidResults[0].admin_info;
+
+    console.log(userNid);
+
+    // Fetch authority information using the nid from the authority table
+    const getAuthorityInfoQuery =
+      "SELECT * FROM authority WHERE authority_email = ?";
+
+    db.query(
+      getAuthorityInfoQuery,
+      [userNid],
+      (getAuthorityErr, authorityResults) => {
+        if (getAuthorityErr) {
+          console.log(
+            "Error fetching authority information: " + getAuthorityErr.message
+          );
+          res
+            .status(500)
+            .json({ status: "error", message: "Internal Server Error" });
+          return;
+        }
+
+        if (authorityResults.length === 0) {
+          res
+            .status(404)
+            .json({
+              status: "error",
+              message: "Authority information not found",
+            });
+          return;
+        }
+
+        console.log(authorityResults[0]);
+
+        // Return authority information to the frontend
+        res.json({ status: "success", authority: authorityResults[0] });
+      }
+    );
+  });
+});
+
+// Endpoint to get driver info by driver_nid
+app.get("/api/drivers/:driver_nid/name", (req, res) => {
+  const driverNid = req.params.driver_nid;
+
+  console.log(driverNid);
+
+  // Query to retrieve driver info based on driver_nid
+  const sql = "SELECT * FROM driver WHERE driver_nid = ?";
+
+
+  db.query(sql, [driverNid], (error, results) => {
+    if (error) {
+      console.error("Error executing query: ", error);
+      res.status(500).send("Internal Server Error");
+    } else {
+      if (results.length > 0) {
+
+        console.log(results[0]);
+        // Driver found
+        return res.json(results[0]);
+      } else {
+        // Driver not found
+        res.status(404).send("Driver not found");
+      }
+    }
+  });
+});
+
+
+// Endpoint to get driver info by driver_nid
+app.get("/api/owners/:owner_nid/name", (req, res) => {
+  const driverNid = req.params.owner_nid;
+
+  console.log(driverNid);
+  
+  // Query to retrieve driver info based on owner_nid
+  const sql = "SELECT * FROM owner WHERE owner_nid = ?";
+
+
+  db.query(sql, [driverNid], (error, results) => {
+    if (error) {
+      console.error("Error executing query: ", error);
+      res.status(500).send("Internal Server Error");
+    } else {
+      if (results.length > 0) {
+
+        console.log(results[0]);
+        // Driver found
+        return res.json(results[0]);
+      } else {
+        // Driver not found
+        res.status(404).send("Driver not found");
+      }
+    }
+  });
+});
 
 const PORT = 3001;
 
