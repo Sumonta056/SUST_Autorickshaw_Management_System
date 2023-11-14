@@ -1712,13 +1712,6 @@ app.get("/api/permittedAutorickshawsForSchedule", (req, res) => {
       "        WHERE autorickshaw_schedule.schedule_id = ? " +
       "        AND autorickshaw_schedule.autorickshaw_number = autorickshaw.autorickshaw_number" +
       "    )" +
-      "    OR" +
-      "    EXISTS (" +
-      "        SELECT * FROM autorickshaw_schedule " +
-      "        WHERE autorickshaw_schedule.schedule_id = ? " +
-      "        AND autorickshaw_schedule.autorickshaw_number = autorickshaw.autorickshaw_number " +
-      "        AND autorickshaw_schedule.autorickshaw_status = 0" +
-      "    )" +
       ")";
 
 
