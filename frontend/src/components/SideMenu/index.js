@@ -196,6 +196,16 @@ function DriverMenu() {
         <span className="CustomLabel">শিডিউল তৈরি করুন</span>
       </button>
 
+      <button
+        className={`DriverMenuItem ${
+          selectedKey === "/inventory" ? "DriverMenuItemSelected" : ""
+        }`}
+        onClick={() => navigate("/scheduleWatch")}
+      >
+        <EditOutlined className="icon" />{" "}
+        <span className="CustomLabel">শিডিউল দেখুন</span>
+      </button>
+
       <div className="unauthorized">
         <CaretRightOutlined className="icons" />
         অর্থ ব্যবস্থাপনা

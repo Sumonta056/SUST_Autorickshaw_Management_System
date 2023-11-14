@@ -33,35 +33,25 @@ function Owner() {
     navigate(`/editAutorickshaw/${record.id}`);
   };
 
-  // Define a function to handle the "Delete" button click
   const handleDelete = (record) => {
-    // Implement the delete functionality here
-    const autorickshawNID = record.id;
-
-    // Assuming you are using Axios for API requests, send a DELETE request to the backend
+    const autorickshawNID = record.id; // Ensure that `id` is the identifier in the dataSource
+  
     axios
       .delete(`http://localhost:3001/delete/autorickshaw/${autorickshawNID}`)
       .then((response) => {
-        // Handle successful deletion (e.g., show a success message, update the data source, etc.)
-        console.log(`Owner with NID ${autorickshawNID} deleted successfully.`);
-
-        alert("আপনি সফলভাবে অটোরিকশার তথ্য ডিলিট করেছেন");
-        // You may want to update the data source after deletion to reflect the changes
-        // Here, you can filter out the deleted autorickshaw from the dataSource state
+        console.log(`Autorickshaw with ID ${autorickshawNID} deleted successfully.`);
+        alert("আপনি সফলভাবে অটোরিকশার তথ্য ডিলিট করেছেন");
+  
+        // Update the dataSource to reflect the deletion
         setDataSource((prevDataSource) =>
-          prevDataSource.filter(
-            (item) => item.autorickshaw_nid !== autorickshawNID
-          )
+          prevDataSource.filter((item) => item.id !== autorickshawNID)
         );
       })
       .catch((error) => {
-        // Handle any errors that occur during deletion (e.g., show an error message)
-        console.error(
-          `Error deleting autorickshaw with NID ${autorickshawNID}: `,
-          error
-        );
+        console.error(`Error deleting autorickshaw with ID ${autorickshawNID}: `, error);
       });
   };
+  
 
   const columns = [
     {
