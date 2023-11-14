@@ -4,7 +4,7 @@ import SideMenu from "../../components/SideMenu";
 import "./index.css";
 import { CircularProgressbar } from "react-circular-progressbar";
 import "react-circular-progressbar/dist/styles.css";
-import { Table, Button } from "antd";
+import { Table} from "antd";
 import { UserOutlined } from "@ant-design/icons";
 
 function Dashboard() {
@@ -53,6 +53,20 @@ function Dashboard() {
     ownerData();
     autorickshawData();
   });
+
+  useEffect(() => {
+    setLoading(true);
+    fetch("http://localhost:3001/api/permission")
+      .then((response) => response.json())
+      .then((data) => {
+        setDataSourcee(data);
+        setLoading(false);
+      })
+      .catch((error) => {
+        console.error("Error fetching driver data: ", error);
+        setLoading(false);
+      });
+  }, []);
 
 
   const columns = [

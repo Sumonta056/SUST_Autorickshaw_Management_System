@@ -1113,7 +1113,7 @@ app.put("/PermitAutorickshaw/:id", (req, res) => {
 
 // Define a route to get the total number of drivers
 app.get("/api/totalDrivers", (req, res) => {
-  db.query("SELECT COUNT(*) as total FROM driver", (error, results) => {
+  db.query("SELECT COUNT(*) as total FROM driver WHERE driver_status = 1", (error, results) => {
     if (error) {
       console.error("Error querying MySQL: " + error);
       res.status(500).json({ error: "Internal Server Error" });
@@ -1126,7 +1126,7 @@ app.get("/api/totalDrivers", (req, res) => {
 
 // Define a route to get the total number of drivers
 app.get("/api/totalOwners", (req, res) => {
-  db.query("SELECT COUNT(*) as total FROM owner", (error, results) => {
+  db.query("SELECT COUNT(*) as total FROM owner WHERE owner_status = 1", (error, results) => {
     if (error) {
       console.error("Error querying MySQL: " + error);
       res.status(500).json({ error: "Internal Server Error" });
@@ -1139,7 +1139,7 @@ app.get("/api/totalOwners", (req, res) => {
 
 // Define a route to get the total number of drivers
 app.get("/api/totalautorickshaws", (req, res) => {
-  db.query("SELECT COUNT(*) as total FROM autorickshaw", (error, results) => {
+  db.query("SELECT COUNT(*) as total FROM autorickshaw WHERE autorickshaw_status = 1", (error, results) => {
     if (error) {
       console.error("Error querying MySQL: " + error);
       res.status(500).json({ error: "Internal Server Error" });
@@ -1489,7 +1489,7 @@ app.get("/api/authorityNID", (req, res) => {
 
 // Create a GET endpoint to retrieve all authority information
 app.get("/api/ManagerNID", (req, res) => {
-  const query = "SELECT * FROM manager";
+  const query = "SELECT * FROM manager WHERE manager_status = 1";
 
   db.query(query, (err, results) => {
     if (err) {
@@ -1799,6 +1799,22 @@ app.get("/api/owners/:owner_nid/name", (req, res) => {
         // Driver not found
         res.status(404).send("Driver not found");
       }
+    }
+  });
+});
+
+
+// Create a GET endpoint to retrieve all authority information
+app.get("/api/permission", (req, res) => {
+  const query = "SELECT * FROM permit";
+
+  db.query(query, (err, results) => {
+    if (err) {
+      console.error("Error executing SQL query: " + err);
+      res.status(500).json({ error: "Internal Server Error" });
+    } else {
+      // Send the retrieved authority data as a JSON response
+      res.json(results);
     }
   });
 });
