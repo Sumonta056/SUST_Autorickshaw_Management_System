@@ -79,10 +79,10 @@ function AutorickshawRegistration() {
               alert("উক্ত ইঞ্জিন নাম্বার পূর্বে ব্যবহৃত হয়েছে");
             }  else if (res.data === "vehicle_registration_number_exists") {
               alert("উক্ত নিবন্ধন নাম্বার পূর্বে ব্যবহৃত হয়েছে");
-            } else if (res.data === "owner_not_verified") {
+            } else if (res.data === "owner_status_not_1") {
               alert("উক্ত মালিককে অনুমোদন দেয়া হয় নি");
             }
-            else if (res.data === "manager_not_verified") {
+            else if (res.data === "driver_status_not_1") {
               alert("উক্ত ড্রাইভারকে অনুমোদন দেয়া হয় নি");
             }else if (res.data === "driver_nid_exists_in_autorickshaw") {
               alert("একই ড্রাইভারের অধীনে একাধিক অটোরিকশা নিবন্ধন সম্ভব নয়");

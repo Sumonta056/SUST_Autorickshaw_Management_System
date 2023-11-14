@@ -117,25 +117,34 @@ function Schedule() {
             (item) => item.autorickshaw_number
           ); // Extract all autorickshaw numbers
           console.log(autorickshawNumbers);
-          const itemsWithAutorickshawNumbers = [
-            ...autorickshawNumbers.map((number, index) => ({
-              title: `Autorickshaw Number ${number}`,
-              description: `This is a description for Autorickshaw ${number}.`,
-            })),
-            ...steps,
-          ];
-
+  
+          const itemsWithAutorickshawNumbers = autorickshawNumbers.map(
+            (number, index) => {
+              const autorickshawData = data.data.find((item) => item.autorickshaw_number === number);
+              if (autorickshawData) {
+                const formattedDate = new Date(schedule.schedule_date).toLocaleDateString();
+                const formattedTime = new Date(autorickshawData.autorickshaw_schedule_time).toLocaleTimeString();
+          
+                return {
+                  title: `${number} নং অটোরিকশা`,
+                  description: ` তারিখ: ${formattedDate}, সময়: ${formattedTime}`,
+                };
+              } 
+            }
+          );
+          
+          
           // Display the autorickshaw numbers in a list
           Modal.info({
-            title: `Round Details`,
+            title: `রাউন্ড ডিটেইলস`,
             content: (
               <div>
                 <Space size={[0, 10]} wrap>
-                  <Tag color="#f50">{`Date : ${schedule.schedule_date}`}</Tag>
-                  <Tag color="#2db7f5">{`Place : ${schedule.schedule_place}`}</Tag>
-                  <Tag color="#87d068">{`Round No : ${schedule.schedule_round}`}</Tag>
+                  <Tag color="#f50">{`তারিখ : ${schedule.schedule_date}`}</Tag>
+                  <Tag color="#2db7f5">{`গন্তব্য : ${schedule.schedule_place}`}</Tag>
+                  <Tag color="#87d06f">{`রাউন্ড নং : ${schedule.schedule_round}`}</Tag>
                 </Space>
-
+  
                 <Steps
                   progressDot
                   current={20}
@@ -167,7 +176,8 @@ function Schedule() {
         // You can display an error message or take appropriate action here
       });
   };
-
+  
+  
   return (
     <div className="App">
       <AppHeader />

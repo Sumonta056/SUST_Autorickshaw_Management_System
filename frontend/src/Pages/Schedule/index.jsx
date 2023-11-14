@@ -195,7 +195,6 @@ function Schedule() {
                 <p>
                   তারিখ: {response.data.latestScheduleDetails.schedule_date}
                 </p>
-                <p>সময়: {response.data.latestScheduleDetails.schedule_time}</p>
                 <p>
                   গন্তব্য: {response.data.latestScheduleDetails.schedule_place}
                 </p>
