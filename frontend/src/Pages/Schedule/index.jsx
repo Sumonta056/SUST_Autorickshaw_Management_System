@@ -11,7 +11,6 @@ import styles from "./schedule.module.css"; //
 import {
   EditOutlined,
   CalendarOutlined,
-  CarOutlined,
   EyeOutlined,
   HourglassOutlined,
   FieldTimeOutlined,
@@ -157,7 +156,8 @@ function Schedule() {
       .then((response) => response.json())
       .then((data) => {
         console.log(data); 
-        setDataSource3(data.schedule); 
+        const latestSchedule = data.schedule[0];
+setDataSource3([latestSchedule]);
         setAutorickshaws(data.schedule); 
         setLoading3(false);
       })
@@ -166,92 +166,6 @@ function Schedule() {
         setLoading3(false);
       });
   }, []);
-
-  const handleDelete = (record) => {
-    // Display a confirmation modal before deleting
-    Modal.confirm({
-      title: "Confirm Deletion",
-      content: "আপনি কি নিশ্চিত যে আপনি এই সময়সূচি মুছতে চান?",
-      onOk: () => {
-        console.log(record);
-        axios
-          .delete(`http://localhost:3001/deleteschedule/${record.id}`)
-          .then((res) => {
-            if (res.data === "success") {
-              Modal.success({
-                title: "Successful !",
-                content: "আপনি সফলভাবে একটি সময়সূচি মুছে ফেলেছেন",
-                onOk: () => {
-                  ScheduleData();
-                },
-              }); // Refresh the schedule data after deletion
-            } else {
-              alert("Failed to delete the schedule. Please try again.");
-            }
-          })
-          .catch((err) => {
-            alert(
-              "An error occurred while deleting the schedule. Please try again."
-            );
-          });
-      },
-    });
-  };
-
-  const columns = [
-    {
-      title: "তারিখ",
-      dataIndex: "combined_info",
-      render: (text, record, index) =>
-        index === dataSource.findIndex((item) => item.id === record.id) ? (
-          <span>{record.schedule_date}</span>
-        ) : null,
-    },
-    {
-      title: "গন্তব্য",
-      dataIndex: "combined_info",
-      render: (text, record, index) =>
-        index === dataSource.findIndex((item) => item.id === record.id) ? (
-          <span>{record.schedule_place}</span>
-        ) : null,
-    },
-    {
-      title: "রাউন্ড",
-      dataIndex: "combined_info",
-      render: (text, record, index) =>
-        index === dataSource.findIndex((item) => item.id === record.id) ? (
-          <span>{record.schedule_round}</span>
-        ) : null,
-    },
-    {
-      title: "সময়",
-      dataIndex: "combined_info",
-      render: (text, record, index) =>
-        index === dataSource.findIndex((item) => item.id === record.id) ? (
-          <span>{record.schedule_time}</span>
-        ) : null,
-    },
-    {
-      title: "কার্যক্রম",
-      render: (text, record, index) => {
-        if (index === 0) {
-          return (
-            <div>
-              <Button type="primary" onClick={() => handleViewAutorickshaws(record)} style={{ marginRight: '8px' }} >
-                দেখুন                </Button>
-              <Button type="primary" danger onClick={() => handleDelete(record)}>
-                মুছুন
-              </Button>
-            </div>
-          );
-        }
-        return null;
-      },
-    },
-    
-    
-  ];
-  
 
 
   const handleAddToLatestSchedule = (record) => {
@@ -306,78 +220,45 @@ function Schedule() {
       });
   };
   
-    // Define a state variable to track the currently open schedule ID
-const [openScheduleID, setOpenScheduleID] = useState(null);
-
-const handleViewAutorickshaws = (schedule) => {
-    // Fetch autorickshaw numbers from the API using the schedule ID
-    fetch(`http://localhost:3001/api/autorickshawSchedule/${schedule.id}`)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-        if (Array.isArray(data.data) && data.data.length > 0) {
-          const autorickshawNumbers = data.data.map((item) => item.autorickshaw_number); // Extract all autorickshaw numbers
-          console.log(autorickshawNumbers);
+  const handleStatus = async (record) => {
+    const { autorickshaw_number, id } = record;
   
-          // Display the autorickshaw numbers in a list
-          Modal.info({
-            title: `${schedule.schedule_date} - ${schedule.schedule_place} - ${schedule.schedule_round}`,
-            content: (
-              <div>
-                <p>অটোরিক্শা নাম্বারঃ</p>
-                <ul>
-                  {autorickshawNumbers.map((number, index) => (
-                    <li key={index}>{number}</li> 
-                  ))}
-                </ul>
-              </div>
-            ),
-            width: "60%",
-          });
-        } else {
-          // Handle the case when data is not in the expected format or is empty
-          console.error("No autorickshaw data found or it's not in the expected format.");
-          // You can display an error message or take appropriate action here
-        }
-      })
-      .catch((error) => {
-        // Handle any errors that occurred during fetching autorickshaw data
-        console.error("Error fetching autorickshaw data: ", error);
-        // You can display an error message or take appropriate action here
+    try {
+      const response = await axios.post("http://localhost:3001/handlestatus", {
+        autorickshaw_number,
+        schedule_id: id,
+        autorickshaw_status: 1, // Set the desired status value
       });
+  
+      if (response.data.status === "success") {
+        Modal.success({
+          title: "Success",
+          content: (
+            <div>
+              <p>{` ${autorickshaw_number} নং অটোরিকশাটি অনুপস্থিত`}</p>
+            </div>
+          ),
+          onOk: () => {
+            window.location.reload();
+          },
+        });
+      } else {
+        console.log( autorickshaw_number + id);
+        Modal.error({
+          title: "Error",
+          content: "Failed to update autorickshaw status.",
+        });
+        
+      }
+    } catch (error) {
+      console.error("Error updating autorickshaw status:", error);
+      Modal.error({
+        title: "Error",
+        content: "An error occurred while updating autorickshaw status.",
+      });
+    }
   };
   
-  
-  
-  
-  
-  
-
-
-  const AutorickshawsTable = ({ autorickshaws, scheduleId }) => {
-    const autorickshawColumns = [
-      {
-        title: "অটোরিক্শা নাম্বার",
-        dataIndex: "autorickshaw_number",
-      },
-      {
-        title: "কার্যক্রম",
-        render: (text, record) => (
-          <Button type="primary" danger onClick={() => handleDelete(record)}>
-            মুছুন
-          </Button>
-        ),
-      },
-    ];
-
-    return (
-      <Table
-        columns={autorickshawColumns}
-        dataSource={autorickshaws}
-        pagination={false}
-      />
-    );
-  };
 
   const columns2 = [
     {
@@ -391,7 +272,7 @@ const handleViewAutorickshaws = (schedule) => {
          <Button type="primary" onClick={() => handleAddToLatestSchedule(record)}>
   <span>এড করুন</span>
 </Button>
-         <Button type="primary" danger >
+         <Button type="primary" danger onClick={() => handleStatus(record)}>
             <span>অনুপস্থিত</span>
           </Button>
         </div>
@@ -544,7 +425,7 @@ const handleViewAutorickshaws = (schedule) => {
             <div className="PageFooter">
               <h1 className="PageHeader">
                 <EyeOutlined className="icon" />
-                অটোরিকশার তালিকা
+                অটোরিকশার তালিকা 
               </h1>
 
               <Table
