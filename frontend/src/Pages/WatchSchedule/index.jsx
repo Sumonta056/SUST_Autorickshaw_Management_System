@@ -174,7 +174,16 @@ const handleViewAutorickshaws = (schedule) => {
             width: "60%",
           });
         } else {
-          // Handle the case when data is not in the expected format or is empty
+          Modal.info({
+            title: `${schedule.schedule_date} - ${schedule.schedule_place} - ${schedule.schedule_round}`,
+            content: (
+              <div>
+                <p>কোনো অটোরিকশা যুক্ত হয় নি</p>
+                
+              </div>
+            ),
+            width: "60%",
+          });
           console.error("No autorickshaw data found or it's not in the expected format.");
           // You can display an error message or take appropriate action here
         }
