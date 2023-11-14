@@ -18,13 +18,13 @@ import {
 } from "@ant-design/icons";
 
 function Schedule() {
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const [loading2, setLoading2] = useState(false);
   const [loading3, setLoading3] = useState(false);
-  const [dataSource, setDataSource] = useState([]);
+  // const [dataSource, setDataSource] = useState([]);
   const [dataSource2, setDataSource2] = useState([]);
   const [dataSource3, setDataSource3] = useState([]);
-  const [autorickshaws, setAutorickshaws] = useState([]);
+  // const [autorickshaws, setAutorickshaws] = useState([]);
   // const [selectedSchedule, setSelectedSchedule] = useState(null);
 
   // const navigate = useNavigate();
@@ -52,59 +52,63 @@ function Schedule() {
     });
   };
 
-  function ScheduleData() {
-    setLoading(true);
-    fetch("http://localhost:3001/api/autorickshawSchedule")
-      .then((response) => response.json())
-      .then((data) => {
-        const sortedData = data.users.sort((a, b) => {
-          const dateA = new Date(a.schedule_date);
-          const dateB = new Date(b.schedule_date);
-          return dateB - dateA; 
-        });        
-        setDataSource(sortedData);
-        setLoading(false);
-      })
-      .catch((error) => {
-        console.error("Error fetching Schedule data: ", error);
-        setLoading(false);
-      });
-  }
-  
+  // function ScheduleData() {
+  //   // setLoading(true);
+  //   fetch("http://localhost:3001/api/autorickshawSchedule")
+  //     .then((response) => response.json())
+  //     .then((data) => {
+  //       const sortedData = data.users.sort((a, b) => {
+  //         const dateA = new Date(a.schedule_date);
+  //         const dateB = new Date(b.schedule_date);
+  //         return dateB - dateA;
+  //       });
+  //       // setDataSource(sortedData);
+  //       // setLoading(false);
+  //     })
+  //     .catch((error) => {
+  //       console.error("Error fetching Schedule data: ", error);
+  //       setLoading(false);
+  //     });
+  // }
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-  
+
     console.log(formData);
-  
+
     // Wait until the errors are set
     const validationErrors = scheduleRegistrationValidation(formData);
     setErrors(validationErrors);
-  
+
     console.log(validationErrors);
-  
+
     // Use async/await to ensure state is updated
-  
+
     // Check for specific error conditions
     if (
       validationErrors.schedule_date === "" &&
       validationErrors.schedule_round === "" &&
       validationErrors.schedule_place === "" &&
-      validationErrors.schedule_time === "" 
+      validationErrors.schedule_time === ""
     ) {
       try {
         console.log("here");
-        const response = await axios.post(`http://localhost:3001/updateschedule`, formData);
-  
-        if (response.status === 200) { // Check if the response status is in the 200 range
+        const response = await axios.post(
+          `http://localhost:3001/updateschedule`,
+          formData
+        );
+
+        if (response.status === 200) {
+          // Check if the response status is in the 200 range
           // Check the response data or message in a flexible way
           if (response.data === "success") {
             Modal.success({
               title: "Successful !",
               content: "আপনি সফলভাবে একটি শিডিউল তৈরি করেছেন",
               onOk: () => {
-                ScheduleData();
-                window.location.reload();
+                // ScheduleData();
+                fetchDataForSchedule(setLoading2, setDataSource2);
+                fetchDataForLatestSchedule(setLoading3, setDataSource3);
               },
             });
           } else {
@@ -128,108 +132,131 @@ function Schedule() {
       }
     }
   };
-  
 
-  useEffect(() => {
-    ScheduleData();
-  }, []);
+  // useEffect(() => {
+  //   ScheduleData();
+  // }, []);
 
-  useEffect(() => {
-    setLoading2(true);
+  const fetchDataForSchedule = (setLoading, setDataSource) => {
+    setLoading(true);
     fetch("http://localhost:3001/api/permittedAutorickshawsForSchedule")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data); 
-        setDataSource2(data.availableAutorickshaws); 
-        setAutorickshaws(data.availableAutorickshaws); 
-        setLoading2(false);
+        console.log(data);
+        setDataSource(data.availableAutorickshaws);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching Schedule data: ", error);
-        setLoading2(false);
+        setLoading(false);
       });
-  }, []);
-  
-  useEffect(() => {
-    setLoading3(true);
+  };
+
+  const fetchDataForLatestSchedule = (setLoading, setDataSource) => {
+    setLoading(true);
     fetch("http://localhost:3001/api/latestSchedule")
       .then((response) => response.json())
       .then((data) => {
-        console.log(data); 
+        console.log(data);
         const latestSchedule = data.schedule[0];
-setDataSource3([latestSchedule]);
-        setAutorickshaws(data.schedule); 
-        setLoading3(false);
+        setDataSource([latestSchedule]);
+        setLoading(false);
       })
       .catch((error) => {
         console.error("Error fetching Schedule data: ", error);
-        setLoading3(false);
+        setLoading(false);
       });
-  }, []);
+  };
 
+  useEffect(() => {
+    fetchDataForSchedule(setLoading2, setDataSource2);
+    fetchDataForLatestSchedule(setLoading3, setDataSource3);
+  }, []);
 
   const handleAddToLatestSchedule = (record) => {
     const autorickshawNumber = record.autorickshaw_number;
-  
-    axios.post('http://localhost:3001/associateAutorickshawToLatestSchedule', { autorickshaw_number: autorickshawNumber })
-      .then(response => {
-        if (response.data.status === 'success') {
+
+    axios
+      .post("http://localhost:3001/associateAutorickshawToLatestSchedule", {
+        autorickshaw_number: autorickshawNumber,
+      })
+      .then((response) => {
+        if (response.data.status === "success") {
           // Handle success
           Modal.success({
-            title: 'Success',
-            content:<div>
-            <p>{autorickshawNumber} নং অটোরিকশাটি {response.data.latestScheduleDetails.schedule_round} নং রাউন্ডে যুক্ত করা হয়েছে </p>
-            <p>তারিখ: {response.data.latestScheduleDetails.schedule_date}</p>
-            <p>সময়: {response.data.latestScheduleDetails.schedule_time}</p>
-            <p>গন্তব্য: {response.data.latestScheduleDetails.schedule_place}</p>
-          </div>,
+            title: "Success",
+            content: (
+              <div>
+                <p>
+                  {autorickshawNumber} নং অটোরিকশাটি{" "}
+                  {response.data.latestScheduleDetails.schedule_round} নং
+                  রাউন্ডে যুক্ত করা হয়েছে{" "}
+                </p>
+                <p>
+                  তারিখ: {response.data.latestScheduleDetails.schedule_date}
+                </p>
+                <p>সময়: {response.data.latestScheduleDetails.schedule_time}</p>
+                <p>
+                  গন্তব্য: {response.data.latestScheduleDetails.schedule_place}
+                </p>
+              </div>
+            ),
             onOk: () => {
-              console.log('Autorickshaw added to latest schedule!');
-              window.location.reload();
+              console.log("Autorickshaw added to latest schedule!");
+              fetchDataForSchedule(setLoading2, setDataSource2);
+              fetchDataForLatestSchedule(setLoading3, setDataSource3);
             },
           });
-        } else if (response.data.error === 'Duplicate autorickshaw schedule entry.') {
+        } else if (
+          response.data.error === "Duplicate autorickshaw schedule entry."
+        ) {
           // Handle duplicate entry error
           Modal.error({
-            title: 'Error',
-            content: 'Duplicate entry: Autorickshaw already added to this schedule.',
+            title: "Error",
+            content:
+              "Duplicate entry: Autorickshaw already added to this schedule.",
             onOk: () => {
-              console.error('Duplicate entry: Autorickshaw already added to this schedule.');
+              console.error(
+                "Duplicate entry: Autorickshaw already added to this schedule."
+              );
             },
           });
         } else {
           // Handle other errors
           Modal.error({
-            title: 'Error',
-            content: 'Failed to add autorickshaw to the latest schedule.',
+            title: "Error",
+            content: "Failed to add autorickshaw to the latest schedule.",
             onOk: () => {
-              console.error('Failed to add autorickshaw to the latest schedule.');
+              console.error(
+                "Failed to add autorickshaw to the latest schedule."
+              );
             },
           });
         }
       })
-      .catch(error => {
+      .catch((error) => {
         // Handle API call error
         Modal.error({
-          title: 'Error',
-          content: 'An error occurred while adding autorickshaw to the latest schedule.',
+          title: "Error",
+          content:
+            "An error occurred while adding autorickshaw to the latest schedule.",
           onOk: () => {
-            console.error('Error:', error);
+            console.error("Error:", error);
           },
         });
       });
   };
-  
+
   const handleStatus = async (record) => {
     const { autorickshaw_number, id } = record;
-  
+
     try {
       const response = await axios.post("http://localhost:3001/handlestatus", {
         autorickshaw_number,
         schedule_id: id,
         autorickshaw_status: 1, // Set the desired status value
       });
-  
+
       if (response.data.status === "success") {
         Modal.success({
           title: "Success",
@@ -239,16 +266,16 @@ setDataSource3([latestSchedule]);
             </div>
           ),
           onOk: () => {
-            window.location.reload();
+            fetchDataForSchedule(setLoading2, setDataSource2);
+            fetchDataForLatestSchedule(setLoading3, setDataSource3);
           },
         });
       } else {
-        console.log( autorickshaw_number + id);
+        console.log(autorickshaw_number + id);
         Modal.error({
           title: "Error",
           content: "Failed to update autorickshaw status.",
         });
-        
       }
     } catch (error) {
       console.error("Error updating autorickshaw status:", error);
@@ -258,7 +285,6 @@ setDataSource3([latestSchedule]);
       });
     }
   };
-  
 
   const columns2 = [
     {
@@ -269,10 +295,13 @@ setDataSource3([latestSchedule]);
       title: "কার্যক্রম",
       render: (text, record) => (
         <div className="ScheduleButton">
-         <Button type="primary" onClick={() => handleAddToLatestSchedule(record)}>
-  <span>এড করুন</span>
-</Button>
-         <Button type="primary" danger onClick={() => handleStatus(record)}>
+          <Button
+            type="primary"
+            onClick={() => handleAddToLatestSchedule(record)}
+          >
+            <span>এড করুন</span>
+          </Button>
+          <Button type="primary" danger onClick={() => handleStatus(record)}>
             <span>অনুপস্থিত</span>
           </Button>
         </div>
@@ -284,7 +313,6 @@ setDataSource3([latestSchedule]);
     {
       title: "তারিখ",
       dataIndex: "schedule_date",
-     
     },
     {
       title: "রাউন্ড",
@@ -295,11 +323,10 @@ setDataSource3([latestSchedule]);
       dataIndex: "schedule_place",
     },
     {
-      title: "সময়",
+      title: "রাউন্ড শুরুর সময়",
       dataIndex: "schedule_time",
-      },
+    },
   ];
-  
 
   return (
     <div className="App">
@@ -322,7 +349,7 @@ setDataSource3([latestSchedule]);
                   className={styles.scheduleInput}
                   type="text"
                   id="schedule_date"
-                  name="schedule_date" 
+                  name="schedule_date"
                   placeholder="তারিখ প্রদান করুন"
                   onFocus={(e) => (e.target.type = "date")}
                   onBlur={(e) => (e.target.type = "text")}
@@ -356,40 +383,42 @@ setDataSource3([latestSchedule]);
                 )}
               </div>
               <div className={styles.scheduleInfield}>
-  <p className={styles.scheduleParagraph}>
-    <HourglassOutlined className={styles.iconShow} />
-    গন্তব্য{" "}
-  </p>
-  <select
-    className={styles.scheduleSelect}
-    id="schedule_place"
-    name="schedule_place"
-    value={formData.schedule_place}
-    onChange={handleInputChange}
-  >
-    <option key="default" value="">গন্তব্য নির্বাচন করুন</option>
-    <option value="E Building">E Building</option>
-    <option value="Boys Hall">Boys Hall</option>
-    <option value="Ladies Hall">Ladies Hall</option>
-  </select>
-  {errors.schedule_place && (
-    <span className={styles.scheduleError}>
-      {errors.schedule_place}
-    </span>
-  )}
-</div>
+                <p className={styles.scheduleParagraph}>
+                  <HourglassOutlined className={styles.iconShow} />
+                  গন্তব্য{" "}
+                </p>
+                <select
+                  className={styles.scheduleSelect}
+                  id="schedule_place"
+                  name="schedule_place"
+                  value={formData.schedule_place}
+                  onChange={handleInputChange}
+                >
+                  <option key="default" value="">
+                    গন্তব্য নির্বাচন করুন
+                  </option>
+                  <option value="E Building">E Building</option>
+                  <option value="Boys Hall">Boys Hall</option>
+                  <option value="Ladies Hall">Ladies Hall</option>
+                </select>
+                {errors.schedule_place && (
+                  <span className={styles.scheduleError}>
+                    {errors.schedule_place}
+                  </span>
+                )}
+              </div>
 
               <div className={styles.scheduleInfield}>
                 <p className={styles.scheduleParagraph}>
                   <FieldTimeOutlined className={styles.iconShow} />
-                  সময়
+                  রাউন্ড শুরুর সময়
                 </p>
                 <input
                   className={styles.scheduleInput}
                   type="text"
                   id="schedule_time"
                   name="schedule_time"
-                  placeholder="প্রস্থান সময় নির্বাচন করুন"
+                  placeholder="রাউন্ড শুরুর সময় নির্বাচন করুন"
                   onFocus={(e) => (e.target.type = "time")}
                   onBlur={(e) => (e.target.type = "text")}
                   value={formData.schedule_time}
@@ -407,25 +436,25 @@ setDataSource3([latestSchedule]);
             </form>
           </div>
           <div className="PageContentQ">
-            <div className="Pagecenter">
+            <div className="Pagecenter3">
               <h1 className="PageHeader">
                 <EyeOutlined className="icon" />
-               সর্বশেষ শিডিউল 
+                বর্তমান রাউন্ড
               </h1>
-            
+
               <Table
                 className="TableSchedule"
                 loading={loading3}
                 columns={columns3} // Use the modified columns configuration
                 dataSource={dataSource3}
-                pagination={false} 
+                pagination={false}
               ></Table>
             </div>
 
-            <div className="PageFooter">
+            <div className="PageFooter3">
               <h1 className="PageHeader">
                 <EyeOutlined className="icon" />
-                অটোরিকশার তালিকা 
+                অটোরিকশার তালিকা
               </h1>
 
               <Table
@@ -434,7 +463,7 @@ setDataSource3([latestSchedule]);
                 columns={columns2} // Use the modified columns configuration
                 dataSource={dataSource2}
                 pagination={{
-                  pageSize: 4,
+                  pageSize: 10,
                 }}
               ></Table>
             </div>

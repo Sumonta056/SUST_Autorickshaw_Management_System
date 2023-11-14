@@ -13,6 +13,7 @@ import {
   HistoryOutlined,
   UserSwitchOutlined,
   ProfileOutlined,
+  EyeOutlined,
   SecurityScanOutlined,
 } from "@ant-design/icons";
 import "./index.css"; // Import your custom CSS here
@@ -202,7 +203,7 @@ function DriverMenu() {
         }`}
         onClick={() => navigate("/scheduleWatch")}
       >
-        <EditOutlined className="icon" />{" "}
+        <EyeOutlined className="icon" />{" "}
         <span className="CustomLabel">শিডিউল দেখুন</span>
       </button>
 

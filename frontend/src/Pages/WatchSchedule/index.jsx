@@ -3,32 +3,15 @@ import { useEffect, useState } from "react";
 import AppHeader from "../../components/AppHeader";
 import SideMenu from "../../components/SideMenu";
 import "./index.css";
-// import { useNavigate } from "react-router-dom";
 import axios from "axios";
 
-import styles from "./schedule.module.css"; //
+import { Steps, Space, Tag } from "antd";
 
-import {
-  EditOutlined,
-  CalendarOutlined,
-  CarOutlined,
-  EyeOutlined,
-  HourglassOutlined,
-  FieldTimeOutlined,
-  NotificationOutlined,
-} from "@ant-design/icons";
+import { EyeOutlined } from "@ant-design/icons";
 
 function Schedule() {
   const [loading, setLoading] = useState(false);
-  const [loading2, setLoading2] = useState(false);
-  const [loading3, setLoading3] = useState(false);
   const [dataSource, setDataSource] = useState([]);
-  const [dataSource2, setDataSource2] = useState([]);
-  const [dataSource3, setDataSource3] = useState([]);
-  const [autorickshaws, setAutorickshaws] = useState([]);
-  // const [selectedSchedule, setSelectedSchedule] = useState(null);
-
-
 
   function ScheduleData() {
     setLoading(true);
@@ -36,10 +19,11 @@ function Schedule() {
       .then((response) => response.json())
       .then((data) => {
         const sortedData = data.users.sort((a, b) => {
-          const dateA = new Date(a.schedule_date);
-          const dateB = new Date(b.schedule_date);
-          return dateB - dateA; 
-        });        
+          const dateA = new Date(`${a.schedule_date} ${a.schedule_time}`);
+          const dateB = new Date(`${b.schedule_date} ${b.schedule_time}`);
+          return dateB - dateA;
+        });
+        console.log(sortedData);
         setDataSource(sortedData);
         setLoading(false);
       })
@@ -48,15 +32,10 @@ function Schedule() {
         setLoading(false);
       });
   }
-  
-
-
-  
 
   useEffect(() => {
     ScheduleData();
   }, []);
-
 
   const handleDelete = (record) => {
     // Display a confirmation modal before deleting
@@ -92,86 +71,80 @@ function Schedule() {
   const columns = [
     {
       title: "তারিখ",
-      dataIndex: "combined_info",
-      render: (text, record, index) =>
-        index === dataSource.findIndex((item) => item.id === record.id) ? (
-          <span>{record.schedule_date}</span>
-        ) : null,
+      dataIndex: "schedule_date",
     },
     {
       title: "গন্তব্য",
-      dataIndex: "combined_info",
-      render: (text, record, index) =>
-        index === dataSource.findIndex((item) => item.id === record.id) ? (
-          <span>{record.schedule_place}</span>
-        ) : null,
+      dataIndex: "schedule_place",
     },
     {
       title: "রাউন্ড",
-      dataIndex: "combined_info",
-      render: (text, record, index) =>
-        index === dataSource.findIndex((item) => item.id === record.id) ? (
-          <span>{record.schedule_round}</span>
-        ) : null,
+      dataIndex: "schedule_round",
     },
     {
       title: "সময়",
-      dataIndex: "combined_info",
-      render: (text, record, index) =>
-        index === dataSource.findIndex((item) => item.id === record.id) ? (
-          <span>{record.schedule_time}</span>
-        ) : null,
+      dataIndex: "schedule_time",
     },
     {
       title: "কার্যক্রম",
-      render: (text, record, index) => {
-        if (index === 0) {
-          return (
-            <div>
-              <Button type="primary" onClick={() => handleViewAutorickshaws(record)} style={{ marginRight: '8px' }} >
-                দেখুন                </Button>
-              <Button type="primary" danger onClick={() => handleDelete(record)}>
-                মুছুন
-              </Button>
-            </div>
-          );
-        }
-        return null;
-      },
+      render: (text, record) => (
+        <div>
+          <Button
+            type="primary"
+            onClick={() => handleViewAutorickshaws(record)}
+            style={{ marginRight: "8px" }}
+          >
+            দেখুন{" "}
+          </Button>
+          <Button type="primary" danger onClick={() => handleDelete(record)}>
+            মুছুন
+          </Button>
+        </div>
+      ),
     },
-    
-    
   ];
-  
 
+  const steps = [];
 
-    // Define a state variable to track the currently open schedule ID
-const [openScheduleID, setOpenScheduleID] = useState(null);
-
-const handleViewAutorickshaws = (schedule) => {
+  const handleViewAutorickshaws = (schedule) => {
     // Fetch autorickshaw numbers from the API using the schedule ID
     fetch(`http://localhost:3001/api/autorickshawSchedule/${schedule.id}`)
       .then((response) => response.json())
       .then((data) => {
         console.log(data);
         if (Array.isArray(data.data) && data.data.length > 0) {
-          const autorickshawNumbers = data.data.map((item) => item.autorickshaw_number); // Extract all autorickshaw numbers
+          const autorickshawNumbers = data.data.map(
+            (item) => item.autorickshaw_number
+          ); // Extract all autorickshaw numbers
           console.log(autorickshawNumbers);
-  
+          const itemsWithAutorickshawNumbers = [
+            ...autorickshawNumbers.map((number, index) => ({
+              title: `Autorickshaw Number ${number}`,
+              description: `This is a description for Autorickshaw ${number}.`,
+            })),
+            ...steps,
+          ];
+
           // Display the autorickshaw numbers in a list
           Modal.info({
-            title: `${schedule.schedule_date} - ${schedule.schedule_place} - ${schedule.schedule_round}`,
+            title: `Round Details`,
             content: (
               <div>
-                <p>অটোরিক্শা নাম্বারঃ</p>
-                <ul>
-                  {autorickshawNumbers.map((number, index) => (
-                    <li key={index}>{number}</li> 
-                  ))}
-                </ul>
+                <Space size={[0, 10]} wrap>
+                  <Tag color="#f50">{`Date : ${schedule.schedule_date}`}</Tag>
+                  <Tag color="#2db7f5">{`Place : ${schedule.schedule_place}`}</Tag>
+                  <Tag color="#87d068">{`Round No : ${schedule.schedule_round}`}</Tag>
+                </Space>
+
+                <Steps
+                  progressDot
+                  current={20}
+                  direction="vertical"
+                  items={itemsWithAutorickshawNumbers}
+                  style={{ paddingTop: "20px" }}
+                />
               </div>
             ),
-            width: "60%",
           });
         } else {
           Modal.info({
@@ -179,12 +152,12 @@ const handleViewAutorickshaws = (schedule) => {
             content: (
               <div>
                 <p>কোনো অটোরিকশা যুক্ত হয় নি</p>
-                
               </div>
             ),
-            width: "60%",
           });
-          console.error("No autorickshaw data found or it's not in the expected format.");
+          console.error(
+            "No autorickshaw data found or it's not in the expected format."
+          );
           // You can display an error message or take appropriate action here
         }
       })
@@ -194,13 +167,6 @@ const handleViewAutorickshaws = (schedule) => {
         // You can display an error message or take appropriate action here
       });
   };
-  
-  
-  
-  
-  
-
-  
 
   return (
     <div className="App">
@@ -208,29 +174,20 @@ const handleViewAutorickshaws = (schedule) => {
       <div className="SideMenuAndPageContent">
         <SideMenu></SideMenu>
         <div className="SetPageContent">
-         
-          <div className="PageFooter">
-              
-             
-
-            </div>
-            <div className="PageFooter">
-              
-            </div>
           <div className="PageContentQ">
             <div className="Pagecenter">
               <h1 className="PageHeader">
                 <EyeOutlined className="icon" />
                 শিডিউল দেখুন
               </h1>
-            
+
               <Table
                 className="TableSchedule"
                 loading={loading}
-                columns={columns} 
+                columns={columns}
                 dataSource={dataSource}
                 pagination={{
-                  pageSize: 4,
+                  pageSize: 10,
                 }}
               ></Table>
             </div>

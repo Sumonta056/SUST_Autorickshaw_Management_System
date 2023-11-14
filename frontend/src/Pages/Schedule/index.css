@@ -40,16 +40,24 @@
 
 .PageContentQ {
   width: 100%;
-  padding-left: 15px;
+  padding: 10px 25px;
   display: flex;
   flex-direction: row;
-  justify-content: flex-start;
-  align-items: flex-start;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 
 }
+.Pagecenter3 {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 55%;
+}
 
-.PageFooter {
-  width: 57%;
+.PageFooter3 {
+  width: 45%;
   height: 100%;
 }
 
@@ -170,13 +178,7 @@
 }
 
 
-.Pagecenter {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  width: 90%;
-}
+
 
 
 .PageHeader {
