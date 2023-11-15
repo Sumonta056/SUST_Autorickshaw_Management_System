@@ -286,142 +286,198 @@ app.post("/AutorickshawRegistration", async (req, res) => {
 
   try {
     // Check if the driver's NID exists
-    const driverNidCheckSql =
-      "SELECT * FROM driver WHERE driver_nid = ?";
-    db.query(driverNidCheckSql, [driver_nid], (driverNidCheckErr, driverNidCheckData) => {
-      if (driverNidCheckErr) {
-        console.error("Error checking driver NID:", driverNidCheckErr);
-        return res.json("server_error");
-      }
-
-      // If the driver's NID is not found, return an error message
-      if (driverNidCheckData.length === 0) {
-        console.log("Driver with the specified NID does not exist");
-        return res.json("driver_nid_not_found");
-      }
-
-      // If the driver's status is not 1, return an error message
-      if (driverNidCheckData[0].driver_status !== 1) {
-        console.log("Driver with the specified NID has status not equal to 1");
-        return res.json("driver_status_not_1");
-      }
-
-      // Check if the owner's NID exists
-      const ownerNidCheckSql =
-        "SELECT * FROM owner WHERE owner_nid = ?";
-      db.query(ownerNidCheckSql, [owner_nid], (ownerNidCheckErr, ownerNidCheckData) => {
-        if (ownerNidCheckErr) {
-          console.error("Error checking owner NID:", ownerNidCheckErr);
+    const driverNidCheckSql = "SELECT * FROM driver WHERE driver_nid = ?";
+    db.query(
+      driverNidCheckSql,
+      [driver_nid],
+      (driverNidCheckErr, driverNidCheckData) => {
+        if (driverNidCheckErr) {
+          console.error("Error checking driver NID:", driverNidCheckErr);
           return res.json("server_error");
         }
 
-        // If the owner's NID is not found, return an error message
-        if (ownerNidCheckData.length === 0) {
-          console.log("Owner with the specified NID does not exist");
-          return res.json("owner_nid_not_found");
+        // If the driver's NID is not found, return an error message
+        if (driverNidCheckData.length === 0) {
+          console.log("Driver with the specified NID does not exist");
+          return res.json("driver_nid_not_found");
         }
 
-        // If the owner's status is not 1, return an error message
-        if (ownerNidCheckData[0].owner_status !== 1) {
-          console.log("Owner with the specified NID has status not equal to 1");
-          return res.json("owner_status_not_1");
+        // If the driver's status is not 1, return an error message
+        if (driverNidCheckData[0].driver_status !== 1) {
+          console.log(
+            "Driver with the specified NID has status not equal to 1"
+          );
+          return res.json("driver_status_not_1");
         }
 
-        // Check if the autorickshaw number is unique
-        const autorickshawNumCheckSql =
-          "SELECT * FROM autorickshaw WHERE autorickshaw_number = ?";
-        db.query(autorickshawNumCheckSql, [autorickshaw_number], (numCheckErr, numCheckData) => {
-          if (numCheckErr) {
-            console.error("Error checking autorickshaw number uniqueness:", numCheckErr);
-            return res.json("server_error");
-          }
-
-          // If an autorickshaw with the same number exists, return an error message
-          if (numCheckData.length > 0) {
-            console.log("Autorickshaw with the same number already exists");
-            return res.json("autorickshaw_number_exists");
-          }
-
-          // Check if the chassis number is unique
-          const chassisNumberCheckSql =
-            "SELECT * FROM autorickshaw WHERE chassis_number = ?";
-          db.query(chassisNumberCheckSql, [chassis_number], (chassisCheckErr, chassisCheckData) => {
-            if (chassisCheckErr) {
-              console.error("Error checking chassis number uniqueness:", chassisCheckErr);
+        // Check if the owner's NID exists
+        const ownerNidCheckSql = "SELECT * FROM owner WHERE owner_nid = ?";
+        db.query(
+          ownerNidCheckSql,
+          [owner_nid],
+          (ownerNidCheckErr, ownerNidCheckData) => {
+            if (ownerNidCheckErr) {
+              console.error("Error checking owner NID:", ownerNidCheckErr);
               return res.json("server_error");
             }
 
-            // If an autorickshaw with the same chassis number exists, return an error message
-            if (chassisCheckData.length > 0) {
-              console.log("Autorickshaw with the same chassis number already exists");
-              return res.json("chassis_number_exists");
+            // If the owner's NID is not found, return an error message
+            if (ownerNidCheckData.length === 0) {
+              console.log("Owner with the specified NID does not exist");
+              return res.json("owner_nid_not_found");
             }
 
-            // Check if the engine number is unique
-            const engineNumberCheckSql =
-              "SELECT * FROM autorickshaw WHERE engine_number = ?";
-            db.query(engineNumberCheckSql, [engine_number], (engineCheckErr, engineCheckData) => {
-              if (engineCheckErr) {
-                console.error("Error checking engine number uniqueness:", engineCheckErr);
-                return res.json("server_error");
-              }
+            // If the owner's status is not 1, return an error message
+            if (ownerNidCheckData[0].owner_status !== 1) {
+              console.log(
+                "Owner with the specified NID has status not equal to 1"
+              );
+              return res.json("owner_status_not_1");
+            }
 
-              // If an autorickshaw with the same engine number exists, return an error message
-              if (engineCheckData.length > 0) {
-                console.log("Autorickshaw with the same engine number already exists");
-                return res.json("engine_number_exists");
-              }
-
-              // Check if the vehicle registration number is unique
-              const vehicleRegNumCheckSql =
-                "SELECT * FROM autorickshaw WHERE vehicle_registration_number = ?";
-              db.query(vehicleRegNumCheckSql, [vehicle_registration_number], (vehicleRegCheckErr, vehicleRegCheckData) => {
-                if (vehicleRegCheckErr) {
-                  console.error("Error checking vehicle registration number uniqueness:", vehicleRegCheckErr);
+            // Check if the autorickshaw number is unique
+            const autorickshawNumCheckSql =
+              "SELECT * FROM autorickshaw WHERE autorickshaw_number = ?";
+            db.query(
+              autorickshawNumCheckSql,
+              [autorickshaw_number],
+              (numCheckErr, numCheckData) => {
+                if (numCheckErr) {
+                  console.error(
+                    "Error checking autorickshaw number uniqueness:",
+                    numCheckErr
+                  );
                   return res.json("server_error");
                 }
 
-                // If an autorickshaw with the same vehicle registration number exists, return an error message
-                if (vehicleRegCheckData.length > 0) {
-                  console.log("Autorickshaw with the same vehicle registration number already exists");
-                  return res.json("vehicle_registration_number_exists");
+                // If an autorickshaw with the same number exists, return an error message
+                if (numCheckData.length > 0) {
+                  console.log(
+                    "Autorickshaw with the same number already exists"
+                  );
+                  return res.json("autorickshaw_number_exists");
                 }
 
-                // If all checks pass, proceed with autorickshaw registration
-                const autorickshawSql =
-                  "INSERT INTO autorickshaw (autorickshaw_number, autorickshaw_company, vehicle_registration_number, chassis_number, engine_number, autorickshaw_model, driver_nid, owner_nid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
-                const autorickshawValues = [
-                  autorickshaw_number,
-                  autorickshaw_company,
-                  vehicle_registration_number,
-                  chassis_number,
-                  engine_number,
-                  autorickshaw_model,
-                  driver_nid,
-                  owner_nid,
-                ];
+                // Check if the chassis number is unique
+                const chassisNumberCheckSql =
+                  "SELECT * FROM autorickshaw WHERE chassis_number = ?";
+                db.query(
+                  chassisNumberCheckSql,
+                  [chassis_number],
+                  (chassisCheckErr, chassisCheckData) => {
+                    if (chassisCheckErr) {
+                      console.error(
+                        "Error checking chassis number uniqueness:",
+                        chassisCheckErr
+                      );
+                      return res.json("server_error");
+                    }
 
-                // Insert autorickshaw data into the autorickshaw table
-                db.query(autorickshawSql, autorickshawValues, (autorickshawErr, autorickshawData) => {
-                  if (autorickshawErr) {
-                    console.error("Error registering autorickshaw:", autorickshawErr);
-                    return res.json("server_error");
+                    // If an autorickshaw with the same chassis number exists, return an error message
+                    if (chassisCheckData.length > 0) {
+                      console.log(
+                        "Autorickshaw with the same chassis number already exists"
+                      );
+                      return res.json("chassis_number_exists");
+                    }
+
+                    // Check if the engine number is unique
+                    const engineNumberCheckSql =
+                      "SELECT * FROM autorickshaw WHERE engine_number = ?";
+                    db.query(
+                      engineNumberCheckSql,
+                      [engine_number],
+                      (engineCheckErr, engineCheckData) => {
+                        if (engineCheckErr) {
+                          console.error(
+                            "Error checking engine number uniqueness:",
+                            engineCheckErr
+                          );
+                          return res.json("server_error");
+                        }
+
+                        // If an autorickshaw with the same engine number exists, return an error message
+                        if (engineCheckData.length > 0) {
+                          console.log(
+                            "Autorickshaw with the same engine number already exists"
+                          );
+                          return res.json("engine_number_exists");
+                        }
+
+                        // Check if the vehicle registration number is unique
+                        const vehicleRegNumCheckSql =
+                          "SELECT * FROM autorickshaw WHERE vehicle_registration_number = ?";
+                        db.query(
+                          vehicleRegNumCheckSql,
+                          [vehicle_registration_number],
+                          (vehicleRegCheckErr, vehicleRegCheckData) => {
+                            if (vehicleRegCheckErr) {
+                              console.error(
+                                "Error checking vehicle registration number uniqueness:",
+                                vehicleRegCheckErr
+                              );
+                              return res.json("server_error");
+                            }
+
+                            // If an autorickshaw with the same vehicle registration number exists, return an error message
+                            if (vehicleRegCheckData.length > 0) {
+                              console.log(
+                                "Autorickshaw with the same vehicle registration number already exists"
+                              );
+                              return res.json(
+                                "vehicle_registration_number_exists"
+                              );
+                            }
+
+                            // If all checks pass, proceed with autorickshaw registration
+                            const autorickshawSql =
+                              "INSERT INTO autorickshaw (autorickshaw_number, autorickshaw_company, vehicle_registration_number, chassis_number, engine_number, autorickshaw_model, driver_nid, owner_nid) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
+                            const autorickshawValues = [
+                              autorickshaw_number,
+                              autorickshaw_company,
+                              vehicle_registration_number,
+                              chassis_number,
+                              engine_number,
+                              autorickshaw_model,
+                              driver_nid,
+                              owner_nid,
+                            ];
+
+                            // Insert autorickshaw data into the autorickshaw table
+                            db.query(
+                              autorickshawSql,
+                              autorickshawValues,
+                              (autorickshawErr, autorickshawData) => {
+                                if (autorickshawErr) {
+                                  console.error(
+                                    "Error registering autorickshaw:",
+                                    autorickshawErr
+                                  );
+                                  return res.json("server_error");
+                                }
+
+                                return res.json(
+                                  "autorickshaw_registration_success"
+                                );
+                              }
+                            );
+                          }
+                        );
+                      }
+                    );
                   }
-
-                  return res.json("autorickshaw_registration_success");
-                });
-              });
-            });
-          });
-        });
-      });
-    });
+                );
+              }
+            );
+          }
+        );
+      }
+    );
   } catch (error) {
     console.error("Autorickshaw registration failed:", error);
     return res.json("server_error");
   }
 });
-
 
 // Experimenti
 
@@ -1651,46 +1707,41 @@ app.post("/associateAutorickshawToLatestSchedule", (req, res) => {
             error: "Failed to associate autorickshaw to the schedule.",
           });
         }
-   // Retrieve details of the latest schedule
-const getLatestScheduleDetailsSql =
-"SELECT * FROM schedule WHERE id = ?";
-const getLatestScheduleDetailsValues = [scheduleID];
+        // Retrieve details of the latest schedule
+        const getLatestScheduleDetailsSql =
+          "SELECT * FROM schedule WHERE id = ?";
+        const getLatestScheduleDetailsValues = [scheduleID];
 
-db.query(
-getLatestScheduleDetailsSql,
-getLatestScheduleDetailsValues,
-(detailsErr, detailsResults) => {
-  if (detailsErr) {
-    console.error(
-      "Error fetching latest schedule details: ",
-      detailsErr
-    );
-    return res.json({
-      error: "Failed to retrieve schedule details.",
-    });
-  }
+        db.query(
+          getLatestScheduleDetailsSql,
+          getLatestScheduleDetailsValues,
+          (detailsErr, detailsResults) => {
+            if (detailsErr) {
+              console.error(
+                "Error fetching latest schedule details: ",
+                detailsErr
+              );
+              return res.json({
+                error: "Failed to retrieve schedule details.",
+              });
+            }
 
-  if (detailsResults.length === 0) {
-    return res.json({
-      error: "No details found for the latest schedule.",
-    });
-  }
+            if (detailsResults.length === 0) {
+              return res.json({
+                error: "No details found for the latest schedule.",
+              });
+            }
 
-  // Details of the latest schedule
-  const latestScheduleDetails = detailsResults[0];
+            // Details of the latest schedule
+            const latestScheduleDetails = detailsResults[0];
 
-  return res.json({ status: "success", latestScheduleDetails });
-}
-);
-
-
+            return res.json({ status: "success", latestScheduleDetails });
+          }
+        );
       }
     );
   });
 });
-
-
-
 
 app.get("/api/authority/:userId", (req, res) => {
   const userId = req.params.userId;

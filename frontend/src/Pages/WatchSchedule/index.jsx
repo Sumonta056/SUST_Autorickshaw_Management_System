@@ -104,7 +104,7 @@ function Schedule() {
     },
   ];
 
-  const steps = [];
+
 
   const handleViewAutorickshaws = (schedule) => {
     // Fetch autorickshaw numbers from the API using the schedule ID
@@ -123,8 +123,8 @@ function Schedule() {
               const autorickshawData = data.data.find((item) => item.autorickshaw_number === number);
               if (autorickshawData) {
                 const formattedDate = new Date(schedule.schedule_date).toLocaleDateString();
-                const formattedTime = new Date(autorickshawData.autorickshaw_schedule_time).toLocaleTimeString();
-          
+                const formattedTime = autorickshawData.autorickshaw_schedule_time;
+                console.log(formattedDate, autorickshawData.autorickshaw_schedule_time);
                 return {
                   title: `${number} নং অটোরিকশা`,
                   description: ` তারিখ: ${formattedDate}, সময়: ${formattedTime}`,
