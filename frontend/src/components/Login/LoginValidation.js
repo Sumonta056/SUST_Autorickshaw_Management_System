@@ -9,7 +9,7 @@ function LoginValidation(values) {
   // Has a minimum length of 8 characters ({8,}).
 
   if (values.email === "") {
-    error.email = "অনুগ্রহ করে আপনার ইমেইল দিন";
+    error.email = "অনুগ্রহ করে আপনার ইউজারনেম দিন";
   } else {
     error.email = "";
   }
