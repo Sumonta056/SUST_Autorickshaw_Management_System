@@ -2,7 +2,7 @@
 
 # 🛺 SUST-Autorickshaw-Management-System 🛺
 
-###  ✌️ Automation of Autorickshaw Management of SUST ✌️
+###  Automation of Autorickshaw Management of SUST ( [👉 Project Proposal]( ./Project%20Overview/SARMS-Proposal.pdf) )
 
 
 ![](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB)
@@ -15,7 +15,7 @@
 
 [![wakatime](https://wakatime.com/badge/user/956d8c63-e07e-46bf-b197-9bbb31d68aa9/project/32f74082-4dfe-460f-a3ba-02b5b1163a16.svg)](https://wakatime.com/badge/user/956d8c63-e07e-46bf-b197-9bbb31d68aa9/project/32f74082-4dfe-460f-a3ba-02b5b1163a16)
 
-[ ✌️ Project Proposal ✌️]( ./Project%20Overview/SARMS-Proposal.pdf)
+
 
 </div>
 
