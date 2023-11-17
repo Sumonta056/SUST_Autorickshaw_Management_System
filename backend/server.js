@@ -911,45 +911,152 @@ app.put("/updateAutorickshaw/:id", (req, res) => {
     autorickshaw_status,
   } = req.body;
 
-  // If both autorickshaw number and driver NID are unique, proceed with the update
-  const sql =
-    "UPDATE autorickshaw SET " +
-    "`autorickshaw_number` = ?, " +
-    "`autorickshaw_company` = ?, " +
-    "`vehicle_registration_number` = ?, " +
-    "`chassis_number` = ?, " +
-    "`engine_number` = ?, " +
-    "`autorickshaw_model` = ?, " +
-    "`driver_nid` = ?, " +
-    "`owner_nid` = ? " +
-    "`autorickshaw_status` = ? " +
-    "WHERE `id` = ?";
+  // Check if driver_nid exists in the driver table and has driver_status set to 1
+  const checkDriverSQL = "SELECT * FROM driver WHERE `driver_nid` = ? AND `driver_status` = 1";
+  const checkDriverValues = [driver_nid];
 
-  const values = [
-    autorickshaw_number,
-    autorickshaw_company,
-    vehicle_registration_number,
-    chassis_number,
-    engine_number,
-    autorickshaw_model,
-    driver_nid,
-    owner_nid,
-    id,
-    autorickshaw_status,
-  ];
-
-  console.log(values);
-
-  db.query(sql, values, (err, data) => {
+  db.query(checkDriverSQL, checkDriverValues, (err, driverData) => {
     if (err) {
-      console.error("Error updating autorickshaw information: ", err);
-      return res.json("failed");
+      console.error("Error checking driver information: ", err);
+      return res.json({ status: "failed", message: "Error checking driver information" });
     }
 
-    console.log("Autorickshaw information updated successfully");
-    return res.json("success");
+    if (driverData.length === 0) {
+      console.error("Driver with NID " + driver_nid + " does not exist or is not active.");
+      return res.json({ status: "failed", message: "উক্ত ড্রাইভারকে নিবন্ধন বা অনুমতি দেয়া হয় নি" });
+    }
+
+    // Check if owner_nid exists in the owner table and has owner_status set to 1
+    const checkOwnerSQL = "SELECT * FROM owner WHERE `owner_nid` = ? AND `owner_status` = 1";
+    const checkOwnerValues = [owner_nid];
+
+    db.query(checkOwnerSQL, checkOwnerValues, (err, ownerData) => {
+      if (err) {
+        console.error("Error checking owner information: ", err);
+        return res.json({ status: "failed", message: "Error checking owner information" });
+      }
+
+      if (ownerData.length === 0) {
+        console.error("Owner with NID " + owner_nid + " does not exist or is not active.");
+        return res.json({ status: "failed", message: "উক্ত মালিককে নিবন্ধন বা অনুমতি দেয়া হয় নি" });
+      }
+
+      // Check if the autorickshaw number is unique
+      const autorickshawNumCheckSql = "SELECT * FROM autorickshaw WHERE autorickshaw_number = ? AND `id` <> ?";
+      db.query(
+        autorickshawNumCheckSql,
+        [autorickshaw_number, id],
+        (numCheckErr, numCheckData) => {
+          if (numCheckErr) {
+            console.error("Error checking autorickshaw number uniqueness:", numCheckErr);
+            return res.json({ status: "failed", message: "Error checking autorickshaw number uniqueness" });
+          }
+
+          // If an autorickshaw with the same number exists, return an error message
+          if (numCheckData.length > 0) {
+            console.log("Autorickshaw with the same number already exists");
+            return res.json({ status: "failed", message: "Autorickshaw number already exists" });
+          }
+
+          // Check if the chassis number is unique
+          const chassisNumberCheckSql = "SELECT * FROM autorickshaw WHERE chassis_number = ? AND `id` <> ?";
+          db.query(
+            chassisNumberCheckSql,
+            [chassis_number, id],
+            (chassisCheckErr, chassisCheckData) => {
+              if (chassisCheckErr) {
+                console.error("Error checking chassis number uniqueness:", chassisCheckErr);
+                return res.json({ status: "failed", message: "Error checking chassis number uniqueness" });
+              }
+
+              // If an autorickshaw with the same chassis number exists, return an error message
+              if (chassisCheckData.length > 0) {
+                console.log("Autorickshaw with the same chassis number already exists");
+                return res.json({ status: "failed", message: "উক্ত চেসিস নাম্বারটি পূর্বে ব্যবহৃত হয়েছে" });
+              }
+
+              // Check if the engine number is unique
+              const engineNumberCheckSql = "SELECT * FROM autorickshaw WHERE engine_number = ? AND `id` <> ?";
+              db.query(
+                engineNumberCheckSql,
+                [engine_number, id],
+                (engineCheckErr, engineCheckData) => {
+                  if (engineCheckErr) {
+                    console.error("Error checking engine number uniqueness:", engineCheckErr);
+                    return res.json({ status: "failed", message: "Error checking engine number uniqueness" });
+                  }
+
+                  // If an autorickshaw with the same engine number exists, return an error message
+                  if (engineCheckData.length > 0) {
+                    console.log("উক্ত ইঞ্জিন নাম্বারটি পূর্বে ব্যবহৃত হয়েছে");
+                    return res.json({ status: "failed", message: "Engine number already exists" });
+                  }
+
+                  // Check if the vehicle registration number is unique
+                  const vehicleRegNumCheckSql = "SELECT * FROM autorickshaw WHERE vehicle_registration_number = ? AND `id` <> ?";
+                  db.query(
+                    vehicleRegNumCheckSql,
+                    [vehicle_registration_number, id],
+                    (vehicleRegCheckErr, vehicleRegCheckData) => {
+                      if (vehicleRegCheckErr) {
+                        console.error("Error checking vehicle registration number uniqueness:", vehicleRegCheckErr);
+                        return res.json({ status: "failed", message: "Error checking vehicle registration number uniqueness" });
+                      }
+
+                      // If an autorickshaw with the same vehicle registration number exists, return an error message
+                      if (vehicleRegCheckData.length > 0) {
+                        console.log("Autorickshaw with the same vehicle registration number already exists");
+                        return res.json({ status: "failed", message: "উক্ত গাড়ি নিবন্ধন নাম্বারটি পূর্বে ব্যবহৃত হয়েছে" });
+                      }
+
+                      // If all checks pass, proceed with autorickshaw update
+                      const updateAutorickshawSQL =
+                        "UPDATE autorickshaw SET " +
+                        "`autorickshaw_number` = ?, " +
+                        "`autorickshaw_company` = ?, " +
+                        "`vehicle_registration_number` = ?, " +
+                        "`chassis_number` = ?, " +
+                        "`engine_number` = ?, " +
+                        "`autorickshaw_model` = ?, " +
+                        "`driver_nid` = ?, " +
+                        "`owner_nid` = ?, " +
+                        "`autorickshaw_status` = ? " +
+                        "WHERE `id` = ?";
+
+                      const updateAutorickshawValues = [
+                        autorickshaw_number,
+                        autorickshaw_company,
+                        vehicle_registration_number,
+                        chassis_number,
+                        engine_number,
+                        autorickshaw_model,
+                        driver_nid,
+                        owner_nid,
+                        autorickshaw_status,
+                        id,
+                      ];
+
+                      db.query(updateAutorickshawSQL, updateAutorickshawValues, function (err, data) {
+                        if (err) {
+                          console.error("Error updating autorickshaw information: ", err);
+                          return res.json({ status: "failed", message: "হালনাগাদ ব্যর্থ হয়েছে" });
+                        }
+
+                        console.log("Autorickshaw information updated successfully");
+                        res.json({ status: "success", message: "অটোরিকশার তথ্য হালনাগাদ সফল হয়েছে" });
+                      });
+                    }
+                  );
+                }
+              );
+            }
+          );
+        }
+      );
+    });
   });
 });
+
 
 // Getting Owner Database
 app.get("/api/schedule", async (req, res) => {

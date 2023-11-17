@@ -65,13 +65,13 @@ function AutorickshawRegistration() {
           .put(`http://localhost:3001/updateAutorickshaw/` + id, formData)
           .then((res) => {
             console.log(res);
-            if (res.data === "success") {
-              alert("আপনি সফলভাবে অটোরিকশার তথ্য হালনাগাদ করেছেন");
+            if (res.data.status === "success") {
+              alert(res.data.message);
               navigate("/autorickshaw");
             }
             // Redirect to the owner list page after successful update
             else {
-              alert("হালনাগাদ ব্যর্থ হয়েছে, অনুগ্রহ করে আবার চেষ্টা করুন");
+              alert(res.data.message);
             }
           })
           .catch((err) => {
@@ -113,7 +113,7 @@ function AutorickshawRegistration() {
           className={`${styles["autorickshawFormContainer"]} ${styles["autorickshawSignUpContainer"]}`}
         >
           <form className={styles.autorickshawForm} onSubmit={handleSubmit}>
-            <h1 className={styles.autorickshawHead}>অটোরিকশা নিবন্ধন ফর্ম</h1>
+            <h1 className={styles.autorickshawHead}>অটোরিকশা হালনাগাদ ফর্ম</h1>
             <div className={styles.autorickshawInfield}>
               <p className={styles.autorickshawParagraph}>অটোরিকশা নাম্বার</p>
               <input
@@ -122,7 +122,7 @@ function AutorickshawRegistration() {
                 id="autorickshaw_number"
                 name="autorickshaw_number"
                 value={formData.autorickshaw_number}
-                onChange={handleInputChange}
+                onChange={handleInputChange} readOnly
               />
               {errors.autorickshaw_number && (
                 <span className={styles.autorickshawError}>
@@ -250,14 +250,9 @@ function AutorickshawRegistration() {
             </div>
 
             <button type="submit" className={styles.autorickshawButton}>
-              নিবন্ধন
+             হালনাগাদ
             </button>
-            <span className={styles.autorickshawPrevReg}>
-              পূর্বে রেজিস্ট্রেশন করেছেন?{" "}
-              <a href="#d" className={styles.autorickshawRegIgnore}>
-                এড়িয়ে যান
-              </a>
-            </span>
+            
           </form>
         </div>
         <div
